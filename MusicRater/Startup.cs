@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
+using MusicRater.Models;
 
 namespace MusicRater
 {
@@ -25,6 +27,10 @@ namespace MusicRater
         {
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddDbContext<MusicRaterDbContext>(opts =>
+            {
+                opts.UseSqlServer(Configuration["ConnectionStrings:MusicRaterConnection"]);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
