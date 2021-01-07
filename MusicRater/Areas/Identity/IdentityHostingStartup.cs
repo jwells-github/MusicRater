@@ -20,8 +20,22 @@ namespace MusicRater.Areas.Identity
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("MusicRaterContextConnection")));
 
-                services.AddDefaultIdentity<MusicRaterUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                services.AddDefaultIdentity<MusicRaterUser>(options => options.SignIn.RequireConfirmedAccount = false)
                     .AddEntityFrameworkStores<MusicRaterContext>();
+
+                services.Configure<IdentityOptions>(options =>
+                {
+                    // Password settings.
+                    options.Password.RequireDigit = false;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequiredLength = 6;
+
+                    // User settings.
+                    options.User.AllowedUserNameCharacters =
+                    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._";
+                });
             });
         }
     }
