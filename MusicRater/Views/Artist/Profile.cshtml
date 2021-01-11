@@ -1,0 +1,10 @@
+﻿@model Artist
+@{ ViewData["Title"] = Model.Name;}
+
+<div>
+    <h1> @Model.Name</h1>
+    <a asp-controller="Release"
+       asp-action="New"
+       asp-route-artistID="@Model.ArtistID"
+       >Add a release</a>
+</div>
