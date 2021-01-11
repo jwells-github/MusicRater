@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace MusicRater.Models
 {
@@ -9,8 +10,14 @@ namespace MusicRater.Models
     {
         public long ReleaseID { get; set; }
         public string Title { get; set; }
-        public DateTime? ReleaseDate { get; set; }
-        public  ReleaseType ReleaseType { get; set; }
+
+        [Range(0,31)]
+        public int ReleaseDay { get; set; }
+        [Range(0, 12)]
+        public int ReleaseMonth { get; set; }
+        public int ReleaseYear { get; set; }
+        public  ReleaseType Type { get; set; }
+        public Artist Artist { get; set; }
     }
 
     public enum ReleaseType
@@ -21,6 +28,7 @@ namespace MusicRater.Models
         Mixtape,
         Single,
         Live,
+        [Display(Name = "DJ Mix")]
         DjMix,
         Bootleg,
     }
