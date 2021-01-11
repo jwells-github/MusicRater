@@ -29,7 +29,7 @@ namespace MusicRater
             services.AddRazorPages();
             services.AddDbContext<MusicRaterDbContext>(opts =>
             {
-                opts.UseSqlServer(Configuration["ConnectionStrings:MusicRaterConnection"]);
+                opts.UseSqlServer(Configuration["ConnectionStrings:MusicRaterContextConnection"]);
             });
         }
 
