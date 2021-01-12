@@ -1,26 +1,6 @@
 ﻿@model Release
-@{ 
-    ViewData["Title"] = Model.Title;
-    int minimumRating = 1;
-    int maximumRationg = 10;
-}
-
+@{ ViewData["Title"] = Model.Title;}
 
 <div>
     <h1> @Model.Title</h1>
-    @if (User.Identity.IsAuthenticated)
-    {
-        <form method="post" action="/Release/Rate/@Model.ReleaseID">
-            <div class="form-group">
-                <label>Rate this release</label>
-                <select name="rating" id="rating">
-                    @for (var i = maximumRationg; i >= minimumRating; i--)
-                    {
-                        <option value="@i">@i</option>
-                    }
-                </select>
-            </div>
-            <button class="btn btn-primary" type="submit">Rate</button>
-        </form>
-    }
 </div>

@@ -3,31 +3,23 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Identity;
-using MusicRater.Areas.Identity.Data;
+
 using MusicRater.Models;
-using MusicRater.Data;
 
 namespace MusicRater.Controllers
 {
     public class ReleaseController : Controller
     {
         private readonly ILogger<ReleaseController> _logger;
-        private readonly UserManager<MusicRaterUser> _userManager;
-        private MusicRaterContext context;
+        private MusicRaterDbContext context;
 
-
-        public ReleaseController(ILogger<ReleaseController> logger,
-            MusicRaterContext data,
-            UserManager<MusicRaterUser> userManager)
+        public ReleaseController(ILogger<ReleaseController> logger, MusicRaterDbContext data)
         {
             context = data;
             _logger = logger;
-            _userManager = userManager;
         }
         public IActionResult Index()
         {
@@ -45,11 +37,13 @@ namespace MusicRater.Controllers
         [HttpPost]
         public async Task<IActionResult> New(long artistID, [FromForm] Release release)
         {
+            Debug.WriteLine("???");
+            Debug.WriteLine(Json(release));
+            Debug.WriteLine(release.Title);
             Artist artist = await context.Artists.FirstOrDefaultAsync(a => a.ArtistID == artistID);
             release.Artist = artist;
             if (ModelState.IsValid)
             {
-
                 context.Releases.Add(release);
                 await context.SaveChangesAsync();
                 return RedirectToAction(nameof(Entry), new { id = release.ReleaseID });
@@ -62,28 +56,5 @@ namespace MusicRater.Controllers
             Release release = await context.Releases.FirstOrDefaultAsync(r => r.ReleaseID == id);
             return View(release);
         }
-
-        [HttpPost]
-        [Authorize]
-        public async Task <IActionResult> Rate(long id, [FromForm] int rating)
-        {
-            Debug.WriteLine(rating);
-            if (ModelState.IsValid)
-            {
-                MusicRaterUser user = await _userManager.GetUserAsync(User);
-                Release release = await context.Releases.FirstOrDefaultAsync(r => r.ReleaseID == id);
-                ReleaseRating releaseRating = new ReleaseRating();
-                releaseRating.Rating = rating;
-                releaseRating.User = user;
-                releaseRating.UserID = user.Id;
-                releaseRating.Release = release;
-                releaseRating.RatingDate = DateTime.Now;
-                context.ReleaseRating.Add(releaseRating);
-                user.ReleaseRatings.Add(releaseRating);
-                await _userManager.UpdateAsync(user);
-                await context.SaveChangesAsync();
-            }
-            return RedirectToAction(nameof(Entry), new { id });
-        }
-     }
+    }
 }

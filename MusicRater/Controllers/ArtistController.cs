@@ -1,22 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+
 using MusicRater.Models;
-using MusicRater.Data;
 
 namespace MusicRater.Controllers
 {
     public class ArtistController : Controller
     {
         private readonly ILogger<ArtistController> _logger;
-        private MusicRaterContext context;
-        public ArtistController(ILogger<ArtistController> logger, MusicRaterContext data)
+        private MusicRaterDbContext context;
+        public ArtistController(ILogger<ArtistController> logger, MusicRaterDbContext data)
         {
             context = data;
             _logger = logger;
@@ -45,7 +44,7 @@ namespace MusicRater.Controllers
 
         public async Task <IActionResult> Profile(long id)
         {
-            Artist artist = await context.Artists.Include(a => a.Releases).FirstOrDefaultAsync(a => a.ArtistID == id);
+            Artist artist = await context.Artists.FirstOrDefaultAsync(a => a.ArtistID == id);
             return View(artist);
         }
 
