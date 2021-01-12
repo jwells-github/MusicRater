@@ -6,21 +6,34 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MusicRater.Models;
+using Microsoft.AspNetCore.Identity;
+
+using MusicRater.Areas.Identity.Data;
+using MusicRater.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace MusicRater.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly UserManager<MusicRaterUser> _userManager;
+        private MusicRaterContext context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger,
+            UserManager<MusicRaterUser> userManager,
+            MusicRaterContext data)
         {
             _logger = logger;
+            _userManager = userManager;
+            context = data;
         }
 
-        public IActionResult Index()
+        public async  Task<IActionResult> Index()
         {
-            return View();
+            MusicRaterUser currentUser = await _userManager.GetUserAsync(User);
+            MusicRaterUser populatedUser = await _userManager.Users.Include(u => u.ReleaseRatings).SingleAsync(u => u.Id == currentUser.Id);
+            return View(populatedUser);
         }
 
         public IActionResult Privacy()

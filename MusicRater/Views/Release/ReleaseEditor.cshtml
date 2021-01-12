@@ -39,7 +39,7 @@
         <label asp-for="ReleaseYear"></label>
         <select asp-for="ReleaseYear">
             <option value="0"></option>
-            @for (var i = minimumYear; i <= maximumYear; i++)
+            @for (var i = maximumYear; i >= minimumYear; i--)
             {
                 <option value="@i">@i</option>
             }
