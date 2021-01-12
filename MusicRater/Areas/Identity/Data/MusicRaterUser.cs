@@ -16,6 +16,7 @@ namespace MusicRater.Areas.Identity.Data
         {
             this.ReleaseRatings = new HashSet<ReleaseRating>();
         }
+        [PersonalData]
         public ICollection<ReleaseRating> ReleaseRatings { get; set; }
     }
 }
