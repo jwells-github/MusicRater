@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using MusicRater.Models;
+using MusicRater.Data;
 
 namespace MusicRater
 {
@@ -27,7 +28,7 @@ namespace MusicRater
         {
             services.AddControllersWithViews();
             services.AddRazorPages();
-            services.AddDbContext<MusicRaterDbContext>(opts =>
+            services.AddDbContext<MusicRaterContext>(opts =>
             {
                 opts.UseSqlServer(Configuration["ConnectionStrings:MusicRaterContextConnection"]);
             });
