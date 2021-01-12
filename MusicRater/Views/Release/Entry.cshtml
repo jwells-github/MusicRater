@@ -1,6 +1,22 @@
 ﻿@model Release
-@{ ViewData["Title"] = Model.Title;}
+@{ 
+    ViewData["Title"] = Model.Title;
+    int minimumRating = 1;
+    int maximumRating = 10;
+}
 
 <div>
     <h1> @Model.Title</h1>
+
+    <div>
+        <form action="/Release/Rate/@Model.ReleaseID">
+            <select id="rating" name="rating">
+                @for(int i = maximumRating; i >= minimumRating; i--)
+                {
+                    <option>@i</option>
+                }
+            </select>
+            <button type="submit">Rate</button>
+        </form>
+    </div>
 </div>
