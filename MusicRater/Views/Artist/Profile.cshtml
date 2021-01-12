@@ -7,4 +7,10 @@
        asp-action="New"
        asp-route-artistID="@Model.ArtistID"
        >Add a release</a>
+    @foreach(Release release in Model.Releases)
+    {
+        <div>
+            <a asp-controller="Release" asp-action="Entry" asp-route-id="@release.ReleaseID">@release.Title</a>
+        </div>
+    }
 </div>

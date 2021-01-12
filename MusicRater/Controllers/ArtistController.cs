@@ -8,14 +8,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 using MusicRater.Models;
+using MusicRater.Data;
 
 namespace MusicRater.Controllers
 {
     public class ArtistController : Controller
     {
         private readonly ILogger<ArtistController> _logger;
-        private MusicRaterDbContext context;
-        public ArtistController(ILogger<ArtistController> logger, MusicRaterDbContext data)
+        private MusicRaterContext context;
+        public ArtistController(ILogger<ArtistController> logger, MusicRaterContext data)
         {
             context = data;
             _logger = logger;
@@ -44,7 +45,7 @@ namespace MusicRater.Controllers
 
         public async Task <IActionResult> Profile(long id)
         {
-            Artist artist = await context.Artists.FirstOrDefaultAsync(a => a.ArtistID == id);
+            Artist artist = await context.Artists.Include(a => a.Releases).FirstOrDefaultAsync(a => a.ArtistID == id);
             return View(artist);
         }
 
