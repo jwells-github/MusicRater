@@ -8,6 +8,11 @@ namespace MusicRater.Models
 {
     public class Release
     {
+        public Release()
+        {
+            this.UserReleaseRatings = new HashSet<ReleaseRating>();
+        }
+
         public long ReleaseID { get; set; }
         public string Title { get; set; }
 
@@ -18,6 +23,8 @@ namespace MusicRater.Models
         public int ReleaseYear { get; set; }
         public  ReleaseType Type { get; set; }
         public Artist Artist { get; set; }
+
+        public ICollection<ReleaseRating> UserReleaseRatings { get; set; }
     }
 
     public enum ReleaseType
