@@ -62,15 +62,28 @@ namespace MusicRater.Controllers
 
         public async Task <IActionResult> Rate(long id, [FromForm] int rating)
         {
-            Release release = await context.Releases.FirstOrDefaultAsync(r => r.ReleaseID == id);
             MusicRaterUser user = await _userManager.GetUserAsync(User);
-            ReleaseRating releaseRating = new ReleaseRating();
-            releaseRating.Rating = rating;
-            releaseRating.RatingDate = DateTime.Now;
-            releaseRating.UserID = user.Id;
-            releaseRating.User = user;
-            releaseRating.Release = release;
-            context.ReleaseRating.Add(releaseRating);
+            ReleaseRating alreadyRated = await context.ReleaseRating.FirstOrDefaultAsync(r => r.Release.ReleaseID == id && r.UserID == user.Id);
+
+            if(alreadyRated == null)
+            {
+                Release release = await context.Releases.FirstOrDefaultAsync(r => r.ReleaseID == id);
+                ReleaseRating releaseRating = new ReleaseRating { 
+                    Rating = rating,
+                    RatingDate = DateTime.Now,
+                    UserID = user.Id,
+                    User = user,
+                    ReleaseID = id,
+                    Release = release
+                };
+                context.ReleaseRating.Add(releaseRating);
+            }
+            else
+            {
+                alreadyRated.Rating = rating;
+            }
+
+
             await context.SaveChangesAsync();
             return RedirectToAction(nameof(Entry), new { id });
         }
