@@ -9,6 +9,21 @@ namespace MusicRater.Models
 {
     public class ReleaseViewModel
     {
+        public ReleaseViewModel()
+        {
+
+        }
+        public ReleaseViewModel(Release release)
+        {
+            this.ReleaseID = release.ReleaseID;
+            this.Title = release.Title;
+            this.ReleaseDay = release.ReleaseDay;
+            this.ReleaseMonth = release.ReleaseMonth;
+            this.ReleaseYear = release.ReleaseYear;
+            this.Type = release.Type;
+            this.Artist = release.Artist;
+        }
+        public long ReleaseID { get; set; }
         public string Title { get; set; }
         [Range(0, 31)]
         public int ReleaseDay { get; set; }
@@ -17,6 +32,8 @@ namespace MusicRater.Models
         public int ReleaseYear { get; set; }
         public ReleaseType Type { get; set; }
         public Artist Artist { get; set; }
+
+        public ReleaseRating UserRating { get; set; }
 
         public List<SelectListItem> Months { get; } = new List<SelectListItem>
         {
