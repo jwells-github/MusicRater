@@ -15,6 +15,8 @@ namespace MusicRater.Models
         public DateTime RatingDate { get; set; }
         public string UserID { get; set; }
         public MusicRaterUser User { get; set; }
+
+        public long ReleaseID { get; set; }
         public Release Release { get; set; }
 
     }
