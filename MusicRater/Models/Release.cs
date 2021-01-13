@@ -28,7 +28,21 @@ namespace MusicRater.Models
         public int NumberOfRatings { get; set; }
 
         public ICollection<ReleaseRating> UserReleaseRatings { get; set; }
+
+        public DateTime FormattedDate()
+        {
+            if(this.ReleaseDay == 0 && this.ReleaseMonth == 0 && this.ReleaseYear == 0)
+            {
+                return DateTime.MaxValue;
+            }
+
+            int releaseDay = this.ReleaseDay == 0 ? 1 : this.ReleaseDay;
+            int releaseMonth = this.ReleaseMonth == 0 ? 1 : this.ReleaseMonth;
+            int releaseYear = this.ReleaseYear == 0 ? 1 : this.ReleaseYear;
+            return new DateTime(releaseYear, releaseMonth, releaseDay);
+        }
     }
+
 
     public enum ReleaseType
     {
