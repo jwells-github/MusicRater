@@ -57,12 +57,16 @@ namespace MusicRater.Controllers
         public async Task <IActionResult> Entry(long id)
         {
             Release release = await context.Releases.Include(r => r.Artist).FirstOrDefaultAsync(r => r.ReleaseID == id);
+            ReleaseRating ratings = await context.ReleaseRating.FirstOrDefaultAsync(r => r.ReleaseID == id);
+
             ReleaseViewModel releaseView = new ReleaseViewModel(release);
+            releaseView.NumberOfRatings = release.NumberOfRatings;
+            releaseView.AverageRating = release.AverageRating;
 
             if (User.Identity.IsAuthenticated)
             {
                 MusicRaterUser user = await _userManager.GetUserAsync(User);
-                ReleaseRating alreadyRated = await context.ReleaseRating.FirstOrDefaultAsync(r => r.Release.ReleaseID == id && r.UserID == user.Id);
+                ReleaseRating alreadyRated = await context.ReleaseRating.FirstOrDefaultAsync(r => r.ReleaseID == id && r.UserID == user.Id);
                 if(alreadyRated != null)
                 {
                     releaseView.UserRating = alreadyRated; 
@@ -77,10 +81,10 @@ namespace MusicRater.Controllers
         {
             MusicRaterUser user = await _userManager.GetUserAsync(User);
             ReleaseRating alreadyRated = await context.ReleaseRating.FirstOrDefaultAsync(r => r.Release.ReleaseID == id && r.UserID == user.Id);
-
-            if(alreadyRated == null)
+            Release release = await context.Releases.FirstOrDefaultAsync(r => r.ReleaseID == id);
+            if (alreadyRated == null)
             {
-                Release release = await context.Releases.FirstOrDefaultAsync(r => r.ReleaseID == id);
+                
                 ReleaseRating releaseRating = new ReleaseRating { 
                     Rating = rating,
                     RatingDate = DateTime.Now,
@@ -98,6 +102,14 @@ namespace MusicRater.Controllers
 
 
             await context.SaveChangesAsync();
+
+            int numberOfRatings = await context.ReleaseRating.CountAsync(r => r.ReleaseID == id);
+            double ratingAverage = await context.ReleaseRating.Where(r => r.ReleaseID == id).AverageAsync(r => r.Rating);
+
+            release.AverageRating = ratingAverage;
+            release.NumberOfRatings = numberOfRatings;
+            await context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Entry), new { id });
         }
     }

@@ -35,6 +35,10 @@ namespace MusicRater.Models
 
         public ReleaseRating UserRating { get; set; }
 
+        public int NumberOfRatings { get; set; }
+        public double AverageRating { get; set;}
+        
+
         public List<SelectListItem> Months { get; } = new List<SelectListItem>
         {
             new SelectListItem  { Value = "1", Text = "January" },

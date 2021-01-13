@@ -24,6 +24,9 @@ namespace MusicRater.Models
         public  ReleaseType Type { get; set; }
         public Artist Artist { get; set; }
 
+        public double AverageRating { get; set; }
+        public int NumberOfRatings { get; set; }
+
         public ICollection<ReleaseRating> UserReleaseRatings { get; set; }
     }
 

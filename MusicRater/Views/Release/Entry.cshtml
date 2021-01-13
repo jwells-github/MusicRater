@@ -16,11 +16,18 @@
 }
 
 <div>
-    <h1> @Model.Title</h1>
+    <h1>@Model.Artist.Name</h1>
+    <h2>@Model.Title</h2>
+    <p>
+        Released: @(Model.ReleaseDay > 0 ? Model.ReleaseDay.ToString() : "") 
+        @Model.MonthString() 
+        @(Model.ReleaseYear > 0 ? Model.ReleaseYear.ToString() : "")
+    </p>
+    <p>Average @Model.AverageRating / 10 from @Model.NumberOfRatings Ratings</p>
 
     @if (User.Identity.IsAuthenticated)
     {
-        <h2>@(releaseRated ? "You rated this release "+@defaultSelectOption+" / 10" : "You have not rated this release")</h2>
+        <h3>@(releaseRated ? "You rated this release "+@defaultSelectOption+" / 10" : "You have not rated this release")</h3>
         <div class="form-group">
             <form method="post" action="/Release/Rate/@Model.ReleaseID">
                 <select id="rating" name="rating">
