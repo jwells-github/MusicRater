@@ -27,7 +27,7 @@ namespace MusicRater.Models
         public string Title { get; set; }
         [Range(0, 31)]
         public int ReleaseDay { get; set; }
-        [Range(0, 12)]
+        [Range(0, 12)] 
         public int ReleaseMonth { get; set; }
         public int ReleaseYear { get; set; }
         public ReleaseType Type { get; set; }
@@ -50,5 +50,38 @@ namespace MusicRater.Models
             new SelectListItem  { Value = "11", Text = "November" },
             new SelectListItem  { Value = "12", Text = "December" },
         };
+        
+        public String MonthString()
+        {
+            switch (this.ReleaseMonth)
+            {
+                case 1:
+                    return "January";
+                case 2:
+                    return "February";
+                case 3:
+                    return "March";
+                case 4:
+                    return "April";
+                case 5:
+                    return "May";
+                case 6:
+                    return "June";
+                case 7:
+                    return "July";
+                case 8:
+                    return "August";
+                case 9:
+                    return "September";
+                case 10:
+                    return "October";
+                case 11:
+                    return "November";
+                case 12:
+                    return "December";
+                default:
+                    return "";
+            }
+        }
     }
 }
