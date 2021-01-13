@@ -5,12 +5,20 @@
     <h1> @Model.Name</h1>
     <a asp-controller="Release"
        asp-action="New"
-       asp-route-artistID="@Model.ArtistID"
-       >Add a release</a>
-    @foreach(Release release in Model.Releases)
-    {
-        <div>
-            <a asp-controller="Release" asp-action="Entry" asp-route-id="@release.ReleaseID">@release.Title</a>
-        </div>
-    }
+       asp-route-artistID="@Model.ArtistID">Add a release</a>
+    <table>
+        <tr>
+            <th>Release Name</th>
+            <th>Average Rating</th>
+            <th>Number of Ratings</th>
+        </tr>
+        @foreach(Release release in Model.Releases.OrderBy(r => r.FormattedDate()))
+        {
+            <tr>
+                <td><a asp-controller="Release" asp-action="Entry" asp-route-id="@release.ReleaseID">@release.Title</a></td>
+                <td>@release.AverageRating</td>
+                <td>@release.NumberOfRatings</td>
+            </tr>
+        }
+    </table>
 </div>
