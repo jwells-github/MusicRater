@@ -27,8 +27,18 @@ namespace MusicRater.Controllers
         public async Task <IActionResult> Index()
         {
             MusicRaterUser user = await _userManager.GetUserAsync(User);
-            MusicRaterUser populatedUser = await _userManager.Users.Include(u => u.ReleaseRatings).FirstOrDefaultAsync(u => u.Id == user.Id); ;
-            return View(populatedUser);
+
+            if (User.Identity.IsAuthenticated)
+            {
+                MusicRaterUser populatedUser =
+                    await _userManager.Users.Include(user => user.ReleaseRatings)
+                    .ThenInclude(rating => rating.Release)
+                    .ThenInclude(release => release.Artist)
+                    .FirstOrDefaultAsync(u => u.Id == user.Id);
+                user = populatedUser;
+            }
+
+            return View(user);
         }
 
         public IActionResult Privacy()
