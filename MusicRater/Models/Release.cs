@@ -14,6 +14,7 @@ namespace MusicRater.Models
         }
 
         public long ReleaseID { get; set; }
+        [Required]
         public string Title { get; set; }
 
         [Range(0,31)]
@@ -22,6 +23,8 @@ namespace MusicRater.Models
         public int ReleaseMonth { get; set; }
         public int ReleaseYear { get; set; }
         public  ReleaseType Type { get; set; }
+
+        [Required]
         public Artist Artist { get; set; }
 
         public double AverageRating { get; set; }
