@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -60,6 +61,7 @@ namespace MusicRater.Controllers
             return View(release);
         }
 
+        [Authorize]
         public async Task <IActionResult> Rate(long id, [FromForm] int rating)
         {
             MusicRaterUser user = await _userManager.GetUserAsync(User);
