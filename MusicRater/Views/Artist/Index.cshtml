@@ -1,5 +1,9 @@
 ﻿@model IEnumerable<Artist>
 
+<div>
+    <a asp-action="New">Add an Artist</a>
+</div>
+
 @foreach (Artist artist in Model)
 {
     <div>
