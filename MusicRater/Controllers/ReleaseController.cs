@@ -56,7 +56,7 @@ namespace MusicRater.Controllers
 
         public async Task <IActionResult> Entry(long id)
         {
-            Release release = await context.Releases.FirstOrDefaultAsync(r => r.ReleaseID == id);
+            Release release = await context.Releases.Include(r => r.Artist).FirstOrDefaultAsync(r => r.ReleaseID == id);
             ReleaseViewModel releaseView = new ReleaseViewModel(release);
 
             if (User.Identity.IsAuthenticated)
