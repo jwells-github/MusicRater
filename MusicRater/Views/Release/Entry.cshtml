@@ -1,23 +1,45 @@
-﻿@model Release
+﻿@model ReleaseViewModel
 @{ 
     ViewData["Title"] = Model.Title;
     int minimumRating = 1;
     int maximumRating = 10;
+    int defaultSelectOption = 10;
+    bool releaseRated = false;
+    if(Model.UserRating != null)
+    {
+        if (Model.UserRating.Rating != 0)
+        {
+            releaseRated = true;
+            defaultSelectOption = Model.UserRating.Rating;
+        }
+    }
 }
 
 <div>
     <h1> @Model.Title</h1>
+
     @if (User.Identity.IsAuthenticated)
     {
+        <h2>@(releaseRated ? "You rated this release "+@defaultSelectOption+" / 10" : "You have not rated this release")</h2>
         <div class="form-group">
             <form method="post" action="/Release/Rate/@Model.ReleaseID">
                 <select id="rating" name="rating">
                     @for (int i = maximumRating; i >= minimumRating; i--)
                     {
+                        @if (releaseRated)
+                        {
+                            @if (i == Model.UserRating.Rating)
+                            {
+                                <option selected="selected">@i</option>
+                                continue;
+                            }
+                        }
                         <option>@i</option>
                     }
                 </select>
-                <button class="btn btn-primary" type="submit">Rate</button>
+                <button class="btn btn-primary" type="submit">
+                    @(releaseRated ? "Update Rating" : "Rate")
+                </button>
             </form>
         </div>
     }

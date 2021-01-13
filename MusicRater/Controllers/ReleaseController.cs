@@ -36,8 +36,7 @@ namespace MusicRater.Controllers
         public async Task <IActionResult> New(long artistID)
         {
             Artist artist = await context.Artists.FirstOrDefaultAsync(a => a.ArtistID == artistID);
-            ReleaseViewModel releaseView = new ReleaseViewModel();
-            releaseView.Artist = artist;
+            ReleaseViewModel releaseView = new ReleaseViewModel { Artist = artist};
             return View("ReleaseEditor", releaseView);
         }
 
@@ -58,7 +57,19 @@ namespace MusicRater.Controllers
         public async Task <IActionResult> Entry(long id)
         {
             Release release = await context.Releases.FirstOrDefaultAsync(r => r.ReleaseID == id);
-            return View(release);
+            ReleaseViewModel releaseView = new ReleaseViewModel(release);
+
+            if (User.Identity.IsAuthenticated)
+            {
+                MusicRaterUser user = await _userManager.GetUserAsync(User);
+                ReleaseRating alreadyRated = await context.ReleaseRating.FirstOrDefaultAsync(r => r.Release.ReleaseID == id && r.UserID == user.Id);
+                if(alreadyRated != null)
+                {
+                    releaseView.UserRating = alreadyRated; 
+                }
+            }
+
+            return View(releaseView);
         }
 
         [Authorize]
