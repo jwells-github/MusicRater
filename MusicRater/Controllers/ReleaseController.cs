@@ -47,6 +47,7 @@ namespace MusicRater.Controllers
         {
             Artist artist = await context.Artists.FirstOrDefaultAsync(a => a.ArtistID == artistID);
             release.Artist = artist;
+            release.ArtistID = artist.ArtistID;
             if (ModelState.IsValid)
             {
                 context.Releases.Add(release);
@@ -102,7 +103,6 @@ namespace MusicRater.Controllers
                 alreadyRated.Rating = rating;
             }
 
-
             await context.SaveChangesAsync();
 
             int numberOfRatings = await context.ReleaseRating.CountAsync(r => r.ReleaseID == id);
@@ -113,6 +113,15 @@ namespace MusicRater.Controllers
             await context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Entry), new { id });
+        }
+
+        [Authorize]
+        public async Task <IActionResult> Delete(long id)
+        {
+            Release release = await context.Releases.FirstOrDefaultAsync(r => r.ReleaseID == id);
+            context.Remove(release);
+            await context.SaveChangesAsync();
+            return RedirectToAction("Profile", "Artist", release.ArtistID);
         }
     }
 }
