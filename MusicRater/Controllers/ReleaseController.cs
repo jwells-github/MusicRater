@@ -33,6 +33,7 @@ namespace MusicRater.Controllers
             return View();
         }
 
+        [Authorize]
         public async Task <IActionResult> New(long artistID)
         {
             Artist artist = await context.Artists.FirstOrDefaultAsync(a => a.ArtistID == artistID);
@@ -40,6 +41,7 @@ namespace MusicRater.Controllers
             return View("ReleaseEditor", releaseView);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> New(long artistID, [FromForm] Release release)
         {

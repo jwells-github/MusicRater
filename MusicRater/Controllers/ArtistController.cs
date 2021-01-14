@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 
 using MusicRater.Models;
 using MusicRater.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MusicRater.Controllers
 {
@@ -26,11 +27,13 @@ namespace MusicRater.Controllers
            return View(context.Artists.OrderBy(a => a.Name));
         }
 
+        [Authorize]
         public IActionResult New()
         {
             return View("ArtistEditor", new Artist());
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> New([FromForm] Artist artist)
         {
