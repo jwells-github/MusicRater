@@ -54,7 +54,7 @@ namespace MusicRater.Controllers
                 await context.SaveChangesAsync();
                 return RedirectToAction(nameof(Entry), new { id = release.ReleaseID });
             }
-            return View("ReleaseEditor", new Release());
+            return View("ReleaseEditor", new ReleaseViewModel(release));
         }
 
         public async Task <IActionResult> Entry(long id)
@@ -119,9 +119,10 @@ namespace MusicRater.Controllers
         public async Task <IActionResult> Delete(long id)
         {
             Release release = await context.Releases.FirstOrDefaultAsync(r => r.ReleaseID == id);
+            context.RemoveRange(context.ReleaseRating.Where(r => r.ReleaseID == id));
             context.Remove(release);
             await context.SaveChangesAsync();
-            return RedirectToAction("Profile", "Artist", release.ArtistID);
+            return RedirectToAction("Profile", "Artist",new { id = release.ArtistID });
         }
     }
 }
