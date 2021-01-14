@@ -24,6 +24,7 @@ namespace MusicRater.Models
         public int ReleaseYear { get; set; }
         public  ReleaseType Type { get; set; }
 
+        public long ArtistID { get; set; }
         [Required]
         public Artist Artist { get; set; }
 
