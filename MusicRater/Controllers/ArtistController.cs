@@ -53,5 +53,11 @@ namespace MusicRater.Controllers
         }
 
 
+        public IActionResult Search(string searchTerm)
+        {
+            var artists = context.Artists.Where(a => a.Name.Contains(searchTerm)).ToList();
+            return View("searchResults", artists);
+        }
+
     }
 }
