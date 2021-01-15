@@ -12,7 +12,7 @@
             <th>Average Rating</th>
             <th>Number of Ratings</th>
         </tr>
-        @foreach(Release release in Model.Releases.OrderBy(r => r.FormattedDate()))
+        @foreach (Release release in Model.Releases.OrderBy(r => r.FormattedDate()))
         {
             <tr>
                 <td><a asp-controller="Release" asp-action="Entry" asp-route-id="@release.ReleaseID">@release.Title</a></td>
@@ -21,4 +21,9 @@
             </tr>
         }
     </table>
+    <div class="form-group">
+        <form method="post" action="/Artist/Delete/@Model.ArtistID">
+            <button class="btn btn-danger" type="submit">Delete Artist</button>
+        </form>
+    </div>
 </div>

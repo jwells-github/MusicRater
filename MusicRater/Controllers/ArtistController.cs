@@ -59,5 +59,18 @@ namespace MusicRater.Controllers
             return View("searchResults", artists);
         }
 
+        [Authorize]
+        public async Task <IActionResult> Delete(long id)
+        {
+            Artist artist = await context.Artists.Include(a => a.Releases).FirstOrDefaultAsync(a => a.ArtistID == id);
+            foreach (Release release in artist.Releases)
+            {
+                context.RemoveRange(release.UserReleaseRatings);
+            }
+            context.RemoveRange(artist.Releases);
+            context.Remove(artist);
+            await context.SaveChangesAsync();
+            return RedirectToAction("Index", "Artist");
+        }
     }
 }
