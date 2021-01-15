@@ -1,8 +1,0 @@
-﻿@model IEnumerable<Artist>
-
-@foreach(Artist artist in Model)
-{
-    <div>
-        <a asp-action="Profile" asp-route-id="@artist.ArtistID">@artist.Name</a>
-    </div>
-}
