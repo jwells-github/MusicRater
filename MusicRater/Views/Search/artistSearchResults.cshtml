@@ -1,0 +1,20 @@
+﻿@model SearchViewModel
+
+<partial name="_SearchHeaderPartial">
+
+<h2>Artists</h2>
+@if (Model.Artists.Count > 0)
+{
+
+
+    @foreach (Artist artist in Model.Artists)
+    {
+        <div>
+            <a asp-action="Profile" asp-controller="Artist" asp-route-id="@artist.ArtistID">@artist.Name</a>
+        </div>
+    }
+}
+else
+{
+    <h3>No Results</h3>
+}

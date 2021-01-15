@@ -1,10 +1,10 @@
 ﻿@model SearchViewModel
 
-
+<partial name="_SearchHeaderPartial">
 
 @if (Model.Artists.Count > 0)
 {
-    <h1>Artists</h1>
+    <h2>Artists</h2>
 
     @foreach (Artist artist in Model.Artists)
     {
@@ -16,7 +16,7 @@
 
 @if (Model.Releases.Count > 0)
 {
-    <h1>Releases</h1>
+    <h2>Releases</h2>
 
     @foreach (Release release in Model.Releases)
     {
@@ -28,7 +28,7 @@
 
 @if (Model.Users.Count > 0)
 {
-    <h1>Users</h1>
+    <h2>Users</h2>
 
     @foreach (MusicRaterUser user in Model.Users)
     {

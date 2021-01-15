@@ -39,7 +39,14 @@ namespace MusicRater.Controllers
                 Releases =  releases,
                 Users =  users
             };
-            return View("searchResults", searchViewModel);
+            return View("allSearchResults", searchViewModel);
+        }
+
+        public async Task <IActionResult> Artist (string searchTerm)
+        {
+            var artists = await context.Artists.Where(a => a.Name.Contains(searchTerm)).ToListAsync();
+            SearchViewModel searchViewModel = new SearchViewModel {Artists = artists};
+            return View("artistSearchResults", searchViewModel);
         }
     }
 }
