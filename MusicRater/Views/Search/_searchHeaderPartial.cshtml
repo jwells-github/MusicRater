@@ -1,0 +1,5 @@
+﻿<a asp-action="Artist" asp-route-searchTerm="@Context.Request.Query["searchTerm"]">Artists</a>
+<a asp-action="Release" asp-route-searchTerm="@Context.Request.Query["searchTerm"]">Releases</a>
+<a asp-action="Users" asp-route-searchTerm="@Context.Request.Query["searchTerm"]">Users</a>
+
+<h1>Search results for "@Context.Request.Query["searchTerm"]"</h1>
