@@ -1,0 +1,39 @@
+﻿@model SearchViewModel
+
+
+
+@if (Model.Artists.Count > 0)
+{
+    <h1>Artists</h1>
+
+    @foreach (Artist artist in Model.Artists)
+    {
+        <div>
+            <a asp-action="Profile" asp-controller="Artist" asp-route-id="@artist.ArtistID">@artist.Name</a>
+        </div>
+    }
+}
+
+@if (Model.Releases.Count > 0)
+{
+    <h1>Releases</h1>
+
+    @foreach (Release release in Model.Releases)
+    {
+        <div>
+            <a asp-action="Entry" asp-controller="Release" asp-route-id="@release.ReleaseID">@release.Title</a>
+        </div>
+    }
+}
+
+@if (Model.Users.Count > 0)
+{
+    <h1>Users</h1>
+
+    @foreach (MusicRaterUser user in Model.Users)
+    {
+        <div>
+            <a asp-action="Index" asp-controller="User" asp-route-id="@user.UserName">@user.UserName</a>
+        </div>
+    }
+}
