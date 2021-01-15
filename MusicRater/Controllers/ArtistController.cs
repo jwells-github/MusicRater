@@ -52,13 +52,6 @@ namespace MusicRater.Controllers
             return View(artist);
         }
 
-
-        public IActionResult Search(string searchTerm)
-        {
-            var artists = context.Artists.Where(a => a.Name.Contains(searchTerm)).ToList();
-            return View("searchResults", artists);
-        }
-
         [Authorize]
         public async Task <IActionResult> Delete(long id)
         {
