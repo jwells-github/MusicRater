@@ -51,5 +51,14 @@ namespace MusicRater.Controllers
                     context.Artists.Where(a => a.Name.Contains(searchTerm)),
                     pageNumber ?? 1, resultNumber));
         }
+
+        public async Task<IActionResult> Release (string searchTerm, int? pageNumber)
+        {
+            int resultNumber = 50;
+            return View("releaseSearchResults",
+                await PaginatedList<Release>.CreateAsync(
+                    context.Releases.Where(r => r.Title.Contains(searchTerm)),
+                    pageNumber ?? 1, resultNumber));
+        }
     }
 }
