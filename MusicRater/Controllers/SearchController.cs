@@ -30,9 +30,10 @@ namespace MusicRater.Controllers
 
         public async Task <IActionResult> Index(string searchTerm)
         {
-            var artists = await context.Artists.Where(a => a.Name.Contains(searchTerm)).ToListAsync();
-            var releases = await context.Releases.Where(r => r.Title.Contains(searchTerm)).ToListAsync();
-            var users = await context.Users.Where(u => u.UserName.Contains(searchTerm)).ToListAsync();
+            int resultNumber = 15;
+            var artists = await context.Artists.Where(a => a.Name.Contains(searchTerm)).Take(resultNumber).ToListAsync();
+            var releases = await context.Releases.Where(r => r.Title.Contains(searchTerm)).Take(resultNumber).ToListAsync();
+            var users = await context.Users.Where(u => u.UserName.Contains(searchTerm)).Take(resultNumber).ToListAsync();
             SearchViewModel searchViewModel = new SearchViewModel
             {
                 Artists =  artists,
@@ -42,11 +43,13 @@ namespace MusicRater.Controllers
             return View("allSearchResults", searchViewModel);
         }
 
-        public async Task <IActionResult> Artist (string searchTerm)
+        public async Task <IActionResult> Artist (string searchTerm, int? pageNumber)
         {
-            var artists = await context.Artists.Where(a => a.Name.Contains(searchTerm)).ToListAsync();
-            SearchViewModel searchViewModel = new SearchViewModel {Artists = artists};
-            return View("artistSearchResults", searchViewModel);
+            int resultNumber = 50;
+            return View("artistSearchResults", 
+                await PaginatedList<Artist>.CreateAsync(
+                    context.Artists.Where(a => a.Name.Contains(searchTerm)),
+                    pageNumber ?? 1, resultNumber));
         }
     }
 }
