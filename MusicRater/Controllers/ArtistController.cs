@@ -43,7 +43,7 @@ namespace MusicRater.Controllers
                 await context.SaveChangesAsync();
                 return RedirectToAction(nameof(Profile), new { id = artist.ArtistID });
             }
-            return View("ArtistEditor", new Artist());
+            return View("ArtistEditor", artist);
         }
 
         public async Task <IActionResult> Profile(long id)
