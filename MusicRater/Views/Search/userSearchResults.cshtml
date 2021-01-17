@@ -1,0 +1,34 @@
+﻿@model PaginatedList<MusicRaterUser>
+
+<partial name="_SearchHeaderPartial">
+
+    <h2>Users</h2>
+    @if (Model.Count > 0)
+    {
+        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+
+        @foreach (MusicRaterUser user in Model)
+        {
+            <div>
+                <a asp-action="Index" asp-controller="User" asp-route-id="@user.UserName">@user.UserName</a>
+            </div>
+        }
+
+        <a asp-action="Users"
+           asp-route-searchTerm="@Context.Request.Query["searchTerm"]"
+           asp-route-pageNumber="@(Model.PageIndex + 1)"
+           class="btn btn-default @prevDisabled">
+            Previous
+        </a>
+        <a asp-action="Users"
+           asp-route-searchTerm="@Context.Request.Query["searchTerm"]"
+           asp-route-pageNumber="@(Model.PageIndex + 1)"
+           class="btn btn-default @nextDisabled">
+            Next
+        </a>
+    }
+    else
+    {
+        <h3>No Results</h3>
+    }

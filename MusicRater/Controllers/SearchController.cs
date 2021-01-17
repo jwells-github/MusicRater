@@ -60,5 +60,14 @@ namespace MusicRater.Controllers
                     context.Releases.Where(r => r.Title.Contains(searchTerm)),
                     pageNumber ?? 1, resultNumber));
         }
+
+        public async Task<IActionResult> User(string searchTerm, int? pageNumber)
+        {
+            int resultNumber = 50;
+            return View("userSearchResults",
+                await PaginatedList<MusicRaterUser>.CreateAsync(
+                    context.Users.Where(u => u.UserName.Contains(searchTerm)),
+                    pageNumber ?? 1, resultNumber));
+        }
     }
 }
