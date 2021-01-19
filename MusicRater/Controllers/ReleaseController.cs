@@ -59,7 +59,12 @@ namespace MusicRater.Controllers
 
         public async Task <IActionResult> Entry(long id)
         {
-            Release release = await context.Releases.Include(r => r.Artist).FirstOrDefaultAsync(r => r.ReleaseID == id);
+
+            Release release = await context.Releases
+                .Include(r => r.Artist)
+                .Include(r => r.ReleaseGenres)
+                .ThenInclude(rg => rg.Genre)
+                .FirstOrDefaultAsync(r => r.ReleaseID == id);
             ReleaseRating ratings = await context.ReleaseRating.FirstOrDefaultAsync(r => r.ReleaseID == id);
 
             ReleaseViewModel releaseView = new ReleaseViewModel(release);
@@ -123,6 +128,70 @@ namespace MusicRater.Controllers
             context.Remove(release);
             await context.SaveChangesAsync();
             return RedirectToAction("Profile", "Artist",new { id = release.ArtistID });
+        }
+
+        public async Task <IActionResult> Genres(long id)
+        {
+            Release release = await context.Releases.Include(r => r.ReleaseGenres)
+                .ThenInclude(rg => rg.Genre)
+                .FirstOrDefaultAsync(r => r.ReleaseID == id);
+            ReleaseViewModel releaseView = new ReleaseViewModel(release);
+            MusicRaterUser user = await _userManager.GetUserAsync(User);
+            ViewBag.User = user;
+            ICollection<Genre> genreList = context.Genres.OrderBy(a => a.Name).ToList();
+            ViewBag.GenreList = genreList;
+            return View(releaseView);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task <IActionResult> Genres(long id, [FromForm] string suggestedGenre)
+        {
+            Release release = await context.Releases.Include(r => r.ReleaseGenres)
+                .ThenInclude(rg => rg.Genre)
+                .FirstOrDefaultAsync(r => r.ReleaseID == id);
+            Genre genre = await context.Genres.FirstOrDefaultAsync(g => g.Name == suggestedGenre);
+            if(genre == null)
+            {
+                // TODO: provide error message to user
+                return RedirectToAction(nameof(Genres), new { id }); ;
+            }
+            MusicRaterUser currentUser = await _userManager.GetUserAsync(User);
+            bool genreAlreadySuggsted = false;
+            foreach(ReleaseGenre releaseGenre in release.ReleaseGenres)
+            {
+                if(releaseGenre.Genre.Name == suggestedGenre)
+                {
+                    genreAlreadySuggsted = true;
+                    if (releaseGenre.UserVotes.Contains(currentUser))
+                    {
+                        releaseGenre.UserVotes.Remove(currentUser);
+                        releaseGenre.GenreVoting--;
+                    }
+                    else
+                    {
+                        releaseGenre.UserVotes.Add(currentUser);
+                        releaseGenre.GenreVoting++;
+                    }
+                    break;
+                }
+            }
+            if (!genreAlreadySuggsted)
+            {
+                ReleaseGenre newReleaseGenre = new ReleaseGenre
+                {
+                    Genre = genre,
+                    GenreID = genre.Name,
+                    Release = release,
+                    ReleaseID = release.ReleaseID,
+                    GenreVoting = 1,
+                    ArtistID = release.ArtistID
+                };
+                newReleaseGenre.UserVotes.Add(currentUser);
+                context.ReleaseGenres.Add(newReleaseGenre);
+            }
+            await context.SaveChangesAsync();
+            return RedirectToAction(nameof(Genres), new { id });
         }
     }
 }

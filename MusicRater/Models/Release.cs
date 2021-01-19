@@ -33,6 +33,7 @@ namespace MusicRater.Models
 
         public ICollection<ReleaseRating> UserReleaseRatings { get; set; }
 
+        public ICollection<ReleaseGenre> ReleaseGenres { get; set; }
         public DateTime FormattedDate()
         {
             if(this.ReleaseDay == 0 && this.ReleaseMonth == 0 && this.ReleaseYear == 0)

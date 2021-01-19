@@ -22,7 +22,9 @@ namespace MusicRater.Models
             this.ReleaseYear = release.ReleaseYear;
             this.Type = release.Type;
             this.Artist = release.Artist;
+            this.ReleaseGenres = release.ReleaseGenres;
         }
+
         public long ReleaseID { get; set; }
         public string Title { get; set; }
         [Range(0, 31)]
@@ -38,6 +40,7 @@ namespace MusicRater.Models
         public int NumberOfRatings { get; set; }
         public double AverageRating { get; set;}
         
+        public ICollection<ReleaseGenre> ReleaseGenres { get; set; }
 
         public List<SelectListItem> Months { get; } = new List<SelectListItem>
         {

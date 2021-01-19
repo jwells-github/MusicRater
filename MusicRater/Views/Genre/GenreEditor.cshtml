@@ -1,9 +1,13 @@
-﻿@model Artist
+﻿@model Genre
 
 <form method="post">
     <div class="form-group">
         <label asp-for="Name"></label>
         <input class="form-control" asp-for="Name" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <input class="form-control" asp-for="Description" />
     </div>
     <button class="btn btn-primary" type="submit">Submit</button>
 </form>

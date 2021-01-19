@@ -58,6 +58,10 @@ namespace MusicRater
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
+                    name: "genre",
+                    pattern: "Genre/{genreName?}",
+                    defaults: new { controller = "Genre", action = "Index" });
+                endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();

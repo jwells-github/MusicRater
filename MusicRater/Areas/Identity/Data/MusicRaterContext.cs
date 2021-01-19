@@ -37,12 +37,23 @@ namespace MusicRater.Data
                     .HasForeignKey(rating => rating.UserID)
                     .IsRequired();
                 });
-            // Customize the ASP.NET Identity model and override the defaults if needed.
-            // For example, you can rename the ASP.NET Identity table names and more.
-            // Add your customizations after calling base.OnModelCreating(builder);
+
+
+            builder.Entity<ReleaseGenre>()
+                .HasKey(rg => new { rg.GenreID, rg.ReleaseID });
+            builder.Entity<ReleaseGenre>()
+                .HasOne(rg => rg.Genre)
+                .WithMany(g => g.ReleaseGenres)
+                .HasForeignKey(rg => rg.GenreID);
+            builder.Entity<ReleaseGenre>()
+                .HasOne(rg => rg.Release)
+                .WithMany(r => r.ReleaseGenres)
+                .HasForeignKey(rg => rg.ReleaseID);
         }
         public DbSet<Artist> Artists { get; set; }
         public DbSet<Release> Releases { get; set; }
         public DbSet<ReleaseRating> ReleaseRating { get; set; }
+        public DbSet<Genre> Genres { get; set; }
+        public DbSet<ReleaseGenre> ReleaseGenres{ get; set; }
     }
 }

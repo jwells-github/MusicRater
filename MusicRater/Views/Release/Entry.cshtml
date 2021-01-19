@@ -27,6 +27,14 @@
 
     @if (User.Identity.IsAuthenticated)
     {
+        int numberOfGenres = 4;
+        <div>   
+            @foreach (ReleaseGenre releaseGenre in Model.ReleaseGenres.OrderBy(rg => rg.GenreVoting).Skip(0).Take(numberOfGenres))
+            {
+                <a>@releaseGenre.Genre.Name</a>
+            }
+        </div>
+        <a asp-action="Genres" asp-route-id="@Model.ReleaseID">Suggest a Genre</a>
         <h3>@(releaseRated ? "You rated this release "+@defaultSelectOption+" / 10" : "You have not rated this release")</h3>
         <div class="form-group">
             <form method="post" action="/Release/Rate/@Model.ReleaseID">

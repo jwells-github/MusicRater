@@ -1,0 +1,12 @@
+﻿@model IEnumerable<Genre>
+
+<div>
+    <a asp-action="New">Add a Genre</a>
+</div>
+
+@foreach (Genre genre in Model)
+{
+    <div>
+        <a>@genre.Name</a>
+    </div>
+}
