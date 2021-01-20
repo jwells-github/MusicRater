@@ -66,5 +66,22 @@ namespace MusicRater.Controllers
             await context.SaveChangesAsync();
             return RedirectToAction("Entry","Release", new { id });
         }
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Vote(long id)
+        {
+            MusicRaterUser user = await _userManager.GetUserAsync(User);
+            ReleaseReview releaseReview = await context.ReleaseReviews.FirstOrDefaultAsync(r => r.ReleaseReviewID == id);
+            if (releaseReview.UserVotes.Contains(user))
+            {
+                releaseReview.UserVotes.Remove(user);
+            }
+            else
+            {
+                releaseReview.UserVotes.Add(user);
+            }
+            await context.SaveChangesAsync();
+            return RedirectToAction("Entry", "Release", new { id = releaseReview.ReleaseID });
+        }
     }
 }

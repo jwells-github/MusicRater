@@ -75,6 +75,7 @@ namespace MusicRater.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 MusicRaterUser user = await _userManager.GetUserAsync(User);
+                ViewBag.User = user;
                 ReleaseRating releaseRating = await context.ReleaseRating.FirstOrDefaultAsync(r => r.ReleaseID == id && r.UserID == user.Id);
                 ReleaseReview releaseReview = await context.ReleaseReviews.FirstOrDefaultAsync(r => r.ReleaseID == id && r.UserID == user.Id);
                 if(releaseRating != null)

@@ -19,8 +19,8 @@
     <h1>@Model.Artist.Name</h1>
     <h2>@Model.Title</h2>
     <p>
-        Released: @(Model.ReleaseDay > 0 ? Model.ReleaseDay.ToString() : "") 
-        @Model.MonthString() 
+        Released: @(Model.ReleaseDay > 0 ? Model.ReleaseDay.ToString() : "")
+        @Model.MonthString()
         @(Model.ReleaseYear > 0 ? Model.ReleaseYear.ToString() : "")
     </p>
     <p>Average @Model.AverageRating / 10 from @Model.NumberOfRatings Ratings</p>
@@ -28,7 +28,7 @@
     @if (User.Identity.IsAuthenticated)
     {
         int numberOfGenres = 4;
-        <div>   
+        <div>
             @foreach (ReleaseGenre releaseGenre in Model.ReleaseGenres.OrderBy(rg => rg.GenreVoting).Skip(0).Take(numberOfGenres))
             {
                 <a>@releaseGenre.Genre.Name</a>
@@ -61,14 +61,14 @@
         <div class="form-group">
             <form method="post" action="/Review/Submit/@Model.ReleaseID">
                 <input name="reviewTitle" id="reviewTitle" placeholder="Review Title"
-                       value="@(@Model.UserReview != null ? Model.UserReview.Title : "")"/>
+                       value="@(@Model.UserReview != null ? Model.UserReview.Title : "")" />
                 <textarea name="reviewText" id="reviewText" placeholder="Review Text">@(@Model.UserReview != null ? Model.UserReview.ReviewText : "")</textarea>
-                <button type="submit">@(@Model.UserReview != null ? "Edit Review" : "Submit Review")</button>
-           </form>
-       </div>
+                <button class="btn btn-primary" type="submit">@(@Model.UserReview != null ? "Edit Review" : "Submit Review")</button>
+            </form>
+        </div>
 
 
-       <div class="form-group">
+        <div class="form-group">
             <form method="post" action="/Release/Delete/@Model.ReleaseID">
                 <button class="btn btn-danger" type="submit">Delete Release</button>
             </form>
@@ -79,7 +79,18 @@
     {
         <h3>@releaseReview.Title</h3>
         <h4>Posted by @releaseReview.User.UserName</h4>
+        <p>@releaseReview.UserVotes.Count Votes</p>
         <p>@releaseReview.ReviewText</p>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div>
+                <form method="post" action="/Review/Vote/@releaseReview.ReleaseReviewID">
+                    <button class="btn btn-primary" type="submit"
+                        >@(releaseReview.UserVotes.Contains(ViewBag.User) ? "Remove Vote" : "Vote")
+                    </button>
+                </form>
+            </div>
+        }
     }
 
 </div>
