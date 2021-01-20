@@ -1,0 +1,31 @@
+﻿@model ReleaseViewModel
+@{ ViewData["Title"] = Model.Title;}
+
+<div>
+    <h1>@Model.Title</h1>
+</div>
+<div>
+    <form method="post">
+        <label name="suggestedGenre">Suggest a genre</label>
+        <input list="genres" name="suggestedGenre" id="suggestedGenre" />
+        <datalist id="genres">
+            @foreach (Genre g in ViewBag.GenreList)
+            {
+                <option value="@g.Name"></option>
+            }
+        </datalist>
+
+        <button type="submit">Suggest</button>
+    </form>
+</div>
+<div>
+    @foreach (ReleaseGenre releaseGenre in Model.ReleaseGenres)
+    {
+        <h2>@releaseGenre.Genre.Name</h2>
+        <span>@releaseGenre.GenreVoting</span>
+        <form method="post">
+            <input  type="hidden" value="@releaseGenre.Genre.Name" name="suggestedGenre" id="suggestedGenre"/>
+            <button type="submit">@(releaseGenre.UserVotes.Contains(ViewBag.User) ? "Undo Vote" : "Vote")</button>
+        </form>
+    }
+</div>
