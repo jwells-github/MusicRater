@@ -17,6 +17,7 @@ namespace MusicRater.Models
         public string Title { get; set; }
         [Required]
         public string ReviewText { get; set; }
+        public DateTime ReviewDate { get; set; }
         public MusicRaterUser User { get; set; }
         public string UserID { get; set; }
         public ICollection<MusicRaterUser> UserVotes { get; set; }

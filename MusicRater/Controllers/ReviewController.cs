@@ -51,8 +51,8 @@ namespace MusicRater.Controllers
                     ReviewText = reviewText,
                     User = user,
                     Release = release,
-                    ReleaseID = release.ReleaseID
-
+                    ReleaseID = release.ReleaseID,
+                    ReviewDate = DateTime.Now
                 };
                 context.ReleaseReviews.Add(releaseReview);
                 release.NumberOfReviews++;
@@ -62,7 +62,6 @@ namespace MusicRater.Controllers
                 releaseReview.Title = reviewTitle;
                 releaseReview.ReviewText = reviewText;
             }
-
             await context.SaveChangesAsync();
             return RedirectToAction("Entry","Release", new { id });
         }
