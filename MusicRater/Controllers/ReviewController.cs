@@ -31,9 +31,12 @@ namespace MusicRater.Controllers
             _userManager = userManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index(int? pageNumber)
         {
-            return View();
+            int resultNumber = 25;
+            return View(await PaginatedList<ReleaseReview>.CreateAsync(context.ReleaseReviews.Include(r => r.Release)
+                .ThenInclude(r => r.Artist)
+                .OrderByDescending(r => r.ReviewDate), pageNumber ?? 1, resultNumber));
         }
 
         [Authorize]
