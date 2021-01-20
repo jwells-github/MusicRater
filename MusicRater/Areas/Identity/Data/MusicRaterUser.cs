@@ -18,5 +18,6 @@ namespace MusicRater.Areas.Identity.Data
         }
         [PersonalData]
         public ICollection<ReleaseRating> ReleaseRatings { get; set; }
+        public ICollection<ReleaseReview> ReleaseReviews { get; set; }
     }
 }

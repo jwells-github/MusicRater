@@ -27,8 +27,20 @@ namespace MusicRater.Data
                     .WithOne(rating => rating.User)
                     .HasForeignKey(rating => rating.UserID)
                     .IsRequired();
-                });
 
+                    typeBuilder.HasMany(user => user.ReleaseReviews)
+                    .WithOne(review => review.User)
+                    .HasForeignKey(review => review.UserID)
+                    .IsRequired();
+                });
+            builder.Entity<ReleaseReview>(
+                typeBuilder =>
+                {
+                    typeBuilder.HasOne(review => review.User)
+                    .WithMany(user => user.ReleaseReviews)
+                    .HasForeignKey(rating => rating.UserID)
+                    .IsRequired();
+                });
             builder.Entity<ReleaseRating>(
                 typeBuilder =>
                 {
@@ -37,7 +49,6 @@ namespace MusicRater.Data
                     .HasForeignKey(rating => rating.UserID)
                     .IsRequired();
                 });
-
 
             builder.Entity<ReleaseGenre>()
                 .HasKey(rg => new { rg.GenreID, rg.ReleaseID });
@@ -55,5 +66,6 @@ namespace MusicRater.Data
         public DbSet<ReleaseRating> ReleaseRating { get; set; }
         public DbSet<Genre> Genres { get; set; }
         public DbSet<ReleaseGenre> ReleaseGenres{ get; set; }
+        public DbSet<ReleaseReview> ReleaseReviews { get; set; }
     }
 }

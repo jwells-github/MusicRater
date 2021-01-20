@@ -66,18 +66,24 @@ namespace MusicRater.Controllers
                 .ThenInclude(rg => rg.Genre)
                 .FirstOrDefaultAsync(r => r.ReleaseID == id);
             ReleaseRating ratings = await context.ReleaseRating.FirstOrDefaultAsync(r => r.ReleaseID == id);
-
+            
             ReleaseViewModel releaseView = new ReleaseViewModel(release);
+            releaseView.ReleaseReviews = await context.ReleaseReviews.Include(r=> r.User).Where(r => r.ReleaseID == release.ReleaseID).ToListAsync();
             releaseView.NumberOfRatings = release.NumberOfRatings;
             releaseView.AverageRating = release.AverageRating;
 
             if (User.Identity.IsAuthenticated)
             {
                 MusicRaterUser user = await _userManager.GetUserAsync(User);
-                ReleaseRating alreadyRated = await context.ReleaseRating.FirstOrDefaultAsync(r => r.ReleaseID == id && r.UserID == user.Id);
-                if(alreadyRated != null)
+                ReleaseRating releaseRating = await context.ReleaseRating.FirstOrDefaultAsync(r => r.ReleaseID == id && r.UserID == user.Id);
+                ReleaseReview releaseReview = await context.ReleaseReviews.FirstOrDefaultAsync(r => r.ReleaseID == id && r.UserID == user.Id);
+                if(releaseRating != null)
                 {
-                    releaseView.UserRating = alreadyRated; 
+                    releaseView.UserRating = releaseRating; 
+                }
+                if(releaseReview != null)
+                {
+                    releaseView.UserReview = releaseReview;
                 }
             }
 

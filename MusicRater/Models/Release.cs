@@ -30,7 +30,8 @@ namespace MusicRater.Models
 
         public double AverageRating { get; set; }
         public int NumberOfRatings { get; set; }
-
+        public int NumberOfReviews { get; set; }
+        public ICollection<ReleaseReview> releaseReviews { get; set; }
         public ICollection<ReleaseRating> UserReleaseRatings { get; set; }
 
         public ICollection<ReleaseGenre> ReleaseGenres { get; set; }

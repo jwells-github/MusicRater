@@ -35,7 +35,7 @@
             }
         </div>
         <a asp-action="Genres" asp-route-id="@Model.ReleaseID">Suggest a Genre</a>
-        <h3>@(releaseRated ? "You rated this release "+@defaultSelectOption+" / 10" : "You have not rated this release")</h3>
+        <h3>@(releaseRated ? "You rated this release " + @defaultSelectOption + " / 10" : "You have not rated this release")</h3>
         <div class="form-group">
             <form method="post" action="/Release/Rate/@Model.ReleaseID">
                 <select id="rating" name="rating">
@@ -57,11 +57,29 @@
                 </button>
             </form>
         </div>
+
         <div class="form-group">
+            <form method="post" action="/Review/Submit/@Model.ReleaseID">
+                <input name="reviewTitle" id="reviewTitle" placeholder="Review Title"
+                       value="@(@Model.UserReview != null ? Model.UserReview.Title : "")"/>
+                <textarea name="reviewText" id="reviewText" placeholder="Review Text">@(@Model.UserReview != null ? Model.UserReview.ReviewText : "")</textarea>
+                <button type="submit">@(@Model.UserReview != null ? "Edit Review" : "Submit Review")</button>
+           </form>
+       </div>
+
+
+       <div class="form-group">
             <form method="post" action="/Release/Delete/@Model.ReleaseID">
                 <button class="btn btn-danger" type="submit">Delete Release</button>
             </form>
         </div>
+    }
+
+    @foreach (ReleaseReview releaseReview in @Model.ReleaseReviews)
+    {
+        <h3>@releaseReview.Title</h3>
+        <h4>Posted by @releaseReview.User.UserName</h4>
+        <p>@releaseReview.ReviewText</p>
     }
 
 </div>
