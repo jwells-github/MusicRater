@@ -60,6 +60,7 @@ namespace MusicRater.Data
                 .HasOne(rg => rg.Release)
                 .WithMany(r => r.ReleaseGenres)
                 .HasForeignKey(rg => rg.ReleaseID);
+            builder.Seed();
         }
         public DbSet<Artist> Artists { get; set; }
         public DbSet<Release> Releases { get; set; }
