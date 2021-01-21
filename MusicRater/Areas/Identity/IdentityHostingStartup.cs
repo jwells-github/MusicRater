@@ -20,7 +20,9 @@ namespace MusicRater.Areas.Identity
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("MusicRaterContextConnection")));
 
-                services.AddDefaultIdentity<MusicRaterUser>(options => options.SignIn.RequireConfirmedAccount = false)
+                services.AddDefaultIdentity<MusicRaterUser>(options 
+                    => options.SignIn.RequireConfirmedAccount = false)
+                    .AddRoles<IdentityRole>()
                     .AddEntityFrameworkStores<MusicRaterContext>();
 
                 services.Configure<IdentityOptions>(options =>
