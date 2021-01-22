@@ -10,9 +10,11 @@ using MusicRater.Models;
 using MusicRater.Areas.Identity.Data;
 using Microsoft.EntityFrameworkCore;
 using MusicRater.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MusicRater.Controllers
 {
+    [AllowAnonymous]
     public class SearchController : Controller
     {
         private readonly ILogger<SearchController> _logger;
@@ -42,7 +44,7 @@ namespace MusicRater.Controllers
             };
             return View("allSearchResults", searchViewModel);
         }
-
+ 
         public async Task <IActionResult> Artist (string searchTerm, int? pageNumber)
         {
             int resultNumber = 50;
