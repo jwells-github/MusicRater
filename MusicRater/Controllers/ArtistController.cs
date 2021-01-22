@@ -22,18 +22,18 @@ namespace MusicRater.Controllers
             context = data;
             _logger = logger;
         }
-        public  IActionResult Index()
+
+        [AllowAnonymous]
+        public IActionResult Index()
         {
            return View(context.Artists.OrderBy(a => a.Name));
         }
 
-        [Authorize]
         public IActionResult New()
         {
             return View("ArtistEditor", new Artist());
         }
 
-        [Authorize]
         [HttpPost]
         public async Task<IActionResult> New([FromForm] Artist artist)
         {
@@ -46,6 +46,7 @@ namespace MusicRater.Controllers
             return View("ArtistEditor", artist);
         }
 
+        [AllowAnonymous]
         public async Task <IActionResult> Profile(long id)
         {
             Artist artist = await context.Artists.Include(a => a.Releases).FirstOrDefaultAsync(a => a.ArtistID == id);
