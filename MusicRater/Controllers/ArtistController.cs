@@ -53,7 +53,7 @@ namespace MusicRater.Controllers
             return View(artist);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Administrator")]
         public async Task <IActionResult> Delete(long id)
         {
             Artist artist = await context.Artists.Include(a => a.Releases).FirstOrDefaultAsync(a => a.ArtistID == id);
