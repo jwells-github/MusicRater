@@ -31,6 +31,7 @@ namespace MusicRater.Controllers
             _userManager = userManager;
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Index(int? pageNumber)
         {
             int resultNumber = 25;
@@ -39,7 +40,6 @@ namespace MusicRater.Controllers
                 .OrderByDescending(r => r.ReviewDate), pageNumber ?? 1, resultNumber));
         }
 
-        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Submit(long id, [FromForm] string reviewTitle, [FromForm] string reviewText)
         {
@@ -68,8 +68,8 @@ namespace MusicRater.Controllers
             await context.SaveChangesAsync();
             return RedirectToAction("Entry","Release", new { id });
         }
+
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> Vote(long id)
         {
             MusicRaterUser user = await _userManager.GetUserAsync(User);
