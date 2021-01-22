@@ -10,8 +10,8 @@ using MusicRater.Data;
 namespace MusicRater.Migrations
 {
     [DbContext(typeof(MusicRaterContext))]
-    [Migration("20210112165453_Initial")]
-    partial class Initial
+    [Migration("20210121170436_iniitial")]
+    partial class iniitial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -198,6 +198,15 @@ namespace MusicRater.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("ReleaseGenreGenreID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<long?>("ReleaseGenreReleaseID")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("ReleaseReviewID")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -218,6 +227,10 @@ namespace MusicRater.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
+                    b.HasIndex("ReleaseReviewID");
+
+                    b.HasIndex("ReleaseGenreGenreID", "ReleaseGenreReleaseID");
+
                     b.ToTable("AspNetUsers");
                 });
 
@@ -229,11 +242,37 @@ namespace MusicRater.Migrations
                         .UseIdentityColumn();
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ArtistID");
 
                     b.ToTable("Artists");
+
+                    b.HasData(
+                        new
+                        {
+                            ArtistID = 1L,
+                            Name = "The White Stripes"
+                        },
+                        new
+                        {
+                            ArtistID = 2L,
+                            Name = "Neutral Milk Hotel"
+                        });
+                });
+
+            modelBuilder.Entity("MusicRater.Models.Genre", b =>
+                {
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Name");
+
+                    b.ToTable("Genres");
                 });
 
             modelBuilder.Entity("MusicRater.Models.Release", b =>
@@ -243,8 +282,17 @@ namespace MusicRater.Migrations
                         .HasColumnType("bigint")
                         .UseIdentityColumn();
 
-                    b.Property<long?>("ArtistID")
+                    b.Property<long>("ArtistID")
                         .HasColumnType("bigint");
+
+                    b.Property<double>("AverageRating")
+                        .HasColumnType("float");
+
+                    b.Property<int>("NumberOfRatings")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NumberOfReviews")
+                        .HasColumnType("int");
 
                     b.Property<int>("ReleaseDay")
                         .HasColumnType("int");
@@ -256,6 +304,7 @@ namespace MusicRater.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Type")
@@ -266,6 +315,133 @@ namespace MusicRater.Migrations
                     b.HasIndex("ArtistID");
 
                     b.ToTable("Releases");
+
+                    b.HasData(
+                        new
+                        {
+                            ReleaseID = 1L,
+                            ArtistID = 1L,
+                            AverageRating = 0.0,
+                            NumberOfRatings = 0,
+                            NumberOfReviews = 0,
+                            ReleaseDay = 15,
+                            ReleaseMonth = 6,
+                            ReleaseYear = 1999,
+                            Title = "The White Stripes",
+                            Type = 0
+                        },
+                        new
+                        {
+                            ReleaseID = 2L,
+                            ArtistID = 1L,
+                            AverageRating = 0.0,
+                            NumberOfRatings = 0,
+                            NumberOfReviews = 0,
+                            ReleaseDay = 20,
+                            ReleaseMonth = 6,
+                            ReleaseYear = 2000,
+                            Title = "De Stijl",
+                            Type = 0
+                        },
+                        new
+                        {
+                            ReleaseID = 3L,
+                            ArtistID = 1L,
+                            AverageRating = 0.0,
+                            NumberOfRatings = 0,
+                            NumberOfReviews = 0,
+                            ReleaseDay = 3,
+                            ReleaseMonth = 7,
+                            ReleaseYear = 2001,
+                            Title = "White Blood Cells",
+                            Type = 0
+                        },
+                        new
+                        {
+                            ReleaseID = 4L,
+                            ArtistID = 1L,
+                            AverageRating = 0.0,
+                            NumberOfRatings = 0,
+                            NumberOfReviews = 0,
+                            ReleaseDay = 1,
+                            ReleaseMonth = 4,
+                            ReleaseYear = 2003,
+                            Title = "Elephant",
+                            Type = 0
+                        },
+                        new
+                        {
+                            ReleaseID = 5L,
+                            ArtistID = 1L,
+                            AverageRating = 0.0,
+                            NumberOfRatings = 0,
+                            NumberOfReviews = 0,
+                            ReleaseDay = 7,
+                            ReleaseMonth = 6,
+                            ReleaseYear = 2005,
+                            Title = "Get Behind Me Satan",
+                            Type = 0
+                        },
+                        new
+                        {
+                            ReleaseID = 6L,
+                            ArtistID = 1L,
+                            AverageRating = 0.0,
+                            NumberOfRatings = 0,
+                            NumberOfReviews = 0,
+                            ReleaseDay = 19,
+                            ReleaseMonth = 6,
+                            ReleaseYear = 2007,
+                            Title = "Icky Thump",
+                            Type = 0
+                        },
+                        new
+                        {
+                            ReleaseID = 7L,
+                            ArtistID = 2L,
+                            AverageRating = 0.0,
+                            NumberOfRatings = 0,
+                            NumberOfReviews = 0,
+                            ReleaseDay = 26,
+                            ReleaseMonth = 3,
+                            ReleaseYear = 1996,
+                            Title = "On Avery Island",
+                            Type = 0
+                        },
+                        new
+                        {
+                            ReleaseID = 8L,
+                            ArtistID = 2L,
+                            AverageRating = 0.0,
+                            NumberOfRatings = 0,
+                            NumberOfReviews = 0,
+                            ReleaseDay = 10,
+                            ReleaseMonth = 2,
+                            ReleaseYear = 1998,
+                            Title = "In the Aeroplane Over the Sea",
+                            Type = 0
+                        });
+                });
+
+            modelBuilder.Entity("MusicRater.Models.ReleaseGenre", b =>
+                {
+                    b.Property<string>("GenreID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<long>("ReleaseID")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("ArtistID")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("GenreVoting")
+                        .HasColumnType("int");
+
+                    b.HasKey("GenreID", "ReleaseID");
+
+                    b.HasIndex("ReleaseID");
+
+                    b.ToTable("ReleaseGenres");
                 });
 
             modelBuilder.Entity("MusicRater.Models.ReleaseRating", b =>
@@ -281,7 +457,7 @@ namespace MusicRater.Migrations
                     b.Property<DateTime>("RatingDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<long?>("ReleaseID")
+                    b.Property<long>("ReleaseID")
                         .HasColumnType("bigint");
 
                     b.Property<string>("UserID")
@@ -295,6 +471,39 @@ namespace MusicRater.Migrations
                     b.HasIndex("UserID");
 
                     b.ToTable("ReleaseRating");
+                });
+
+            modelBuilder.Entity("MusicRater.Models.ReleaseReview", b =>
+                {
+                    b.Property<long>("ReleaseReviewID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .UseIdentityColumn();
+
+                    b.Property<long>("ReleaseID")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("ReviewDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ReviewText")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ReleaseReviewID");
+
+                    b.HasIndex("ReleaseID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("ReleaseReviews");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -348,20 +557,54 @@ namespace MusicRater.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("MusicRater.Areas.Identity.Data.MusicRaterUser", b =>
+                {
+                    b.HasOne("MusicRater.Models.ReleaseReview", null)
+                        .WithMany("UserVotes")
+                        .HasForeignKey("ReleaseReviewID");
+
+                    b.HasOne("MusicRater.Models.ReleaseGenre", null)
+                        .WithMany("UserVotes")
+                        .HasForeignKey("ReleaseGenreGenreID", "ReleaseGenreReleaseID");
+                });
+
             modelBuilder.Entity("MusicRater.Models.Release", b =>
                 {
                     b.HasOne("MusicRater.Models.Artist", "Artist")
                         .WithMany("Releases")
-                        .HasForeignKey("ArtistID");
+                        .HasForeignKey("ArtistID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Artist");
+                });
+
+            modelBuilder.Entity("MusicRater.Models.ReleaseGenre", b =>
+                {
+                    b.HasOne("MusicRater.Models.Genre", "Genre")
+                        .WithMany("ReleaseGenres")
+                        .HasForeignKey("GenreID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MusicRater.Models.Release", "Release")
+                        .WithMany("ReleaseGenres")
+                        .HasForeignKey("ReleaseID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Genre");
+
+                    b.Navigation("Release");
                 });
 
             modelBuilder.Entity("MusicRater.Models.ReleaseRating", b =>
                 {
                     b.HasOne("MusicRater.Models.Release", "Release")
                         .WithMany("UserReleaseRatings")
-                        .HasForeignKey("ReleaseID");
+                        .HasForeignKey("ReleaseID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("MusicRater.Areas.Identity.Data.MusicRaterUser", "User")
                         .WithMany("ReleaseRatings")
@@ -374,9 +617,30 @@ namespace MusicRater.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("MusicRater.Models.ReleaseReview", b =>
+                {
+                    b.HasOne("MusicRater.Models.Release", "Release")
+                        .WithMany("releaseReviews")
+                        .HasForeignKey("ReleaseID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MusicRater.Areas.Identity.Data.MusicRaterUser", "User")
+                        .WithMany("ReleaseReviews")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Release");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("MusicRater.Areas.Identity.Data.MusicRaterUser", b =>
                 {
                     b.Navigation("ReleaseRatings");
+
+                    b.Navigation("ReleaseReviews");
                 });
 
             modelBuilder.Entity("MusicRater.Models.Artist", b =>
@@ -384,9 +648,28 @@ namespace MusicRater.Migrations
                     b.Navigation("Releases");
                 });
 
+            modelBuilder.Entity("MusicRater.Models.Genre", b =>
+                {
+                    b.Navigation("ReleaseGenres");
+                });
+
             modelBuilder.Entity("MusicRater.Models.Release", b =>
                 {
+                    b.Navigation("ReleaseGenres");
+
+                    b.Navigation("releaseReviews");
+
                     b.Navigation("UserReleaseRatings");
+                });
+
+            modelBuilder.Entity("MusicRater.Models.ReleaseGenre", b =>
+                {
+                    b.Navigation("UserVotes");
+                });
+
+            modelBuilder.Entity("MusicRater.Models.ReleaseReview", b =>
+                {
+                    b.Navigation("UserVotes");
                 });
 #pragma warning restore 612, 618
         }

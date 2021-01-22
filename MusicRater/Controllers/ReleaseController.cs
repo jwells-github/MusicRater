@@ -28,6 +28,8 @@ namespace MusicRater.Controllers
             _logger = logger;
             _userManager = userManager;
         }
+
+        [AllowAnonymous]
         public IActionResult Index()
         {
             return View();
@@ -55,6 +57,7 @@ namespace MusicRater.Controllers
             return View("ReleaseEditor", new ReleaseViewModel(release));
         }
 
+        [AllowAnonymous]
         public async Task <IActionResult> Entry(long id)
         {
 
