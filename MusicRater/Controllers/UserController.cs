@@ -10,6 +10,7 @@ using MusicRater.Models;
 using MusicRater.Areas.Identity.Data;
 using Microsoft.EntityFrameworkCore;
 using MusicRater.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MusicRater.Controllers
 {
@@ -25,6 +26,7 @@ namespace MusicRater.Controllers
             _userManager = userManager;
         }
 
+        [AllowAnonymous]
         public async Task <IActionResult> Index(string username)
         {
             MusicRaterUser user =
