@@ -10,9 +10,11 @@ using MusicRater.Models;
 using MusicRater.Areas.Identity.Data;
 using Microsoft.EntityFrameworkCore;
 using MusicRater.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MusicRater.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
