@@ -13,6 +13,7 @@ using MusicRater.Models;
 using MusicRater.Data;
 using MusicRater.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MusicRater
 {
@@ -33,6 +34,12 @@ namespace MusicRater
            // _adminPassword = Configuration["AdminPassword"];
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddAuthorization(opts =>
+            {
+                opts.FallbackPolicy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+            });
             services.AddDbContext<MusicRaterContext>(opts =>
             {
                 opts.UseSqlServer(Configuration["ConnectionStrings:MusicRaterContextConnection"]);
