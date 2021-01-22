@@ -31,13 +31,11 @@ namespace MusicRater.Controllers
             return View();
         }
 
-        [Authorize]
         public IActionResult New()
         {
             return View();
         }
         
-        [Authorize]
         [HttpPost]
         public async Task<IActionResult> New(string password)
         {
