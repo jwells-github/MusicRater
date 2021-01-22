@@ -37,13 +37,12 @@ namespace MusicRater.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "Administrator")]
         public IActionResult New()
         {
             return View("GenreEditor", new Genre());
         }
-
-        [HttpPost]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> New([FromForm] Genre genre)
         {
             if (ModelState.IsValid)
