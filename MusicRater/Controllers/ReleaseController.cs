@@ -128,7 +128,7 @@ namespace MusicRater.Controllers
             return RedirectToAction(nameof(Entry), new { id });
         }
 
-        [Authorize]
+        [Authorize(Roles = "Administrator")]
         public async Task <IActionResult> Delete(long id)
         {
             Release release = await context.Releases.FirstOrDefaultAsync(r => r.ReleaseID == id);
