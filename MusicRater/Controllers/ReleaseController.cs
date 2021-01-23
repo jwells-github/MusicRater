@@ -48,6 +48,7 @@ namespace MusicRater.Controllers
             Artist artist = await context.Artists.FirstOrDefaultAsync(a => a.ArtistID == artistID);
             release.Artist = artist;
             release.ArtistID = artist.ArtistID;
+            release.FormattedDate = FormattedDateTime.GetFormattedDate(release.ReleaseDay, release.ReleaseMonth, release.ReleaseYear);
             if (ModelState.IsValid)
             {
                 context.Releases.Add(release);
