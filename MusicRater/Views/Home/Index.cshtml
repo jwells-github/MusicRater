@@ -1,4 +1,4 @@
-﻿@model MusicRaterUser
+﻿@model HomeViewModel
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -10,11 +10,11 @@
 <div>
     @if (User.Identity.IsAuthenticated)
     {
-        @foreach (ReleaseRating rating in Model.ReleaseRatings)
-        {
-            <h2>Rating of @rating.Release.Title by @rating.Release.Artist.Name</h2>
-            <p>@rating.Rating / 10</p>
-        }
+
     }
 
+    @foreach(Release release in @Model.recentReleases)
+    {
+        <h1>@release.Title</h1>
+    }
 </div>
