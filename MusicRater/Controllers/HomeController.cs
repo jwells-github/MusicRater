@@ -12,6 +12,8 @@ using Microsoft.EntityFrameworkCore;
 using MusicRater.Data;
 using Microsoft.AspNetCore.Authorization;
 
+using MusicRater.Models.ViewModels;
+
 namespace MusicRater.Controllers
 {
     [AllowAnonymous]
@@ -19,28 +21,27 @@ namespace MusicRater.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private UserManager<MusicRaterUser> _userManager;
+        private MusicRaterContext context;
 
-        public HomeController(ILogger<HomeController> logger, UserManager<MusicRaterUser> userManager)
+        public HomeController(ILogger<HomeController> logger,
+            UserManager<MusicRaterUser> userManager,
+            MusicRaterContext data)
         {
             _logger = logger;
             _userManager = userManager;
+            context = data;
         }
 
         public async Task <IActionResult> Index()
         {
             MusicRaterUser user = await _userManager.GetUserAsync(User);
-
-            if (User.Identity.IsAuthenticated)
+           
+            HomeViewModel homeViewModel = new HomeViewModel
             {
-                MusicRaterUser populatedUser =
-                    await _userManager.Users.Include(user => user.ReleaseRatings)
-                    .ThenInclude(rating => rating.Release)
-                    .ThenInclude(release => release.Artist)
-                    .FirstOrDefaultAsync(u => u.Id == user.Id);
-                user = populatedUser;
-            }
-
-            return View(user);
+                user = user,
+                recentReleases = await context.Releases.OrderByDescending(r => r.FormattedDate).Skip(0).Take(10).ToListAsync()
+            };
+            return View(homeViewModel);
         }
 
         public IActionResult Privacy()
