@@ -93,6 +93,37 @@ namespace MusicRater.Controllers
             return View(releaseView);
         }
 
+        [Authorize(Roles = "Administrator")]
+        public async Task <IActionResult> Edit(long id)
+        {
+            Release release = await context.Releases
+             .Include(r => r.Artist)
+             .FirstOrDefaultAsync(r => r.ReleaseID == id);
+            return View("ReleaseEditor", new ReleaseViewModel(release));
+        }
+
+        [Authorize(Roles = "Administrator")]
+        [HttpPost]
+        public async Task<IActionResult> Edit(long id, [FromForm] Release release)
+        {
+            Release oldRelease = await context.Releases.FirstOrDefaultAsync(r => r.ReleaseID == id);
+            if (ModelState.IsValid)
+            {
+                oldRelease.Title = release.Title;
+                oldRelease.ReleaseDay = release.ReleaseDay;
+                oldRelease.ReleaseMonth = release.ReleaseMonth;
+                oldRelease.ReleaseYear = release.ReleaseYear;
+                oldRelease.FormattedDate = FormattedDateTime.GetFormattedDate(release.ReleaseDay, release.ReleaseMonth, release.ReleaseYear);
+                oldRelease.Type = release.Type;
+                await context.SaveChangesAsync();
+                return RedirectToAction(nameof(Entry), new { id = oldRelease.ReleaseID });
+            }
+
+            ReleaseViewModel releaseView = new ReleaseViewModel(release);
+            releaseView.ReleaseID = oldRelease.ReleaseID;
+            return View("ReleaseEditor", releaseView);
+        }
+
         public async Task <IActionResult> Rate(long id, [FromForm] int rating)
         {
             MusicRaterUser user = await _userManager.GetUserAsync(User);
