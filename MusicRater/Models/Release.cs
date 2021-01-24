@@ -23,7 +23,7 @@ namespace MusicRater.Models
         public int ReleaseMonth { get; set; }
         public int ReleaseYear { get; set; }
 
-        public DateTime FormattedDate { get; set; }
+        public DateTime FormattedReleaseDate { get; set; }
 
         public  ReleaseType Type { get; set; }
 

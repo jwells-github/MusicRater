@@ -20,7 +20,7 @@ namespace MusicRater.Areas.Identity.Data
                     ReleaseDay = 15,
                     ReleaseMonth = 6,
                     ReleaseYear = 1999,
-                    FormattedDate = FormattedDateTime.GetFormattedDate(15, 6, 1999),
+                    FormattedReleaseDate = FormattedDateTime.GetFormattedDate(15, 6, 1999),
                     Type = ReleaseType.Album,
                     ArtistID = 1
                 },
@@ -31,7 +31,7 @@ namespace MusicRater.Areas.Identity.Data
                     ReleaseDay = 20,
                     ReleaseMonth = 6,
                     ReleaseYear = 2000,
-                    FormattedDate = FormattedDateTime.GetFormattedDate(20, 6, 2000),
+                    FormattedReleaseDate = FormattedDateTime.GetFormattedDate(20, 6, 2000),
                     Type = ReleaseType.Album,
                     ArtistID = 1
                 },
@@ -42,7 +42,7 @@ namespace MusicRater.Areas.Identity.Data
                     ReleaseDay = 3,
                     ReleaseMonth = 7,
                     ReleaseYear = 2001,
-                    FormattedDate = FormattedDateTime.GetFormattedDate(3, 7, 2001),
+                    FormattedReleaseDate = FormattedDateTime.GetFormattedDate(3, 7, 2001),
                     Type = ReleaseType.Album,
                     ArtistID = 1
                 },
@@ -53,7 +53,7 @@ namespace MusicRater.Areas.Identity.Data
                     ReleaseDay = 1,
                     ReleaseMonth = 4,
                     ReleaseYear = 2003,
-                    FormattedDate = FormattedDateTime.GetFormattedDate(1, 4, 2003),
+                    FormattedReleaseDate = FormattedDateTime.GetFormattedDate(1, 4, 2003),
                     Type = ReleaseType.Album,
                     ArtistID = 1
                 },
@@ -64,7 +64,7 @@ namespace MusicRater.Areas.Identity.Data
                     ReleaseDay = 7,
                     ReleaseMonth = 6,
                     ReleaseYear = 2005,
-                    FormattedDate = FormattedDateTime.GetFormattedDate(7, 6, 2005),
+                    FormattedReleaseDate = FormattedDateTime.GetFormattedDate(7, 6, 2005),
                     Type = ReleaseType.Album,
                     ArtistID = 1
                 },
@@ -75,7 +75,7 @@ namespace MusicRater.Areas.Identity.Data
                     ReleaseDay = 19,
                     ReleaseMonth = 6,
                     ReleaseYear = 2007,
-                    FormattedDate = FormattedDateTime.GetFormattedDate(19, 6, 2007),
+                    FormattedReleaseDate = FormattedDateTime.GetFormattedDate(19, 6, 2007),
                     Type = ReleaseType.Album,
                     ArtistID = 1
                 },
@@ -86,7 +86,7 @@ namespace MusicRater.Areas.Identity.Data
                     ReleaseDay = 26,
                     ReleaseMonth = 3,
                     ReleaseYear = 1996,
-                    FormattedDate = FormattedDateTime.GetFormattedDate(26, 3, 1996),
+                    FormattedReleaseDate = FormattedDateTime.GetFormattedDate(26, 3, 1996),
                     Type = ReleaseType.Album,
                     ArtistID = 2
                 },
@@ -97,7 +97,7 @@ namespace MusicRater.Areas.Identity.Data
                     ReleaseDay = 10,
                     ReleaseMonth = 2,
                     ReleaseYear = 1998,
-                    FormattedDate = FormattedDateTime.GetFormattedDate(10, 2, 1998),
+                    FormattedReleaseDate = FormattedDateTime.GetFormattedDate(10, 2, 1998),
                     Type = ReleaseType.Album,
                     ArtistID = 2
                 }

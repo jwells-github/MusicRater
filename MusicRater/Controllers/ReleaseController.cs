@@ -48,7 +48,7 @@ namespace MusicRater.Controllers
             Artist artist = await context.Artists.FirstOrDefaultAsync(a => a.ArtistID == artistID);
             release.Artist = artist;
             release.ArtistID = artist.ArtistID;
-            release.FormattedDate = FormattedDateTime.GetFormattedDate(release.ReleaseDay, release.ReleaseMonth, release.ReleaseYear);
+            release.FormattedReleaseDate = FormattedDateTime.GetFormattedDate(release.ReleaseDay, release.ReleaseMonth, release.ReleaseYear);
             if (ModelState.IsValid)
             {
                 context.Releases.Add(release);
@@ -113,7 +113,7 @@ namespace MusicRater.Controllers
                 oldRelease.ReleaseDay = release.ReleaseDay;
                 oldRelease.ReleaseMonth = release.ReleaseMonth;
                 oldRelease.ReleaseYear = release.ReleaseYear;
-                oldRelease.FormattedDate = FormattedDateTime.GetFormattedDate(release.ReleaseDay, release.ReleaseMonth, release.ReleaseYear);
+                oldRelease.FormattedReleaseDate = FormattedDateTime.GetFormattedDate(release.ReleaseDay, release.ReleaseMonth, release.ReleaseYear);
                 oldRelease.Type = release.Type;
                 await context.SaveChangesAsync();
                 return RedirectToAction(nameof(Entry), new { id = oldRelease.ReleaseID });
