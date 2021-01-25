@@ -19,7 +19,7 @@
     <h1>@Model.Artist.Name</h1>
     <h2>@Model.Title</h2>
     <span>Released: </span>
-    <partial name="_DateSpanPartial" model="@new int[] { Model.ReleaseDay, Model.ReleaseMonth, Model.ReleaseYear }">
+    <partial name="_DateSpanPartial" model="new int[] { Model.ReleaseDay, Model.ReleaseMonth, Model.ReleaseYear }">
     <p>Average @Model.AverageRating / 10 from @Model.NumberOfRatings Ratings</p>
 
     @if (User.Identity.IsAuthenticated)
