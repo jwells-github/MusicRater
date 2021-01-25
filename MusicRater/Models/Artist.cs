@@ -15,7 +15,18 @@ namespace MusicRater.Models
         public long ArtistID { get; set; }
         [Required]
         public string Name { get; set; }
+        [Range(0, 31)]
+        public int BirthDay { get; set; }
+        [Range(0, 12)]
+        public int BirthMonth { get; set; }
+        public int BirthYear { get; set; }
+        public DateTime FormattedBirthDate { get; set; }
+        [Range(0, 31)]
+        public int DeathDay { get; set; }
+        [Range(0, 12)]
+        public int DeathMonth { get; set; }
+        public int DeathYear { get; set; }
+        public DateTime FormattedDeathDate { get; set; }
         public ICollection<Release> Releases { get; set; }
-
     }
 }
