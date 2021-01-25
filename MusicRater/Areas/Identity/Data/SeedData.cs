@@ -10,8 +10,26 @@ namespace MusicRater.Areas.Identity.Data
         public static void Seed(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Artist>().HasData(
-                new Artist {ArtistID = 1, Name = "The White Stripes"},
-                new Artist { ArtistID = 2, Name = "Neutral Milk Hotel" }
+                new Artist {
+                    ArtistID = 1,
+                    Name = "The White Stripes",
+                    BirthDay = 14,
+                    BirthMonth = 7,
+                    BirthYear = 1997,
+                    FormattedBirthDate = FormattedDateTime.GetFormattedDate(14, 7, 1997),
+                    DeathDay = 2,
+                    DeathMonth = 2,
+                    DeathYear = 2011,
+                    FormattedDeathDate = FormattedDateTime.GetFormattedDate(2,2,2011)
+                },
+                new Artist {
+                    ArtistID = 2, 
+                    Name = "Neutral Milk Hotel",
+                    BirthYear = 1989,
+                    FormattedBirthDate = FormattedDateTime.GetFormattedDate(0, 0, 1997),
+                    DeathYear = 1998,
+                    FormattedDeathDate = FormattedDateTime.GetFormattedDate(0, 0, 1998)
+                }
             );
             modelBuilder.Entity<Release>().HasData(
                 new Release {
