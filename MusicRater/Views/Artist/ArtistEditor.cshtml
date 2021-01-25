@@ -1,9 +1,64 @@
 ﻿@model Artist
 
+@{
+    Layout = "_Layout";
+    int minimumYear = 1855;
+    int maximumYear = DateTime.Now.Year + 1;
+}
+
 <form method="post">
     <div class="form-group">
         <label asp-for="Name"></label>
         <input class="form-control" asp-for="Name" />
     </div>
+    <div class="form-group">
+        <label asp-for="OriginCountry"></label>
+        <select class="form-control" asp-for="OriginCountry" asp-items="@(Html.GetEnumSelectList<Country>())"></select>
+    </div>
+    <div class="form-group">
+        <label asp-for="BirthDay"></label>
+        <select asp-for="BirthDay">
+            <option value="0"></option>
+            @for (var i = 1; i <= 31; i++)
+                {<option value="@i">@i</option>}
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="BirthMonth"></label>
+        <select asp-for="BirthMonth" asp-items="MonthSelectList.GetMonthList()">
+            <option value="0"></option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="BirthYear"></label>
+        <select asp-for="BirthYear">
+            <option value="0"></option>
+            @for (var i = maximumYear; i >= minimumYear; i--)
+                {<option value="@i">@i</option>}
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="DeathDay"></label>
+        <select asp-for="DeathDay">
+            <option value="0"></option>
+            @for (var i = 1; i <= 31; i++)
+            {<option value="@i">@i</option>}
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="DeathMonth"></label>
+        <select asp-for="DeathMonth" asp-items="MonthSelectList.GetMonthList()">
+            <option value="0"></option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="DeathYear"></label>
+        <select asp-for="DeathYear">
+            <option value="0"></option>
+            @for (var i = maximumYear; i >= minimumYear; i--)
+            {<option value="@i">@i</option>}
+        </select>
+    </div>
+
     <button class="btn btn-primary" type="submit">Submit</button>
 </form>
