@@ -39,6 +39,8 @@ namespace MusicRater.Controllers
         {
             if (ModelState.IsValid)
             {
+                artist.FormattedBirthDate = FormattedDateTime.GetFormattedDate(artist.BirthDay, artist.BirthMonth, artist.BirthYear);
+                artist.FormattedDeathDate = FormattedDateTime.GetFormattedDate(artist.DeathDay, artist.DeathMonth, artist.DeathYear);
                 context.Artists.Add(artist);
                 await context.SaveChangesAsync();
                 return RedirectToAction(nameof(Profile), new { id = artist.ArtistID });
