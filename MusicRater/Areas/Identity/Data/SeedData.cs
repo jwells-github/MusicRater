@@ -13,6 +13,7 @@ namespace MusicRater.Areas.Identity.Data
                 new Artist {
                     ArtistID = 1,
                     Name = "The White Stripes",
+                    OriginCountry = Country.US,
                     BirthDay = 14,
                     BirthMonth = 7,
                     BirthYear = 1997,
@@ -25,6 +26,7 @@ namespace MusicRater.Areas.Identity.Data
                 new Artist {
                     ArtistID = 2, 
                     Name = "Neutral Milk Hotel",
+                    OriginCountry = Country.US,
                     BirthYear = 1989,
                     FormattedBirthDate = FormattedDateTime.GetFormattedDate(0, 0, 1997),
                     DeathYear = 1998,
