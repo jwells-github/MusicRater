@@ -2,7 +2,12 @@
 @{ ViewData["Title"] = Model.Name;}
 
 <div>
-    <h1> @Model.Name</h1>
+    <h1>@Model.Name</h1>
+    <h2>@Model.OriginCountry</h2>
+    <span>Birth/Formed Date</span>
+    <partial name="_DateSpanPartial" model="new int[] { Model.BirthDay, Model.BirthMonth, Model.BirthYear }" />
+    <span>Death / Disbanded Date</span>
+    <partial name="_DateSpanPartial" model="new int[] { Model.DeathDay, Model.DeathMonth, Model.DeathYear }" />
     <a asp-controller="Release"
        asp-action="New"
        asp-route-artistID="@Model.ArtistID">Add a release</a>
