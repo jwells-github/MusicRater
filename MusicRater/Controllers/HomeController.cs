@@ -39,7 +39,7 @@ namespace MusicRater.Controllers
             HomeViewModel homeViewModel = new HomeViewModel
             {
                 user = user,
-                recentReleases = await context.Releases.OrderByDescending(r => r.FormattedReleaseDate).Skip(0).Take(10).ToListAsync()
+                recentReleases = await context.Releases.OrderByDescending(r => r.FormattedDate).Skip(0).Take(10).ToListAsync()
             };
             return View(homeViewModel);
         }
