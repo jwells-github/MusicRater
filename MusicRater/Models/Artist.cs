@@ -15,7 +15,7 @@ namespace MusicRater.Models
         public long ArtistID { get; set; }
         [Required]
         public string Name { get; set; }
-        public bool IsPerson { get; set; }
+        public bool IsSoloArtist { get; set; }
         public Country OriginCountry { get; set; }
         [Range(0, 31)]
         public int BirthDay { get; set; }
