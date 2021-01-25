@@ -56,6 +56,37 @@ namespace MusicRater.Controllers
         }
 
         [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> Edit(long id)
+        {
+            Artist artist = await context.Artists.FirstOrDefaultAsync(a => a.ArtistID == id);
+            return View("ArtistEditor", artist);
+        }
+
+        [Authorize(Roles = "Administrator")]
+        [HttpPost]
+        public async Task<IActionResult> Edit(long id, [FromForm] Artist artist) 
+        {
+            Artist oldArtist = await context.Artists.FirstOrDefaultAsync(a => a.ArtistID == id);
+            if (ModelState.IsValid)
+            {
+                oldArtist.Name = artist.Name;
+                oldArtist.IsSoloArtist = artist.IsSoloArtist;
+                oldArtist.OriginCountry = artist.OriginCountry;
+                oldArtist.BirthDay = artist.BirthDay;
+                oldArtist.BirthMonth = artist.BirthMonth;
+                oldArtist.FormattedBirthDate = FormattedDateTime.GetFormattedDate(artist.BirthDay, artist.BirthMonth, artist.BirthYear);
+                oldArtist.BirthYear = artist.BirthYear;
+                oldArtist.DeathDay = artist.DeathDay;
+                oldArtist.DeathMonth = artist.DeathMonth;
+                oldArtist.DeathYear = artist.DeathYear;
+                oldArtist.FormattedDeathDate = FormattedDateTime.GetFormattedDate(artist.DeathDay, artist.DeathMonth, artist.DeathYear);
+                await context.SaveChangesAsync();
+                return RedirectToAction(nameof(Profile), new { id = oldArtist.ArtistID });
+            }
+            return View("ArtistEditor", artist);
+        }
+
+        [Authorize(Roles = "Administrator")]
         public async Task <IActionResult> Delete(long id)
         {
             Artist artist = await context.Artists.Include(a => a.Releases).FirstOrDefaultAsync(a => a.ArtistID == id);
