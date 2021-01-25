@@ -43,7 +43,5 @@ namespace MusicRater.Models
         public double AverageRating { get; set;}
         
         public ICollection<ReleaseGenre> ReleaseGenres { get; set; }
-
-        public List<SelectListItem> Months { get; } = MonthSelectList.GetMonthList();
     }
 }
