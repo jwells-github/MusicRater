@@ -16,6 +16,10 @@
         <select class="form-control" asp-for="OriginCountry" asp-items="@(Html.GetEnumSelectList<Country>())"></select>
     </div>
     <div class="form-group">
+        <label asp-for="IsSoloArtist">This profile is for a Single Performer (Not a Band)</label>
+        <input type="checkbox" asp-for="IsSoloArtist" />
+    </div>
+    <div class="form-group">
         <label asp-for="BirthDay"></label>
         <select asp-for="BirthDay">
             <option value="0"></option>
