@@ -13,6 +13,9 @@ namespace MusicRater.Models
             {
                 return DateTime.MaxValue;
             }
+            releaseDay = releaseDay == 0 ? 1 : releaseDay;
+            releaseMonth = releaseMonth == 0 ? 1 : releaseMonth;
+            releaseYear = releaseYear == 0 ? 1 : releaseYear;
             return new DateTime(releaseYear, releaseMonth, releaseDay);
         }
     }
