@@ -45,12 +45,12 @@ namespace MusicRater.Controllers
         [HttpPost]
         public async Task<IActionResult> New(long artistID, [FromForm] Release release)
         {
-            Artist artist = await context.Artists.FirstOrDefaultAsync(a => a.ArtistID == artistID);
-            release.Artist = artist;
-            release.ArtistID = artist.ArtistID;
-            release.FormattedDate = FormattedDateTime.GetFormattedDate(release.ReleaseDay, release.ReleaseMonth, release.ReleaseYear);
             if (ModelState.IsValid)
             {
+                Artist artist = await context.Artists.FirstOrDefaultAsync(a => a.ArtistID == artistID);
+                release.Artist = artist;
+                release.ArtistID = artist.ArtistID;
+                release.FormattedDate = FormattedDateTime.GetFormattedDate(release.ReleaseDay, release.ReleaseMonth, release.ReleaseYear);
                 context.Releases.Add(release);
                 await context.SaveChangesAsync();
                 return RedirectToAction(nameof(Entry), new { id = release.ReleaseID });
