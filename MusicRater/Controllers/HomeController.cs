@@ -35,11 +35,15 @@ namespace MusicRater.Controllers
         public async Task <IActionResult> Index()
         {
             MusicRaterUser user = await _userManager.GetUserAsync(User);
-           
+
+            DateTime today = DateTime.Today;
+            DateTime thisMonth = new DateTime(today.Year, today.Month, 1);
+
             HomeViewModel homeViewModel = new HomeViewModel
             {
                 user = user,
-                recentReleases = await context.Releases.OrderByDescending(r => r.FormattedDate).Skip(0).Take(10).ToListAsync()
+                RecentReleases = await context.Releases.Include(r => r.Artist).OrderByDescending(r => r.FormattedDate).Skip(0).Take(10).ToListAsync(),
+                MonthlyTopReleases = await context.Releases.Include(r => r.Artist).Where(r => r.FormattedDate > thisMonth).OrderByDescending(r => r.AverageRating).Skip(0).Take(10).ToListAsync()
             };
             return View(homeViewModel);
         }
