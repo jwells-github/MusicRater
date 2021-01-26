@@ -11,7 +11,8 @@ namespace MusicRater.Models.ViewModels
     public class HomeViewModel
     {
         public MusicRaterUser user { get; set; }
-        public ICollection<Release> recentReleases { get; set; }
+        public ICollection<Release> RecentReleases { get; set; }
+        public ICollection<Release> MonthlyTopReleases { get; set; }
 
     }
 }
