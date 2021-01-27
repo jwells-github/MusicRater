@@ -13,6 +13,7 @@ namespace MusicRater.Models.ViewModels
         public MusicRaterUser user { get; set; }
         public ICollection<Release> RecentReleases { get; set; }
         public ICollection<Release> MonthlyTopReleases { get; set; }
+        public ICollection<ReleaseReview> MonthlyTopReviews { get; set; }
 
     }
 }
