@@ -47,8 +47,9 @@ namespace MusicRater
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider ser)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<MusicRaterUser> userManager)
         {
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -78,26 +79,7 @@ namespace MusicRater
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
-            
-            CreateRoles(ser).Wait();
-        }
-
-        private async Task CreateRoles (IServiceProvider serviceProvider)
-        {
-            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            var UserManager = serviceProvider.GetRequiredService<UserManager<MusicRaterUser>>();
-            string[] roles = { "Administrator", "Moderator" };
-            IdentityResult roleResult;
-
-            foreach(string role in roles)
-            {
-                var roleExist = await RoleManager.RoleExistsAsync(role);
-                if (!roleExist)
-                {
-                    //create the roles and seed them to the database: Question 1
-                    roleResult = await RoleManager.CreateAsync(new IdentityRole(role));
-                }
-            }
+            SeedData.EnsurePopulated(app, userManager);
         }
     }
 }
