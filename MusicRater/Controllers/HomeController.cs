@@ -43,7 +43,8 @@ namespace MusicRater.Controllers
             {
                 user = user,
                 RecentReleases = await context.Releases.Include(r => r.Artist).OrderByDescending(r => r.FormattedDate).Skip(0).Take(10).ToListAsync(),
-                MonthlyTopReleases = await context.Releases.Include(r => r.Artist).Where(r => r.FormattedDate > thisMonth).OrderByDescending(r => r.AverageRating).Skip(0).Take(10).ToListAsync()
+                MonthlyTopReleases = await context.Releases.Include(r => r.Artist).Where(r => r.FormattedDate > thisMonth).OrderByDescending(r => r.AverageRating).Skip(0).Take(10).ToListAsync(),
+                MonthlyTopReviews = await context.ReleaseReviews.Include(r=>r.User).Include(r=> r.Release).ThenInclude(r => r.Artist).Where(r => r.ReviewDate > thisMonth).OrderByDescending(r => r.UserVotes.Count).Skip(0).Take(10).ToListAsync()
             };
             return View(homeViewModel);
         }
