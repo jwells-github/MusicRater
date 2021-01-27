@@ -12,9 +12,9 @@ namespace MusicRater.Data
 {
     public class MusicRaterContext : IdentityDbContext<MusicRaterUser>
     {
-        public MusicRaterContext(DbContextOptions<MusicRaterContext> options)
-            : base(options)
+        public MusicRaterContext(DbContextOptions<MusicRaterContext> options) : base(options)
         {
+
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -60,7 +60,9 @@ namespace MusicRater.Data
                 .HasOne(rg => rg.Release)
                 .WithMany(r => r.ReleaseGenres)
                 .HasForeignKey(rg => rg.ReleaseID);
-            builder.Seed();
+            builder.Entity<IdentityRole>().HasData(
+                new IdentityRole { Name = "Administrator", NormalizedName = "Administrator".ToUpper() },
+                new IdentityRole { Name = "Moderator", NormalizedName = "Moderator".ToUpper() });
         }
         public DbSet<Artist> Artists { get; set; }
         public DbSet<Release> Releases { get; set; }
