@@ -16,7 +16,6 @@ namespace MusicRater.Models
             MusicRaterContext context = app.ApplicationServices
                 .CreateScope().ServiceProvider.GetRequiredService<MusicRaterContext>();
             DateTime now = DateTime.Now;
-            Random random = new Random();
 
             if (context.Database.GetPendingMigrations().Any())
             {
@@ -197,6 +196,90 @@ namespace MusicRater.Models
                             ReleaseID = 2
                         }
                      );
+                }
+                if (!context.Genres.Any()){
+                    context.AddRange(
+                        new Genre
+                        {
+                            Name = "Ambient",
+                            Description = ""
+                        },
+                        new Genre
+                        {
+                            Name = "Blues",
+                            Description = ""
+                        },
+                        new Genre
+                        {
+                            Name = "Classical Music",
+                            Description = ""
+                        },
+                        new Genre
+                        {
+                            Name = "Country",
+                            Description = ""
+                        },
+                        new Genre
+                        {
+                            Name = "Dance",
+                            Description = ""
+                        },
+                        new Genre
+                        {
+                            Name = "Electronic",
+                            Description = ""
+                        },
+                        new Genre
+                        {
+                            Name = "Experimental",
+                            Description = ""
+                        },
+                        new Genre
+                        {
+                            Name = "Folk",
+                            Description = ""
+                        },
+                        new Genre
+                        {
+                            Name = "Field Recordings",
+                            Description = ""
+                        },
+                        new Genre
+                        {
+                            Name = "Jazz",
+                            Description = ""
+                        },
+                        new Genre
+                        {
+                            Name = "Metal",
+                            Description = ""
+                        },
+                        new Genre
+                        {
+                            Name = "Pop",
+                            Description = ""
+                        },
+                        new Genre
+                        {
+                            Name = "Punk",
+                            Description = ""
+                        },
+                        new Genre
+                        {
+                            Name = "R&B",
+                            Description = ""
+                        },
+                        new Genre
+                        {
+                            Name = "Rock",
+                            Description = ""
+                        },
+                        new Genre
+                        {
+                            Name = "Ska",
+                            Description = ""
+                        }
+                    );
                 }
                 context.SaveChanges();
             }
