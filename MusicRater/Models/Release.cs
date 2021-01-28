@@ -10,7 +10,10 @@ namespace MusicRater.Models
     {
         public Release()
         {
+            this.releaseReviews = new HashSet<ReleaseReview>();
             this.UserReleaseRatings = new HashSet<ReleaseRating>();
+            this.ReleaseGenres = new HashSet<ReleaseGenre>();
+            this.Comments = new HashSet<Comment>();
             Random random = new Random();
             this.RGBAlbumCoverBlue = random.Next(256);
             this.RGBAlbumCoverRed = random.Next(256);
@@ -34,6 +37,7 @@ namespace MusicRater.Models
         public ICollection<ReleaseReview> releaseReviews { get; set; }
         public ICollection<ReleaseRating> UserReleaseRatings { get; set; }
         public ICollection<ReleaseGenre> ReleaseGenres { get; set; }
+        public ICollection<Comment> Comments { get; set; }
         public int RGBAlbumCoverRed { get; set; }
         public int RGBAlbumCoverGreen { get; set; }
         public int RGBAlbumCoverBlue { get; set; }
