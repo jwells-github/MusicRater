@@ -3,18 +3,117 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
 <div>
     @if (User.Identity.IsAuthenticated)
     {
 
     }
 
-    @foreach(Release release in @Model.recentReleases)
-    {
-        <h1>@release.Title</h1>
-    }
+    <h2>Newest Releases</h2>
+    <div class="container listofthings">
+        @foreach (Release release in @Model.RecentReleases)
+        {
+            <div class="release">
+                <div>
+                    <div class="releaseImage" style="@release.GetBackgroundCSS()">
+                        <a asp-controller="Release" asp-action="Entry" asp-route-id="@release.ReleaseID"></a>
+                    </div>
+                    <div class="releaseDetails">
+                        <a asp-controller="Artist" asp-action="Profile" asp-route-id="@release.ArtistID">@release.Artist.Name</a>
+                        <a asp-controller="Release" asp-action="Entry" asp-route-id="@release.ReleaseID">@release.Title</a>
+                    </div>
+                    <div>
+                        <div>
+                            <span>@release.AverageRating/10</span>
+                            <div class="ratingBar">
+                                @{double width = ((release.AverageRating / 10) * 100);}
+                                <div style="width:@width%; @GetRatingBarClass(width)">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="container listofthings">
+        <div>
+            <h2>Monthly Top Reviews</h2>
+            <div class="listofthings">
+                @foreach (ReleaseReview review in Model.MonthlyTopReviews)
+                {
+                    <div class="review">
+                        <div>
+                            <div class="release">
+                                <div class="releaseImage" style="@review.Release.GetBackgroundCSS()">
+                                    <a asp-controller="Release" asp-action="Entry" asp-route-id="@review.Release.ReleaseID"></a>
+                                </div>
+                            </div>
+
+                            <div class="reviewDetails">
+                                <div class="releaseDetails">
+                                    <a asp-controller="Artist" asp-action="Profile" asp-route-id="@review.Release.ArtistID">@review.Release.Artist.Name</a>
+                                    <a asp-controller="Release" asp-action="Entry" asp-route-id="@review.Release.ReleaseID">@review.Release.Title</a>
+                                </div>
+                                <a>@review.User.UserName</a>
+                            </div>
+                        </div>
+                        <div>
+                            <span>@review.Title</span>
+                            <span>@review.ReviewDate</span>
+                            <pre>@review.ReviewText</pre>
+                        </div>
+                    </div>
+                }
+            </div>
+
+        </div>
+        <div>
+            <h2>Monthly Top Releases</h2>
+            <div class="listofthings">
+                @foreach (Release release in @Model.MonthlyTopReleases)
+                {
+                    <div class="release">
+                        <div>
+                            <div class="releaseImage" style="@release.GetBackgroundCSS()">
+                                <a asp-controller="Release" asp-action="Entry" asp-route-id="@release.ReleaseID"></a>
+                            </div>
+                            <div class="releaseDetails">
+                                <a asp-controller="Artist" asp-action="Profile" asp-route-id="@release.ArtistID">@release.Artist.Name</a>
+                                <a asp-controller="Release" asp-action="Entry" asp-route-id="@release.ReleaseID">@release.Title</a>
+                            </div>
+                            <div>
+                                <div>
+                                    <span>@release.AverageRating/10</span>
+                                    <div class="ratingBar">
+                                        @{double width = ((release.AverageRating / 10) * 100);}
+                                        <div style="width:@width%; @GetRatingBarClass(width)">
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
 </div>
+    @{
+        string GetRatingBarClass(double width)
+        {
+            if (width > 70)
+            {
+                return "background-color: green;";
+            }
+            if (width > 40)
+            {
+                return "background-color: yellow;";
+            }
+            return "background-color: red;";
+        }
+    }
