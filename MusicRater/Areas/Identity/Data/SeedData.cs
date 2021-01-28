@@ -51,6 +51,24 @@ namespace MusicRater.Models
                             FormattedBirthDate = FormattedDateTime.GetFormattedDate(0, 0, 1997),
                             DeathYear = 1998,
                             FormattedDeathDate = FormattedDateTime.GetFormattedDate(0, 0, 1998)
+                        },
+                        new Artist
+                        {
+                            Name = "Protomartyr",
+                            IsSoloArtist = false,
+                            OriginCountry = Country.US,
+                            BirthYear = 2008,
+                            FormattedBirthDate = FormattedDateTime.GetFormattedDate(0, 0, 2008)
+                        },
+                        new Artist
+                        {
+                            Name = "Alex Cameron",
+                            IsSoloArtist = true,
+                            OriginCountry = Country.AU,
+                            BirthDay = 11,
+                            BirthMonth = 9,
+                            BirthYear = 1990,
+                            FormattedBirthDate = FormattedDateTime.GetFormattedDate(11, 9, 1990)
                         }
                     );
                 }
@@ -58,6 +76,7 @@ namespace MusicRater.Models
                 if (!context.Releases.Any())
                 {
                     context.Releases.AddRange(
+                        // Artist = The White Stripes
                         new Release
                         {
                             Title = "The White Stripes",
@@ -118,6 +137,7 @@ namespace MusicRater.Models
                             Type = ReleaseType.Album,
                             ArtistID = 1
                         },
+                        // Artist = Neutral Milk Hotel
                         new Release
                         {
                             Title = "On Avery Island",
@@ -137,6 +157,140 @@ namespace MusicRater.Models
                             FormattedDate = FormattedDateTime.GetFormattedDate(10, 2, 1998),
                             Type = ReleaseType.Album,
                             ArtistID = 2
+                        },
+                        // Artist = Protomartyr
+                        new Release
+                        {
+                            Title = "No Passion All Technique",
+                            ReleaseDay = 8,
+                            ReleaseMonth = 10,
+                            ReleaseYear = 2012,
+                            FormattedDate = FormattedDateTime.GetFormattedDate(8,10,2012),
+                            Type = ReleaseType.Album,
+                            ArtistID = 3
+                        },
+                        new Release
+                        {
+                            Title = "Under Color of Official Right",
+                            ReleaseDay = 8,
+                            ReleaseMonth = 4,
+                            ReleaseYear = 2014,
+                            FormattedDate = FormattedDateTime.GetFormattedDate(8, 4, 2014),
+                            Type = ReleaseType.Album,
+                            ArtistID = 3
+                        },
+                        new Release
+                        {
+                            Title = "The Agent Intellect",
+                            ReleaseDay = 9,
+                            ReleaseMonth = 10,
+                            ReleaseYear = 2015,
+                            FormattedDate = FormattedDateTime.GetFormattedDate(9, 10, 2015),
+                            Type = ReleaseType.Album,
+                            ArtistID = 3
+                        },
+                        new Release
+                        {
+                            Title = "Relatives in Descent",
+                            ReleaseDay = 29,
+                            ReleaseMonth = 9,
+                            ReleaseYear = 2017,
+                            FormattedDate = FormattedDateTime.GetFormattedDate(29, 9, 2017),
+                            Type = ReleaseType.Album,
+                            ArtistID = 3
+                        },
+                        new Release
+                        {
+                            Title = "Ultimate Success Today",
+                            ReleaseDay = 17,
+                            ReleaseMonth = 07,
+                            ReleaseYear = 2020,
+                            FormattedDate = FormattedDateTime.GetFormattedDate(17, 7, 2020),
+                            Type = ReleaseType.Album,
+                            ArtistID = 3
+                        },
+                        new Release
+                        {
+                            Title = "Dredging the Grotto",
+                            ReleaseMonth = 4,
+                            ReleaseYear = 2015,
+                            FormattedDate = FormattedDateTime.GetFormattedDate(0, 4, 2015),
+                            Type = ReleaseType.Live,
+                            ArtistID = 3
+                        },
+                        new Release
+                        {
+                            Title = "Security by Shadow",
+                            ReleaseMonth = 12,
+                            ReleaseYear = 2020,
+                            FormattedDate = FormattedDateTime.GetFormattedDate(0, 12, 2020),
+                            Type = ReleaseType.Live,
+                            ArtistID = 3
+                        },
+                        new Release
+                        {
+                            Title = "Dreads 85 84",
+                            ReleaseYear = 2012,
+                            FormattedDate = FormattedDateTime.GetFormattedDate(0, 0, 2012),
+                            Type = ReleaseType.Ep,
+                            ArtistID = 3
+                        },
+                        new Release
+                        {
+                            Title = "Colpi Proibiti",
+                            ReleaseDay = 3,
+                            ReleaseMonth = 9,
+                            ReleaseYear = 2012,
+                            FormattedDate = FormattedDateTime.GetFormattedDate(3, 9, 2012),
+                            Type = ReleaseType.Ep,
+                            ArtistID = 3
+                        },
+                        new Release
+                        {
+                            Title = "Consolation E.P.",
+                            ReleaseDay = 15,
+                            ReleaseMonth = 6,
+                            ReleaseYear = 2018,
+                            FormattedDate = FormattedDateTime.GetFormattedDate(15, 6, 2018),
+                            Type = ReleaseType.Ep,
+                            ArtistID = 3
+                        },
+                        new Release
+                        {
+                            Title = "Scum, Rise!",
+                            ReleaseYear = 2014,
+                            FormattedDate = FormattedDateTime.GetFormattedDate(0, 0, 2014),
+                            Type = ReleaseType.Single,
+                            ArtistID = 3
+                        },
+                        // Artist = Alex Cameron
+                        new Release
+                        {
+                            Title = "Jumping the Shark",
+                            ReleaseYear = 2013,
+                            FormattedDate = FormattedDateTime.GetFormattedDate(0, 0, 2013),
+                            Type = ReleaseType.Album,
+                            ArtistID = 4
+                        },
+                        new Release
+                        {
+                            Title = "Forced Witness",
+                            ReleaseDay = 8,
+                            ReleaseMonth = 9,
+                            ReleaseYear = 2017,
+                            FormattedDate = FormattedDateTime.GetFormattedDate(8, 9, 2017),
+                            Type = ReleaseType.Album,
+                            ArtistID = 4
+                        },
+                        new Release
+                        {
+                            Title = "Miami Memory",
+                            ReleaseDay = 13,
+                            ReleaseMonth = 9,
+                            ReleaseYear = 2019,
+                            FormattedDate = FormattedDateTime.GetFormattedDate(13, 9, 2019),
+                            Type = ReleaseType.Album,
+                            ArtistID = 4
                         }
                     );
                 }
@@ -163,7 +317,7 @@ namespace MusicRater.Models
                             "this long? I'm already bored of this review and I haven't even gotten" +
                             " to the actual content of the review yet",
                             ReviewText = "And now, the moment you have all been waiting for. Radiohead with " +
-                            "their breakout single Creep! \n" +
+                            "their breakout single Creep! \n\n" +
                             "When you were here before Couldn't look you in the eye " +
                             "You're just like an angel Your skin makes me cry You float" +
                             " like a feather In a beautiful world I wish I was special " +
@@ -171,13 +325,13 @@ namespace MusicRater.Models
                             " hell am I doing here? I don't belong here  I don't care if it hurts" +
                             " I wanna have control I want a perfect body I want a perfect soul I want " +
                             "you to notice When I'm not around You're so special I wish I was special" +
-                            " [Chorus] But I'm a creep I'm a weirdo What the hell am I doing " +
+                            "But I'm a creep I'm a weirdo What the hell am I doing " +
                             "here? I don't belong here Oh, oh  She's running out the door" +
                             " She's running out She run, run, run, run Run " +
                             " Whatever makes you happy Whatever you want You're so " +
                             "special I wish I was special But I'm a creep I'm a weirdo What the" +
-                            " hell am I doing here? I don't belong here I don't belong here \n" +
-                            "Encore!!!! \n" +
+                            " hell am I doing here? I don't belong here I don't belong here \n\n" +
+                            "Encore!!!! \n\n" +
                             "When you were here before Couldn't look you in the eye " +
                             "You're just like an angel Your skin makes me cry You float" +
                             " like a feather In a beautiful world I wish I was special " +
@@ -185,7 +339,7 @@ namespace MusicRater.Models
                             " hell am I doing here? I don't belong here  I don't care if it hurts" +
                             " I wanna have control I want a perfect body I want a perfect soul I want " +
                             "you to notice When I'm not around You're so special I wish I was special" +
-                            " [Chorus] But I'm a creep I'm a weirdo What the hell am I doing " +
+                            " But I'm a creep I'm a weirdo What the hell am I doing " +
                             "here? I don't belong here Oh, oh  She's running out the door" +
                             " She's running out She run, run, run, run Run " +
                             " Whatever makes you happy Whatever you want You're so " +
