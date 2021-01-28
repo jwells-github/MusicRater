@@ -1,6 +1,6 @@
 ﻿@model ReleaseViewModel
 @{ 
-    ViewData["Title"] = Model.Title;
+    ViewData["Title"] = Model.Release.Title;
     int minimumRating = 1;
     int maximumRating = 10;
     int defaultSelectOption = 10;
@@ -16,25 +16,28 @@
 }
 
 <div>
-    <h1>@Model.Artist.Name</h1>
-    <h2>@Model.Title</h2>
+    <h1>@Model.Release.Artist.Name</h1>
+    <h2>@Model.Release.Title</h2>
+    <div class="releaseImage" style="@Model.Release.GetBackgroundCSS()">
+
+    </div>
     <span>Released: </span>
-    <partial name="_DateSpanPartial" model="new int[] { Model.ReleaseDay, Model.ReleaseMonth, Model.ReleaseYear }">
-    <p>Average @Model.AverageRating / 10 from @Model.NumberOfRatings Ratings</p>
+    <partial name="_DateSpanPartial" model="new int[] { Model.Release.ReleaseDay, Model.Release.ReleaseMonth, Model.Release.ReleaseYear }">
+    <p>Average @Model.Release.AverageRating / 10 from @Model.Release.NumberOfRatings Ratings</p>
 
     @if (User.Identity.IsAuthenticated)
     {
         int numberOfGenres = 4;
         <div>
-            @foreach (ReleaseGenre releaseGenre in Model.ReleaseGenres.OrderBy(rg => rg.GenreVoting).Skip(0).Take(numberOfGenres))
+            @foreach (ReleaseGenre releaseGenre in Model.Release.ReleaseGenres.OrderBy(rg => rg.GenreVoting).Skip(0).Take(numberOfGenres))
             {
                 <a>@releaseGenre.Genre.Name</a>
             }
         </div>
-        <a asp-action="Genres" asp-route-id="@Model.ReleaseID">Suggest a Genre</a>
+        <a asp-action="Genres" asp-route-id="@Model.Release.ReleaseID">Suggest a Genre</a>
         <h3>@(releaseRated ? "You rated this release " + @defaultSelectOption + " / 10" : "You have not rated this release")</h3>
         <div class="form-group">
-            <form method="post" action="/Release/Rate/@Model.ReleaseID">
+            <form method="post" action="/Release/Rate/@Model.Release.ReleaseID">
                 <select id="rating" name="rating">
                     @for (int i = maximumRating; i >= minimumRating; i--)
                     {
@@ -56,7 +59,7 @@
         </div>
 
         <div class="form-group">
-            <form method="post" action="/Review/Submit/@Model.ReleaseID">
+            <form method="post" action="/Review/Submit/@Model.Release.ReleaseID">
                 <input name="reviewTitle" id="reviewTitle" placeholder="Review Title"
                        value="@(@Model.UserReview != null ? Model.UserReview.Title : "")" />
                 <textarea name="reviewText" id="reviewText" placeholder="Review Text">@(@Model.UserReview != null ? Model.UserReview.ReviewText : "")</textarea>
@@ -66,7 +69,7 @@
 
 
         <div class="form-group">
-            <form method="post" action="/Release/Delete/@Model.ReleaseID">
+            <form method="post" action="/Release/Delete/@Model.Release.ReleaseID">
                 <button class="btn btn-danger" type="submit">Delete Release</button>
             </form>
         </div>

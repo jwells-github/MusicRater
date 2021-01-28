@@ -4,44 +4,18 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using MusicRater.Areas.Identity.Data;
 
 namespace MusicRater.Models
 {
     public class ReleaseViewModel
     {
-        public ReleaseViewModel()
-        {
-
-        }
-        public ReleaseViewModel(Release release)
-        {
-            this.ReleaseID = release.ReleaseID;
-            this.Title = release.Title;
-            this.ReleaseDay = release.ReleaseDay;
-            this.ReleaseMonth = release.ReleaseMonth;
-            this.ReleaseYear = release.ReleaseYear;
-            this.Type = release.Type;
-            this.Artist = release.Artist;
-            this.ReleaseGenres = release.ReleaseGenres;
-        }
-
-        public long ReleaseID { get; set; }
-        public string Title { get; set; }
-        [Range(0, 31)]
-        public int ReleaseDay { get; set; }
-        [Range(0, 12)] 
-        public int ReleaseMonth { get; set; }
-        public int ReleaseYear { get; set; }
-        public ReleaseType Type { get; set; }
-        public Artist Artist { get; set; }
-
+        public Release Release { get; set; }
+        public Artist Artist { get;set; }
         public ReleaseRating UserRating { get; set; }
         public ReleaseReview UserReview { get; set; }
         public ICollection<ReleaseReview> ReleaseReviews { get; set; }
-
-        public int NumberOfRatings { get; set; }
-        public double AverageRating { get; set;}
-        
         public ICollection<ReleaseGenre> ReleaseGenres { get; set; }
+        public MusicRaterUser User { get; set; }
     }
 }

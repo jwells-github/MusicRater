@@ -1,8 +1,8 @@
 ﻿@model ReleaseViewModel
-@{ ViewData["Title"] = Model.Title;}
+@{ ViewData["Title"] = Model.Release.Title;}
 
 <div>
-    <h1>@Model.Title</h1>
+    <h1>@Model.Release.Title</h1>
 </div>
 <div>
     <form method="post">
@@ -19,7 +19,7 @@
     </form>
 </div>
 <div>
-    @foreach (ReleaseGenre releaseGenre in Model.ReleaseGenres)
+    @foreach (ReleaseGenre releaseGenre in Model.Release.ReleaseGenres)
     {
         <h2>@releaseGenre.Genre.Name</h2>
         <span>@releaseGenre.GenreVoting</span>

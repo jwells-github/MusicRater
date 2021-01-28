@@ -18,34 +18,34 @@
         <input class="form-control" value="@Model.Artist.ArtistID" disabled />
     </div>
     <div class="form-group">
-        <label asp-for="Title"></label>
-        <input class="form-control" asp-for="Title" />
+        <label asp-for="Release.Title"></label>
+        <input class="form-control" asp-for="Release.Title" />
     </div>
     <div class="form-group">
-        <label asp-for="ReleaseDay"></label>
-        <select asp-for="ReleaseDay">
+        <label asp-for="Release.ReleaseDay"></label>
+        <select asp-for="Release.ReleaseDay">
             <option value="0"></option>
             @for(var i = 1; i <= 31; i++)
                 { <option value="@i">@i</option> }
         </select>
     </div>
     <div class="form-group">
-        <label asp-for="ReleaseMonth"></label>
-        <select asp-for="ReleaseMonth" asp-items="MonthSelectList.GetMonthList()">
+        <label asp-for="Release.ReleaseMonth"></label>
+        <select asp-for="Release.ReleaseMonth" asp-items="MonthSelectList.GetMonthList()">
             <option value="0"></option>
         </select>
     </div>
     <div class="form-group">
-        <label asp-for="ReleaseYear"></label>
-        <select asp-for="ReleaseYear">
+        <label asp-for="Release.ReleaseYear"></label>
+        <select asp-for="Release.ReleaseYear">
             <option value="0"></option>
             @for (var i = maximumYear; i >= minimumYear; i--)
-            {<option value="@i">@i</option>}
+                {<option value="@i">@i</option>}
         </select>
     </div>
     <div class="form-group">
-        <label asp-for="Type"></label>
-        <select class="form-control" asp-for="Type" asp-items="@(Html.GetEnumSelectList<ReleaseType>())"></select>
+        <label asp-for="Release.Type"></label>
+        <select class="form-control" asp-for="Release.Type" asp-items="@(Html.GetEnumSelectList<ReleaseType>())"></select>
     </div>
 
     <button class="btn btn-primary" type="submit">Submit</button>

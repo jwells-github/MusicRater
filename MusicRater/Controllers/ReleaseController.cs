@@ -37,9 +37,7 @@ namespace MusicRater.Controllers
 
         public async Task <IActionResult> New(long artistID)
         {
-            Artist artist = await context.Artists.FirstOrDefaultAsync(a => a.ArtistID == artistID);
-            ReleaseViewModel releaseView = new ReleaseViewModel { Artist = artist};
-            return View("ReleaseEditor", releaseView);
+            return View("ReleaseEditor", new ReleaseViewModel { Artist = await context.Artists.FirstOrDefaultAsync(a => a.ArtistID == artistID) }); 
         }
 
         [HttpPost]
@@ -55,51 +53,41 @@ namespace MusicRater.Controllers
                 await context.SaveChangesAsync();
                 return RedirectToAction(nameof(Entry), new { id = release.ReleaseID });
             }
-            return View("ReleaseEditor", new ReleaseViewModel(release));
+            return View("ReleaseEditor", new ReleaseViewModel { Release = release });
         }
 
         [AllowAnonymous]
-        public async Task <IActionResult> Entry(long id)
+        public async Task<IActionResult> Entry(long id)
         {
 
-            Release release = await context.Releases
-                .Include(r => r.Artist)
-                .Include(r => r.ReleaseGenres)
-                .ThenInclude(rg => rg.Genre)
-                .FirstOrDefaultAsync(r => r.ReleaseID == id);
-            ReleaseRating ratings = await context.ReleaseRating.FirstOrDefaultAsync(r => r.ReleaseID == id);
-            
-            ReleaseViewModel releaseView = new ReleaseViewModel(release);
-            releaseView.ReleaseReviews = await context.ReleaseReviews.Include(r=> r.User).Where(r => r.ReleaseID == release.ReleaseID).ToListAsync();
-            releaseView.NumberOfRatings = release.NumberOfRatings;
-            releaseView.AverageRating = release.AverageRating;
-
+            ReleaseViewModel releaseView = new ReleaseViewModel
+            {
+                Release = await context.Releases
+                    .Include(r => r.Artist)
+                    .Include(r => r.ReleaseGenres)
+                    .ThenInclude(rg => rg.Genre)
+                    .FirstOrDefaultAsync(r => r.ReleaseID == id),
+                ReleaseReviews = await context.ReleaseReviews
+                    .Include(r => r.User)
+                    .Where(r => r.ReleaseID == id)
+                    .ToListAsync()
+            };
             if (User.Identity.IsAuthenticated)
             {
                 MusicRaterUser user = await _userManager.GetUserAsync(User);
-                ViewBag.User = user;
+                releaseView.User = user;
                 ReleaseRating releaseRating = await context.ReleaseRating.FirstOrDefaultAsync(r => r.ReleaseID == id && r.UserID == user.Id);
                 ReleaseReview releaseReview = await context.ReleaseReviews.FirstOrDefaultAsync(r => r.ReleaseID == id && r.UserID == user.Id);
-                if(releaseRating != null)
-                {
-                    releaseView.UserRating = releaseRating; 
-                }
-                if(releaseReview != null)
-                {
-                    releaseView.UserReview = releaseReview;
-                }
+                releaseView.UserReview = releaseReview;
+                releaseView.UserRating = releaseRating;
             }
-
             return View(releaseView);
         }
 
         [Authorize(Roles = "Administrator")]
         public async Task <IActionResult> Edit(long id)
         {
-            Release release = await context.Releases
-             .Include(r => r.Artist)
-             .FirstOrDefaultAsync(r => r.ReleaseID == id);
-            return View("ReleaseEditor", new ReleaseViewModel(release));
+            return View("ReleaseEditor", new ReleaseViewModel { Release = await context.Releases.Include(r => r.Artist).FirstOrDefaultAsync(r => r.ReleaseID == id)});
         }
 
         [Authorize(Roles = "Administrator")]
@@ -118,10 +106,8 @@ namespace MusicRater.Controllers
                 await context.SaveChangesAsync();
                 return RedirectToAction(nameof(Entry), new { id = oldRelease.ReleaseID });
             }
-
-            ReleaseViewModel releaseView = new ReleaseViewModel(release);
-            releaseView.ReleaseID = oldRelease.ReleaseID;
-            return View("ReleaseEditor", releaseView);
+            release.ReleaseID = oldRelease.ReleaseID;
+            return View("ReleaseEditor", new ReleaseViewModel { Release = release });
         }
 
         public async Task <IActionResult> Rate(long id, [FromForm] int rating)
@@ -174,7 +160,7 @@ namespace MusicRater.Controllers
             Release release = await context.Releases.Include(r => r.ReleaseGenres)
                 .ThenInclude(rg => rg.Genre)
                 .FirstOrDefaultAsync(r => r.ReleaseID == id);
-            ReleaseViewModel releaseView = new ReleaseViewModel(release);
+            ReleaseViewModel releaseView = new ReleaseViewModel();
             MusicRaterUser user = await _userManager.GetUserAsync(User);
             ViewBag.User = user;
             ICollection<Genre> genreList = context.Genres.OrderBy(a => a.Name).ToList();
