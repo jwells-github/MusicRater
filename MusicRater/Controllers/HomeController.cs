@@ -38,13 +38,14 @@ namespace MusicRater.Controllers
 
             DateTime today = DateTime.Today;
             DateTime thisMonth = new DateTime(today.Year, today.Month, 1);
-
+            int numberOfReleases = 12;
+            int numberOfReviews = 10;
             HomeViewModel homeViewModel = new HomeViewModel
             {
                 user = user,
-                RecentReleases = await context.Releases.Include(r => r.Artist).OrderByDescending(r => r.FormattedDate).Skip(0).Take(10).ToListAsync(),
-                MonthlyTopReleases = await context.Releases.Include(r => r.Artist).Where(r => r.FormattedDate > thisMonth).OrderByDescending(r => r.AverageRating).Skip(0).Take(10).ToListAsync(),
-                MonthlyTopReviews = await context.ReleaseReviews.Include(r=>r.User).Include(r=> r.Release).ThenInclude(r => r.Artist).Where(r => r.ReviewDate > thisMonth).OrderByDescending(r => r.UserVotes.Count).Skip(0).Take(10).ToListAsync()
+                RecentReleases = await context.Releases.Include(r => r.Artist).OrderByDescending(r => r.FormattedDate).Skip(0).Take(numberOfReleases).ToListAsync(),
+                MonthlyTopReleases = await context.Releases.Include(r => r.Artist).Where(r => r.FormattedDate > thisMonth).OrderByDescending(r => r.AverageRating).Skip(0).Take(numberOfReleases).ToListAsync(),
+                MonthlyTopReviews = await context.ReleaseReviews.Include(r=>r.User).Include(r=> r.Release).ThenInclude(r => r.Artist).Where(r => r.ReviewDate > thisMonth).OrderByDescending(r => r.UserVotes.Count).Skip(0).Take(numberOfReviews).ToListAsync()
             };
             return View(homeViewModel);
         }
