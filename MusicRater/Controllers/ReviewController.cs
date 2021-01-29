@@ -77,15 +77,18 @@ namespace MusicRater.Controllers
         {
             MusicRaterUser user = await _userManager.GetUserAsync(User);
             ReleaseReview releaseReview = await context.ReleaseReviews.FirstOrDefaultAsync(r => r.ReleaseReviewID == id);
-            if (releaseReview.UserVotes.Contains(user))
+            if(releaseReview != null)
             {
-                releaseReview.UserVotes.Remove(user);
+                if (releaseReview.UserVotes.Contains(user))
+                {
+                    releaseReview.UserVotes.Remove(user);
+                }
+                else
+                {
+                    releaseReview.UserVotes.Add(user);
+                }
+                await context.SaveChangesAsync();
             }
-            else
-            {
-                releaseReview.UserVotes.Add(user);
-            }
-            await context.SaveChangesAsync();
             return RedirectToAction("Entry", "Release", new { id = releaseReview.ReleaseID });
         }
     }
