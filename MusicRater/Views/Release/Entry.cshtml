@@ -70,42 +70,49 @@
                             <button class="btn btn-primary" type="submit">@(@Model.UserReview != null ? "Edit Review" : "Submit Review")</button>
                         </form>
                     </div>
-                    <div class="form-group">
-                        <form method="post" action="/Release/Delete/@Model.Release.ReleaseID">
-                            <button class="btn btn-danger" type="submit">Delete Release</button>
-                        </form>
-                    </div>
-                }
-        </div>
-        <div>
-
-            @foreach (ReleaseReview releaseReview in @Model.ReleaseReviews)
-            {
-                <div>
-                    <h3>@releaseReview.Title</h3>
-                    <h4>Posted by @releaseReview.User.UserName</h4>
-                    <p>@releaseReview.UserVotes.Count Votes</p>
-                    <p>@releaseReview.ReviewText</p>
-                    @if (User.Identity.IsAuthenticated)
+                    @if (Model.IsAdmin)
                     {
-                        <div>
-                            <form method="post" action="/Review/Vote/@releaseReview.ReleaseReviewID">
-                                <button class="btn btn-primary" type="submit">
-                                    @(releaseReview.UserVotes.Contains(ViewBag.User) ? "Remove Vote" : "Vote")
-                                </button>
+                        <div class="form-group">
+                            <form method="post" action="/Release/Delete/@Model.Release.ReleaseID">
+                                <button class="btn btn-danger" type="submit">Delete Release</button>
                             </form>
                         </div>
-                        <div>
+                    }
+                }
+</div>
+        <div>
+            @foreach (ReleaseReview releaseReview in @Model.ReleaseReviews)
+            {
+            <div>
+                <h3>@releaseReview.Title</h3>
+                <h4>Posted by @releaseReview.User.UserName</h4>
+                <p>@releaseReview.UserVotes.Count Votes</p>
+                <p>@releaseReview.ReviewText</p>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <div>
+                        @if (releaseReview.UserID != Model.User.Id)
+                        {
+                        <form method="post" action="/Review/Vote/@releaseReview.ReleaseReviewID">
+                            <button class="btn btn-primary" type="submit">
+                                @(releaseReview.UserVotes.Contains(ViewBag.User) ? "Remove Vote" : "Vote")
+                            </button>
+                        </form>
+                        }
+                    </div>
+                    <div>
+                        @if (Model.IsAdmin || releaseReview.UserID == Model.User.Id)
+                        {
                             <form method="post" action="/Review/Delete/@releaseReview.ReleaseReviewID">
                                 <button class="btn btn-danger" type="submit">
                                     Delete
                                 </button>
                             </form>
-                        </div>
-                    }
-                </div>
+                        }
+                    </div>
+                }
+            </div>
             }
-
         </div>
     </div>
 </div>
