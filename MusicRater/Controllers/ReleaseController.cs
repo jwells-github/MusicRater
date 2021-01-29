@@ -59,7 +59,6 @@ namespace MusicRater.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Entry(long id)
         {
-
             ReleaseViewModel releaseView = new ReleaseViewModel
             {
                 Release = await context.Releases
@@ -76,10 +75,9 @@ namespace MusicRater.Controllers
             {
                 MusicRaterUser user = await _userManager.GetUserAsync(User);
                 releaseView.User = user;
-                ReleaseRating releaseRating = await context.ReleaseRating.FirstOrDefaultAsync(r => r.ReleaseID == id && r.UserID == user.Id);
-                ReleaseReview releaseReview = await context.ReleaseReviews.FirstOrDefaultAsync(r => r.ReleaseID == id && r.UserID == user.Id);
-                releaseView.UserReview = releaseReview;
-                releaseView.UserRating = releaseRating;
+                releaseView.UserReview = await context.ReleaseReviews.FirstOrDefaultAsync(r => r.ReleaseID == id && r.UserID == user.Id);
+                releaseView.UserRating = await context.ReleaseRating.FirstOrDefaultAsync(r => r.ReleaseID == id && r.UserID == user.Id); ;
+                releaseView.IsAdmin = await _userManager.IsInRoleAsync(user, "Administrator");
             }
             return View(releaseView);
         }

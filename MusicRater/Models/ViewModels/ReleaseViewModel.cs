@@ -17,5 +17,6 @@ namespace MusicRater.Models
         public ICollection<ReleaseReview> ReleaseReviews { get; set; }
         public ICollection<ReleaseGenre> ReleaseGenres { get; set; }
         public MusicRaterUser User { get; set; }
+        public bool IsAdmin { get; set; }
     }
 }
