@@ -13,6 +13,7 @@ using MusicRater.Data;
 using MusicRater.Models;
 
 
+
 namespace MusicRater.Controllers
 {
     public class ReviewController : Controller
@@ -91,5 +92,18 @@ namespace MusicRater.Controllers
             }
             return RedirectToAction("Entry", "Release", new { id = releaseReview.ReleaseID });
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(long id)
+        {
+            MusicRaterUser user = await _userManager.GetUserAsync(User);
+            ReleaseReview releaseReview = await context.ReleaseReviews.FirstOrDefaultAsync(r => r.ReleaseReviewID == id);
+            if(releaseReview.UserID == user.Id || await _userManager.IsInRoleAsync(user, "Administrator")){
+                context.Remove(releaseReview);
+                await context.SaveChangesAsync();
+            }
+            return RedirectToAction("Entry", "Release", new { id = releaseReview.ReleaseID });
+        }
     }
+
 }
