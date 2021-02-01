@@ -155,12 +155,12 @@ namespace MusicRater.Controllers
 
         public async Task <IActionResult> Genres(long id)
         {
-            Release release = await context.Releases.Include(r => r.ReleaseGenres)
-                .ThenInclude(rg => rg.Genre)
-                .FirstOrDefaultAsync(r => r.ReleaseID == id);
-            ReleaseViewModel releaseView = new ReleaseViewModel();
-            MusicRaterUser user = await _userManager.GetUserAsync(User);
-            ViewBag.User = user;
+            ReleaseViewModel releaseView = new ReleaseViewModel {
+                Release = await context.Releases.Include(r => r.ReleaseGenres)
+                    .ThenInclude(rg => rg.Genre)
+                    .FirstOrDefaultAsync(r => r.ReleaseID == id),
+                User = await _userManager.GetUserAsync(User)
+            };
             ICollection<Genre> genreList = context.Genres.OrderBy(a => a.Name).ToList();
             ViewBag.GenreList = genreList;
             return View(releaseView);
@@ -189,6 +189,10 @@ namespace MusicRater.Controllers
                     {
                         releaseGenre.UserVotes.Remove(currentUser);
                         releaseGenre.GenreVoting--;
+                        if(releaseGenre.GenreVoting < 1)
+                        {
+                            context.Remove(releaseGenre);
+                        }
                     }
                     else
                     {
