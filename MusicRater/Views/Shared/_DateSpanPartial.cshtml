@@ -33,11 +33,4 @@
         }
     }
 }
-<span>
-    @*Day*@
-    @(Model[0] > 0 ? Model[0].ToString() : "")
-    @*Month*@
-    @MonthString(Model[1])
-    @*Year*@
-    @(Model[2] > 0 ? Model[2].ToString() : "")
-</span>
+<span>@(Model[0] > 0 ? Model[0].ToString() : "") @MonthString(Model[1]) @(Model[2] > 0 ? Model[2].ToString() : "")</span>
