@@ -54,6 +54,7 @@ namespace MusicRater.Models
         Ep,
         Mixtape,
         Single,
+        [Display(Name = "Live Album")]
         Live,
         [Display(Name = "DJ Mix")] DjMix,
         Bootleg,
