@@ -2,7 +2,7 @@
 @{ ViewData["Title"] = Model.Release.Title;}
 
 <div>
-    <h1>@Model.Release.Title</h1>
+    <a asp-action="Entry" asp-route-id="@Model.Release.ReleaseID">@Model.Release.Title</a>
 </div>
 <div>
     <form method="post">
