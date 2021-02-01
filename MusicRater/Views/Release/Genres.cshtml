@@ -25,7 +25,7 @@
         <span>@releaseGenre.GenreVoting</span>
         <form method="post">
             <input  type="hidden" value="@releaseGenre.Genre.Name" name="suggestedGenre" id="suggestedGenre"/>
-            <button type="submit">@(releaseGenre.UserVotes.Contains(ViewBag.User) ? "Undo Vote" : "Vote")</button>
+            <button type="submit">@(releaseGenre.UserVotes.Contains(@Model.User) ? "Undo Vote" : "Vote")</button>
         </form>
     }
 </div>
