@@ -20,6 +20,9 @@
     <div>
         <div>
             <h1 class="entryTitle">@Model.Release.Title</h1>
+        </div>
+        <div class="entryReleaseType">
+            <span>@Model.Release.Type by </span>
             <a asp-controller="Artist" asp-action="Profile" asp-route-id="@Model.Release.Artist.ArtistID"
                class="entryArtist">@Model.Release.Artist.Name</a>
         </div>
@@ -27,58 +30,61 @@
             <div>This is an image placeholder</div>
         </div>
         <div>
-            <span>Released: </span>
-            <partial name="_DateSpanPartial" model="new int[] { Model.Release.ReleaseDay, Model.Release.ReleaseMonth, Model.Release.ReleaseYear }">
-                <p>Average @Model.Release.AverageRating / 10 from @Model.Release.NumberOfRatings Ratings</p>
-                @if (User.Identity.IsAuthenticated)
-                {
-                    int numberOfGenres = 4;
-                    <div>
-                        @foreach (ReleaseGenre releaseGenre in Model.Release.ReleaseGenres.OrderBy(rg => rg.GenreVoting).Skip(0).Take(numberOfGenres))
-                        {
-                            <a>@releaseGenre.Genre.Name</a>
-                        }
-                    </div>
-                    <a asp-action="Genres" asp-route-id="@Model.Release.ReleaseID">Suggest a Genre</a>
-                    <h3>@(releaseRated ? "You rated this release " + @defaultSelectOption + " / 10" : "You have not rated this release")</h3>
-                    <div class="form-group">
-                        <form method="post" action="/Release/Rate/@Model.Release.ReleaseID">
-                            <select id="rating" name="rating">
-                                @for (int i = maximumRating; i >= minimumRating; i--)
-                                {
-                                    @if (releaseRated)
-                                    {
-                                        @if (i == Model.UserRating.Rating)
-                                        {
-                                            <option selected="selected">@i</option>
-                                            continue;
-                                        }
-                                    }
-                                    <option>@i</option>
-                                }
-                            </select>
-                            <button class="btn btn-primary" type="submit">
-                                @(releaseRated ? "Update Rating" : "Rate")
-                            </button>
-                        </form>
-                    </div>
-                    <div class="form-group">
-                        <form method="post" action="/Review/Submit/@Model.Release.ReleaseID">
-                            <input name="reviewTitle" id="reviewTitle" placeholder="Review Title"
-                                   value="@(@Model.UserReview != null ? Model.UserReview.Title : "")" />
-                            <textarea name="reviewText" id="reviewText" placeholder="Review Text">@(@Model.UserReview != null ? Model.UserReview.ReviewText : "")</textarea>
-                            <button class="btn btn-primary" type="submit">@(@Model.UserReview != null ? "Edit Review" : "Submit Review")</button>
-                        </form>
-                    </div>
-                    @if (Model.IsAdmin)
+            <div class="releaseDate">
+                <strong>Released: </strong>
+                <partial name="_DateSpanPartial" model="new int[] { Model.Release.ReleaseDay, Model.Release.ReleaseMonth, Model.Release.ReleaseYear }">
+            </div>
+            <strong>Community Rating: </strong>
+            <span><strong id="releaseRating">@Model.Release.AverageRating</strong> / 10 from <strong>@Model.Release.NumberOfRatings</strong> ratings</span>
+            @if (User.Identity.IsAuthenticated)
+            {
+                int numberOfGenres = 4;
+                <div>
+                    @foreach (ReleaseGenre releaseGenre in Model.Release.ReleaseGenres.OrderByDescending(rg => rg.GenreVoting).Skip(0).Take(numberOfGenres))
                     {
-                        <div class="form-group">
-                            <form method="post" action="/Release/Delete/@Model.Release.ReleaseID">
-                                <button class="btn btn-danger" type="submit">Delete Release</button>
-                            </form>
-                        </div>
+                        <a>@releaseGenre.Genre.Name</a>
                     }
+                </div>
+                <a asp-action="Genres" asp-route-id="@Model.Release.ReleaseID">Suggest a Genre</a>
+                <h3>@(releaseRated ? "You rated this release " + @defaultSelectOption + " / 10" : "You have not rated this release")</h3>
+                <div class="form-group">
+                    <form method="post" action="/Release/Rate/@Model.Release.ReleaseID">
+                        <select id="rating" name="rating">
+                            @for (int i = maximumRating; i >= minimumRating; i--)
+                            {
+                                @if (releaseRated)
+                                {
+                                    @if (i == Model.UserRating.Rating)
+                                    {
+                                        <option selected="selected">@i</option>
+                                        continue;
+                                    }
+                                }
+                                <option>@i</option>
+                            }
+                        </select>
+                        <button class="btn btn-primary" type="submit">
+                            @(releaseRated ? "Update Rating" : "Rate")
+                        </button>
+                    </form>
+                </div>
+                <div class="form-group">
+                    <form method="post" action="/Review/Submit/@Model.Release.ReleaseID">
+                        <input name="reviewTitle" id="reviewTitle" placeholder="Review Title"
+                                value="@(@Model.UserReview != null ? Model.UserReview.Title : "")" />
+                        <textarea name="reviewText" id="reviewText" placeholder="Review Text">@(@Model.UserReview != null ? Model.UserReview.ReviewText : "")</textarea>
+                        <button class="btn btn-primary" type="submit">@(@Model.UserReview != null ? "Edit Review" : "Submit Review")</button>
+                    </form>
+                </div>
+                @if (Model.IsAdmin)
+                {
+                    <div class="form-group">
+                        <form method="post" action="/Release/Delete/@Model.Release.ReleaseID">
+                            <button class="btn btn-danger" type="submit">Delete Release</button>
+                        </form>
+                    </div>
                 }
+            }
 </div>
         <div>
             @foreach (ReleaseReview releaseReview in @Model.ReleaseReviews)
