@@ -115,7 +115,11 @@ namespace MusicRater.Controllers
             Release release = await context.Releases.FirstOrDefaultAsync(r => r.ReleaseID == id);
             if (alreadyRated == null)
             {
-                
+                if(rating == 0)
+                {
+                    return RedirectToAction(nameof(Entry), new { id }); ;
+                }
+
                 ReleaseRating releaseRating = new ReleaseRating { 
                     Rating = rating,
                     RatingDate = DateTime.Now,
@@ -128,13 +132,25 @@ namespace MusicRater.Controllers
             }
             else
             {
-                alreadyRated.Rating = rating;
+                if (rating == 0)
+                {
+                    context.ReleaseRating.Remove(alreadyRated);
+                }
+                else
+                {
+                    alreadyRated.Rating = rating;
+                }
             }
 
             await context.SaveChangesAsync();
 
             int numberOfRatings = await context.ReleaseRating.CountAsync(r => r.ReleaseID == id);
-            double ratingAverage = await context.ReleaseRating.Where(r => r.ReleaseID == id).AverageAsync(r => r.Rating);
+            var releaseRatings = context.ReleaseRating.Where(r => r.ReleaseID == id);
+            double ratingAverage = 0;
+            if (releaseRatings.Count() > 0)
+            {
+                ratingAverage = await releaseRatings.AverageAsync(r => r.Rating);
+            }
 
             release.AverageRating = ratingAverage;
             release.NumberOfRatings = numberOfRatings;
