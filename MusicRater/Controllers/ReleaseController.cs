@@ -158,6 +158,8 @@ namespace MusicRater.Controllers
             ReleaseViewModel releaseView = new ReleaseViewModel {
                 Release = await context.Releases.Include(r => r.ReleaseGenres)
                     .ThenInclude(rg => rg.Genre)
+                    .Include(r => r.ReleaseGenres)
+                    .ThenInclude(rg => rg.GenreVotes)
                     .FirstOrDefaultAsync(r => r.ReleaseID == id),
                 User = await _userManager.GetUserAsync(User)
             };
@@ -171,6 +173,8 @@ namespace MusicRater.Controllers
         {
             Release release = await context.Releases.Include(r => r.ReleaseGenres)
                 .ThenInclude(rg => rg.Genre)
+                .Include(r => r.ReleaseGenres)
+                .ThenInclude(rg => rg.GenreVotes)
                 .FirstOrDefaultAsync(r => r.ReleaseID == id);
             Genre genre = await context.Genres.FirstOrDefaultAsync(g => g.Name == suggestedGenre);
             if(genre == null)
@@ -180,14 +184,18 @@ namespace MusicRater.Controllers
             }
             MusicRaterUser currentUser = await _userManager.GetUserAsync(User);
             bool genreAlreadySuggsted = false;
+            
             foreach(ReleaseGenre releaseGenre in release.ReleaseGenres)
             {
-                if(releaseGenre.Genre.Name == suggestedGenre)
+                
+                if (releaseGenre.Genre.Name == suggestedGenre)
                 {
                     genreAlreadySuggsted = true;
-                    if (releaseGenre.UserVotes.Contains(currentUser))
+                    GenreVote userVote = releaseGenre.GenreVotes.FirstOrDefault(g => g.User == currentUser);
+                    if (userVote != null)
                     {
-                        releaseGenre.UserVotes.Remove(currentUser);
+                        releaseGenre.GenreVotes.Remove(userVote);
+                        //releaseGenre.GenreVotes.Remove(currentUser);
                         releaseGenre.GenreVoting--;
                         if(releaseGenre.GenreVoting < 1)
                         {
@@ -196,7 +204,12 @@ namespace MusicRater.Controllers
                     }
                     else
                     {
-                        releaseGenre.UserVotes.Add(currentUser);
+                        releaseGenre.GenreVotes.Add(new GenreVote { 
+                            ReleaseGenreID = releaseGenre.ReleaseGenreID,
+                            ReleaseGenre = releaseGenre,
+                            UserID = currentUser.Id,
+                            User = currentUser
+                        });
                         releaseGenre.GenreVoting++;
                     }
                     break;
@@ -213,7 +226,13 @@ namespace MusicRater.Controllers
                     GenreVoting = 1,
                     ArtistID = release.ArtistID
                 };
-                newReleaseGenre.UserVotes.Add(currentUser);
+                newReleaseGenre.GenreVotes.Add(new GenreVote
+                {
+                    ReleaseGenreID = newReleaseGenre.ReleaseGenreID,
+                    ReleaseGenre = newReleaseGenre,
+                    UserID = currentUser.Id,
+                    User = currentUser
+                });
                 context.ReleaseGenres.Add(newReleaseGenre);
             }
             await context.SaveChangesAsync();
