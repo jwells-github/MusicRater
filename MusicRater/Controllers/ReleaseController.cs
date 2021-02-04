@@ -142,6 +142,12 @@ namespace MusicRater.Controllers
                 }
             }
 
+            ReleaseReview releaseReview = await context.ReleaseReviews.FirstOrDefaultAsync(r => r.ReleaseID == release.ReleaseID && r.UserID == user.Id);
+            if (releaseReview != null)
+            {
+                releaseReview.ReleaseRating = rating;
+            }
+
             await context.SaveChangesAsync();
 
             int numberOfRatings = await context.ReleaseRating.CountAsync(r => r.ReleaseID == id);
@@ -155,7 +161,6 @@ namespace MusicRater.Controllers
             release.AverageRating = ratingAverage;
             release.NumberOfRatings = numberOfRatings;
             await context.SaveChangesAsync();
-
             return RedirectToAction(nameof(Entry), new { id });
         }
 

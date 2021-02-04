@@ -23,6 +23,7 @@ namespace MusicRater.Models
         public ICollection<MusicRaterUser> UserVotes { get; set; }
         public Release Release { get; set; }
         public long ReleaseID { get; set; }
-
+        [Range(1, 10)]
+        public int ReleaseRating { get; set; }
     }
 }

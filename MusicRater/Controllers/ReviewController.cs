@@ -46,6 +46,7 @@ namespace MusicRater.Controllers
         {
             MusicRaterUser user = await _userManager.GetUserAsync(User);
             Release release = await context.Releases.FirstOrDefaultAsync(r => r.ReleaseID == id);
+            ReleaseRating releaseRating = await context.ReleaseRating.FirstOrDefaultAsync(r => r.Release.ReleaseID == id && r.UserID == user.Id);
             ReleaseReview releaseReview = await context.ReleaseReviews.FirstOrDefaultAsync(r => r.Release.ReleaseID == id && r.UserID == user.Id);
             if(release != null)
             {
@@ -67,6 +68,10 @@ namespace MusicRater.Controllers
                 {
                     releaseReview.Title = reviewTitle;
                     releaseReview.ReviewText = reviewText;
+                }
+                if(releaseRating != null)
+                {
+                    releaseReview.ReleaseRating = releaseRating.Rating;
                 }
                 await context.SaveChangesAsync();
             }
