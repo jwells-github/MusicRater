@@ -40,6 +40,7 @@ namespace MusicRater.Controllers
                 {
                     comment.User = user;
                     comment.Release = release;
+                    comment.PostedDate = DateTime.Now;
                     context.ReleaseComments.Add(comment);
                     await context.SaveChangesAsync();
                 }
