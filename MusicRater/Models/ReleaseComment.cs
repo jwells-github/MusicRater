@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace MusicRater.Models
 {
-    public class Comment
+    public class ReleaseComment
     {
-        public long CommentID { get; set; }
+        public long ReleaseCommentID { get; set; }
         public string Text { get; set; }
         public long ReleaseID { get; set; }
         public Release Release { get; set; }
