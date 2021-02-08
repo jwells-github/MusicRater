@@ -63,6 +63,7 @@ namespace MusicRater.Controllers
             {
                 Release = await context.Releases
                     .Include(r => r.Artist)
+                    .Include(r => r.Comments)
                     .Include(r => r.ReleaseGenres)
                     .ThenInclude(rg => rg.Genre)
                     .FirstOrDefaultAsync(r => r.ReleaseID == id),

@@ -94,27 +94,26 @@
             <h2>User Reviews</h2>
             @foreach (ReleaseReview releaseReview in @Model.ReleaseReviews)
             {
-                <h1>@releaseReview.ReleaseRating</h1>
             <div class="releaseReview">
-                <h3>@releaseReview.Title</h3>
-                <h4>Posted by <a asp-controller="User" asp-action="Index" asp-route-username="@releaseReview.User.UserName">@releaseReview.User.UserName</a></h4>
-                <div>
-                    <p>@releaseReview.UserVotes.Count Votes</p>
-                    @if (releaseReview.UserID != Model.User.Id)
-                    {
-                        <form method="post" action="/Review/Vote/@releaseReview.ReleaseReviewID">
-                            <button class="btn btn-primary" type="submit">
-                                @(releaseReview.UserVotes.Contains(ViewBag.User) ? "Remove Vote" : "Vote")
-                            </button>
-                        </form>
-                    }
+                <div class="releaseReviewMeta">
+                    <span><a asp-controller="User" asp-action="Index" asp-route-username="@releaseReview.User.UserName">@releaseReview.User.UserName</a></span>
+                    <span>@releaseReview.ReviewDate.ToString("d")</span>
+                    <span>@releaseReview.UserVotes.Count Votes</span>
+                    <span>Rating: @(releaseReview.ReleaseRating > 0 ? @releaseReview.ReleaseRating.ToString() + "/10" : "n/a")</span>
                 </div>
-                
+                <h3>@releaseReview.Title</h3>                
                 <p>@releaseReview.ReviewText</p>
                 @if (User.Identity.IsAuthenticated)
                 {
                     <div>
-
+                        @if (releaseReview.UserID != Model.User.Id)
+                        {
+                            <form method="post" action="/Review/Vote/@releaseReview.ReleaseReviewID">
+                                <button class="btn btn-primary" type="submit">
+                                    @(releaseReview.UserVotes.Contains(ViewBag.User) ? "Remove Vote" : "Vote")
+                                </button>
+                            </form>
+                        }
                     </div>
                     <div>
                         @if (Model.IsAdmin || releaseReview.UserID == Model.User.Id)
@@ -129,6 +128,18 @@
                 }
             </div>
             }
+        </div>
+        <div class="entryComments">
+            <div>
+                @foreach(ReleaseComment comment in Model.Release.Comments)
+                {
+                    <p>@comment.Text</p>
+                }
+            </div>
+            <form method="post" action="/Comment/Release/@Model.Release.ReleaseID">
+                <textarea name="Text" id="Text" placeholder=""></textarea>
+                <button class="btn btn-primary" type="submit">Comment</button>
+            </form>
         </div>
     </div>
 </div>
