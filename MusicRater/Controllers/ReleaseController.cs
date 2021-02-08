@@ -63,14 +63,20 @@ namespace MusicRater.Controllers
             {
                 Release = await context.Releases
                     .Include(r => r.Artist)
-                    .Include(r => r.Comments)
                     .Include(r => r.ReleaseGenres)
                     .ThenInclude(rg => rg.Genre)
                     .FirstOrDefaultAsync(r => r.ReleaseID == id),
                 ReleaseReviews = await context.ReleaseReviews
                     .Include(r => r.User)
                     .Where(r => r.ReleaseID == id)
-                    .ToListAsync()
+                    .ToListAsync(),
+                ReleaseComments = await context.ReleaseComments
+                .Where(r => r.ReleaseID == id)
+                .Include(r=> r.User)
+                .OrderBy(r => r.PostedDate)
+                .Skip(0)
+                .Take(100)
+                .ToListAsync()
             };
             if (User.Identity.IsAuthenticated)
             {
