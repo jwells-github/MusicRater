@@ -4,15 +4,31 @@
 {
     var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
     var nextDisabled = !Model.HasNextPage ? "disabled" : "";
-
-    @foreach (ReleaseReview releaseReview in @Model)
-    {
-        <h1>@releaseReview.Release.Title</h1>
-        <h2>@releaseReview.Release.Artist.Name</h2>
-        <h3>@releaseReview.Title</h3>
-        <p>@releaseReview.ReviewText</p>
-        <p>@releaseReview.ReviewDate</p>
-    }
+    <div class="reviewList">
+        @foreach (ReleaseReview releaseReview in @Model)
+        {
+            <div>
+                <div class="meta">
+                    <div class="releaseImage" style="@releaseReview.Release.GetBackgroundCSS()"></div>
+                    <div>
+                        <h1><a asp-controller="Release" asp-action="Entry" asp-route-id="@releaseReview.ReleaseID">@releaseReview.Release.Title</a></h1>
+                        <h2>@releaseReview.Release.Type by <a asp-controller="Artist" asp-action="Profile" asp-route-id="@releaseReview.Release.ArtistID">@releaseReview.Release.Artist.Name</a></h2>
+                        <h3>Released @releaseReview.Release.FormattedDate.ToString("d")</h3>
+                    </div>
+                </div>
+                <div class="releaseReviewMeta">
+                    <span><a asp-controller="User" asp-action="Index" asp-route-username="@releaseReview.User.UserName">@releaseReview.User.UserName</a></span>
+                    <span>@releaseReview.ReviewDate.ToString("d")</span>
+                    <span>@releaseReview.UserVotes.Count Votes</span>
+                    <span>Rating: @(releaseReview.ReleaseRating > 0 ? @releaseReview.ReleaseRating.ToString() + "/10" : "n/a")</span>
+                </div>
+                <div>
+                    <h3>@releaseReview.Title</h3>
+                    <p>@releaseReview.ReviewText</p>
+                </div>
+            </div>
+        }
+    </div>
     <a asp-action="Artist"
        asp-route-searchTerm="@Context.Request.Query["searchTerm"]"
        asp-route-pageNumber="@(Model.PageIndex + 1)"
