@@ -36,8 +36,10 @@ namespace MusicRater.Controllers
         public async Task<IActionResult> Index(int? pageNumber)
         {
             int resultNumber = 25;
-            return View(await PaginatedList<ReleaseReview>.CreateAsync(context.ReleaseReviews.Include(r => r.Release)
+            return View(await PaginatedList<ReleaseReview>.CreateAsync(context.ReleaseReviews
+                .Include(r => r.Release)
                 .ThenInclude(r => r.Artist)
+                .Include(r => r.User)
                 .OrderByDescending(r => r.ReviewDate), pageNumber ?? 1, resultNumber));
         }
 
