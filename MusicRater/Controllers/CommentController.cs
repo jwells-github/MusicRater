@@ -36,7 +36,7 @@ namespace MusicRater.Controllers
             {
                 MusicRaterUser user = await _userManager.GetUserAsync(User);
                 Release release = await context.Releases.FirstOrDefaultAsync(r => r.ReleaseID == id);
-                if(release != null)
+                if(release != null && comment.Text != null)
                 {
                     comment.User = user;
                     comment.Release = release;
