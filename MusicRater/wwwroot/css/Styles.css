@@ -34,7 +34,6 @@
 }
 .releaseImage{
     background-color: red;
-    width:  100%;
     height: 140px;
     border:1px solid grey;
 }
@@ -240,4 +239,24 @@ border: 1px solid black;
 
 .entryComments textarea {
     height: 80px
+}
+
+.reviewList .releaseImage{
+    min-width:130px;
+    height:130px;
+    align-self:center;
+}
+.reviewList .meta{
+    display:flex;
+    margin-bottom:8px;
+}
+
+.reviewList .meta h1{
+    font-size: 1.5rem;
+}
+.reviewList .meta h2, .reviewList .meta h3 {
+    font-size: 1.15rem;
+}
+.reviewList .meta div{
+    margin-left:8px;
 }
