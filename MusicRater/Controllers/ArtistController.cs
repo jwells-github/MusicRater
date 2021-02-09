@@ -10,6 +10,9 @@ using Microsoft.Extensions.Logging;
 using MusicRater.Models;
 using MusicRater.Data;
 using Microsoft.AspNetCore.Authorization;
+using MusicRater.Models.ViewModels;
+using MusicRater.Areas.Identity.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace MusicRater.Controllers
 {
@@ -17,10 +20,14 @@ namespace MusicRater.Controllers
     {
         private readonly ILogger<ArtistController> _logger;
         private MusicRaterContext context;
-        public ArtistController(ILogger<ArtistController> logger, MusicRaterContext data)
+        private UserManager<MusicRaterUser> _userManager;
+        public ArtistController(ILogger<ArtistController> logger, 
+            MusicRaterContext data,
+            UserManager<MusicRaterUser> userManager)
         {
             context = data;
             _logger = logger;
+            _userManager = userManager;
         }
 
         [AllowAnonymous]
@@ -51,8 +58,25 @@ namespace MusicRater.Controllers
         [AllowAnonymous]
         public async Task <IActionResult> Profile(long id)
         {
-            Artist artist = await context.Artists.Include(a => a.Releases).FirstOrDefaultAsync(a => a.ArtistID == id);
-            return View(artist);
+            var releases = await context.Releases.Where(r => r.ArtistID == id).ToListAsync();
+            ArtistProfileViewModel artistViewModel = new ArtistProfileViewModel
+            {
+                Artist = await context.Artists.FirstOrDefaultAsync(a => a.ArtistID == id),
+                Albums = releases.Where(r => r.Type == ReleaseType.Album).ToList(),
+                Compilations = releases.Where(r => r.Type == ReleaseType.Compilation).ToList(),
+                Eps = releases.Where(r => r.Type == ReleaseType.Ep).ToList(),
+                Mixtapes = releases.Where(r => r.Type == ReleaseType.Mixtape).ToList(),
+                Singles = releases.Where(r => r.Type == ReleaseType.Single).ToList(),
+                LiveAlbums = releases.Where(r => r.Type == ReleaseType.Live).ToList(),
+                Bootlegs = releases.Where(r => r.Type == ReleaseType.Bootleg).ToList(),
+                DJMixes = releases.Where(r => r.Type == ReleaseType.DjMix).ToList(),
+            };
+            if (User.Identity.IsAuthenticated)
+            {
+                MusicRaterUser user = await _userManager.GetUserAsync(User);
+                artistViewModel.IsAdmin = await _userManager.IsInRoleAsync(user, "Administrator");
+            }
+                return View(artistViewModel);
         }
 
         [Authorize(Roles = "Administrator")]
