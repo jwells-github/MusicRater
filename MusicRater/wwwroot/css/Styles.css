@@ -1,5 +1,16 @@
-﻿.searchBar {
+﻿header nav {
+    background-color: #fbc531;
+}
+#navContainer {
+    align-items: baseline;
+}
+
+.searchBar {
     width: 100%;
+    border: 0;
+    border-radius: 30px;
+    padding-left: 10px;
+    outline: none;
 }
 .listofthings {
     display: flex;
@@ -10,6 +21,16 @@
     padding: 0 8px 8px;
     width: 50%;
     max-width: 170px;
+}
+@media screen and (min-width: 480px) {
+    .release {
+        width: 33%;
+    }
+}
+@media screen and (min-width: 768px) {
+    .release {
+        width: 25%;
+    }
 }
 .releaseImage{
     background-color: red;
@@ -49,14 +70,174 @@
 pre{
     white-space: pre-wrap;
 }
+.entryTitle {
+    border-bottom: 3px solid black;
+    padding: 0 5px 5px 0;   
+    overflow-wrap: break-word;
+}
+.entryReleaseType {
+    font-size: 1.2rem;
+    margin-bottom: 6px;
+    overflow-wrap: break-word;
+}
+.entryArtist {
+    color: #4791e3;
+    font-weight:500;
+}
+.entryInformation{
+    display:flex;
+    flex-direction:column
+}
+@media screen and (min-width: 768px) {
+    .entryInformation {
+        flex-direction:row;
+    }
+}
 
-@media screen and (min-width: 480px) {
-    .release {
-        width: 33%;
+.entryImage {
+    height: 280px;
+    min-width: 300px;
+    max-width:300px;
+    margin: 8px auto;
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .25)
+}
+@media screen and (min-width: 480px){
+    .entryImage{
+        height: 326px;
+        min-width: 350px;
+        max-width: 350px;
     }
 }
 @media screen and (min-width: 768px) {
-    .release {
-        width: 25%;
+    .entryImage {
+        margin: 8px;
     }
+}
+@media screen and (min-width: 1024px){
+    .entryImage {
+        height: 373px;
+        min-width: 400px;
+        max-width: 400px;
+    }
+}
+.entryMeta {
+    display: flex;
+    flex-direction: column;
+}
+
+@media screen and (min-width: 768px) {
+    .entryMeta {
+        margin: 8px 0;
+        padding-left: 10px;
+    }
+}
+
+#releaseRating {
+    font-size: 1.5rem;
+}
+
+.entryVoting {
+    margin-top: 10px;
+}
+
+#rating {
+    padding: .375rem .75rem;
+    vertical-align: middle;
+}
+.entryUserContent{
+    display:flex;
+    flex-direction:column;
+}
+@media screen and (min-width: 1024px) {
+
+    .entryUserContent {
+        flex-direction: row;
+    }
+     .entryReviews{
+         width:66%;
+    }
+     .entryComments{
+         width:33%;
+         margin-left:10px;
+     }
+}
+.reviewForm {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 30px;
+}
+
+.reviewForm textarea {
+    height: 120px;
+}
+
+.reviewForm input {
+    font-size: 1.3rem;
+    font-weight: 500;
+    height: 40px;
+}
+
+.releaseReview {
+border-bottom: 1px solid #dee2e6;
+padding-bottom: 5px;
+}
+
+.releaseReview h3 {
+    font-size: 1.3rem;
+}
+
+.entryReviews h2, .entryComments h2 {
+border-bottom: 1px solid black;
+padding-bottom: 4px;
+}
+
+.releaseReviewMeta, .releaseCommentMeta {
+display: flex;
+flex-direction: row;
+background-color: #1b6ec2;
+font-weight: 500;
+color: white;
+align-items: baseline;
+}
+
+.releaseReviewMeta a, .releaseCommentMeta a {
+    color: white;
+    font-size: 1.2rem;
+}
+
+.releaseReviewMeta {
+justify-content: space-around;
+}
+
+.releaseCommentMeta {
+justify-content: space-between;
+}
+
+.releaseCommentMeta span {
+    padding: 0 4px;
+}
+
+.commentList {
+background: #ebebeb;
+max-height: 450px;
+overflow: scroll;
+border: 1px solid black;
+}
+@media screen and (min-width: 1024px) {
+    .commentList{
+        max-height:800px;
+    }
+}
+.commentList p {
+    padding: 0 0.2rem 1rem;
+    margin-bottom: 0;
+}
+
+.entryComments form {
+    display: flex;
+    flex-direction: column
+}
+
+.entryComments textarea {
+    height: 80px
 }

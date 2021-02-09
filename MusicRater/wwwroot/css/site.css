@@ -5,11 +5,30 @@ a.navbar-brand {
   white-space: normal;
   text-align: center;
   word-break: break-all;
+ 
+}
+#navbarLogo {
+    color: white;
+    font-weight: 700;
+    font-size: 22px;
+}
+@media screen and (min-width: 480px) {
+    #navbarLogo {
+        font-size: 18px;
+    }
 }
 
+@media screen and (min-width: 768px) {
+    #navbarLogo {
+        font-size: 24px;
+    }
+}
 /* Provide sufficient contrast against white background */
 a {
   color: #0366d6;
+}
+p{
+    overflow-wrap:break-word;
 }
 
 .btn-primary {
@@ -24,6 +43,22 @@ a {
   border-color: #1861ac;
 }
 
+.nav-link{
+    font-weight:600;
+    font-size:16px;
+}
+
+@media screen and (min-width: 480px) {
+    .nav-link {
+        font-size: 13px;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .nav-link {
+        font-size: 18px;
+    }
+}
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
@@ -43,7 +78,7 @@ html {
 }
 
 .box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .15);
 }
 
 button.accept-policy {
