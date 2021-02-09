@@ -1,0 +1,38 @@
+﻿@model ICollection<Release>
+    <table class="releaseTable">
+        <tr>
+            <th></th>
+            <th>
+                Release Name
+            </th>
+            <th>
+                Reviews
+            </th>
+            <th>
+                Ratings
+            </th>
+            <th>
+                Rating
+            </th>
+        </tr>
+        @foreach (Release release in Model.OrderBy(r => r.FormattedDate))
+        {
+            <tr class="releaseTableRow">
+                <td class="tableIcon">
+                    <div  style="@release.GetBackgroundCSS()">
+                        <a asp-controller="Release" asp-action="Entry" asp-route-id="@release.ReleaseID"></a>
+                    </div>
+                </td>
+                <td class="tableName">
+                    <div>
+                        <a asp-controller="Release" asp-action="Entry" asp-route-id="@release.ReleaseID">@release.Title</a>
+                        <span>@release.FormattedDate.ToString("yyyy")</span>
+                    </div>
+                    
+                </td>
+                <td class="tableReviewNo">@release.NumberOfReviews</td>
+                <td class="tableRatingNo">@release.NumberOfRatings</td>
+                <td class="tableRatingAvg">@release.AverageRating</td>
+            </tr>
+        }
+    </table>

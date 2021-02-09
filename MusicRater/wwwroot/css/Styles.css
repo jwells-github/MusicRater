@@ -260,3 +260,48 @@ border: 1px solid black;
 .reviewList .meta div{
     margin-left:8px;
 }
+.ArtistProfile h2{
+    border-bottom: 1px solid black;
+}
+.releaseTable {
+    width: 100%;
+}
+.releaseTable {
+    font-size:0.8rem;
+}
+@media screen and (min-width: 425px) {
+    .releaseTable {
+        font-size:1rem;
+    }
+}
+.tableIcon{
+    width:10%;
+}
+.tableName{
+    width:40%;
+}
+.tableName div{
+    display:flex;
+    flex-direction: column;
+}
+.tableReviewNo, tableRatingNo, .tableRatingAvg{
+    width:15%;
+}
+.tableIcon div {
+    width: 30px;
+    height: 30px;
+}
+.tableIcon a {
+    display:block;
+    height:100%;
+    width:100%;
+}
+@media screen and (min-width: 768px) {
+    .tableIcon div {
+        width: 40px;
+        height: 40px;
+    }
+}
+.releaseTableRow>td{
+    padding-bottom:14px;
+}

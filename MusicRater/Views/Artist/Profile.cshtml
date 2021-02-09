@@ -1,34 +1,73 @@
-﻿@model Artist
-@{ ViewData["Title"] = Model.Name;}
+﻿@model ArtistProfileViewModel
+@{ 
+    ViewData["Title"] = Model.Artist.Name;
+    Artist Artist = Model.Artist;    
+}
 
-<div>
-    <h1>@Model.Name</h1>
-    <h2>@Model.OriginCountry</h2>
-    <span>@(Model.IsSoloArtist ? "Birth" : "Formed") Date</span>
-    <partial name="_DateSpanPartial" model="new int[] { Model.BirthDay, Model.BirthMonth, Model.BirthYear }" />
-    <span>@(Model.IsSoloArtist ? "Death" : "Disbanded") Date</span>
-    <partial name="_DateSpanPartial" model="new int[] { Model.DeathDay, Model.DeathMonth, Model.DeathYear }" />
+<div class="ArtistProfile">
+    <h1>@Artist.Name</h1>
+    <div>
+        <span><strong>Country of Origin:</strong> @Artist.OriginCountry</span>
+    </div>
+    <div>
+        <span><strong>@(Artist.IsSoloArtist ? "Birth" : "Formed") Date</strong></span>
+        <partial name="_DateSpanPartial" model="new int[] { Artist.BirthDay, Artist.BirthMonth, Artist.BirthYear }" />
+    </div>
+    <div>
+        <span><strong>@(Artist.IsSoloArtist ? "Death" : "Disbanded") Date</strong></span>
+        <partial name="_DateSpanPartial" model="new int[] { Artist.DeathDay, Artist.DeathMonth, Artist.DeathYear }" />
+    </div>
     <a asp-controller="Release"
        asp-action="New"
-       asp-route-artistID="@Model.ArtistID">Add a release</a>
-    <table>
-        <tr>
-            <th>Release Name</th>
-            <th>Average Rating</th>
-            <th>Number of Ratings</th>
-        </tr>
-        @foreach (Release release in Model.Releases.OrderBy(r => r.FormattedDate))
-        {
-            <tr>
-                <td><a asp-controller="Release" asp-action="Entry" asp-route-id="@release.ReleaseID">@release.Title</a></td>
-                <td>@release.AverageRating</td>
-                <td>@release.NumberOfRatings</td>
-            </tr>
-        }
-    </table>
-    <div class="form-group">
-        <form method="post" action="/Artist/Delete/@Model.ArtistID">
-            <button class="btn btn-danger" type="submit">Delete Artist</button>
-        </form>
-    </div>
+       asp-route-artistID="@Artist.ArtistID">Add a release</a>
+
+    @if (Model.IsAdmin)
+    {
+        <div class="form-group">
+            <form method="post" action="/Artist/Delete/@Artist.ArtistID">
+                <button class="btn btn-danger" type="submit">Delete Artist</button>
+            </form>
+        </div>
+    }
+
+    @if (Model.Albums.Count() > 0)
+    {
+        <h2>Albums</h2>
+        <partial name="_ReleaseTablePartial" model="@Model.Albums" />
+    }
+    @if (Model.Eps.Count() > 0)
+    {
+        <h2>Eps</h2>
+        <partial name="_ReleaseTablePartial" model="@Model.Eps" />
+    }
+    @if (Model.Mixtapes.Count() > 0)
+    {
+        <h2>Mixtapes</h2>
+        <partial name="_ReleaseTablePartial" model="@Model.Mixtapes" />
+    }
+    @if (Model.LiveAlbums.Count() > 0)
+    {
+        <h2>Live Albums</h2>
+        <partial name="_ReleaseTablePartial" model="@Model.LiveAlbums" />
+    }
+    @if (Model.Singles.Count() > 0)
+    {
+        <h2>Singles</h2>
+        <partial name="_ReleaseTablePartial" model="@Model.Singles" />
+    }
+    @if (Model.DJMixes.Count() > 0)
+    {
+        <h2>DJ Mixes</h2>
+        <partial name="_ReleaseTablePartial" model="@Model.DJMixes" />
+    }
+    @if (Model.Compilations.Count() > 0)
+    {
+        <h2>Comiplation Album</h2>
+        <partial name="_ReleaseTablePartial" model="@Model.Compilations" />
+    }
+    @if (Model.Bootlegs.Count() > 0)
+    {
+        <h2>Unofficial Releases</h2>
+        <partial name="_ReleaseTablePartial" model="@Model.Bootlegs" />
+    }
 </div>
