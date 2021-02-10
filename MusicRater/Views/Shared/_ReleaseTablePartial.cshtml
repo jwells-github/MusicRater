@@ -32,7 +32,7 @@
                 </td>
                 <td class="tableReviewNo">@release.NumberOfReviews</td>
                 <td class="tableRatingNo">@release.NumberOfRatings</td>
-                <td class="tableRatingAvg">@release.AverageRating</td>
+                <td class="tableRatingAvg">@(release.AverageRating > 0 ? release.AverageRating.ToString() : "")</td>
             </tr>
         }
     </table>
