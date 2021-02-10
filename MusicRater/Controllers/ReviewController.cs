@@ -64,7 +64,7 @@ namespace MusicRater.Controllers
                         ReviewDate = DateTime.Now
                     };
                     context.ReleaseReviews.Add(releaseReview);
-                    release.NumberOfReviews++;
+                    release.NumberOfReviews = release.releaseReviews.Count();
                 }
                 else
                 {
@@ -101,12 +101,14 @@ namespace MusicRater.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(long id)
+        public async Task<IActionResult> Delete(long id, [FromForm] long releaseID)
         {
             MusicRaterUser user = await _userManager.GetUserAsync(User);
+            Release release = await context.Releases.FirstOrDefaultAsync(r => r.ReleaseID == releaseID);
             ReleaseReview releaseReview = await context.ReleaseReviews.FirstOrDefaultAsync(r => r.ReleaseReviewID == id);
             if(releaseReview.UserID == user.Id || await _userManager.IsInRoleAsync(user, "Administrator")){
                 context.Remove(releaseReview);
+                release.NumberOfReviews--;
                 await context.SaveChangesAsync();
             }
             return RedirectToAction("Entry", "Release", new { id = releaseReview.ReleaseID });
