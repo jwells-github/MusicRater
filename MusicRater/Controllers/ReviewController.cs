@@ -50,7 +50,7 @@ namespace MusicRater.Controllers
             Release release = await context.Releases.FirstOrDefaultAsync(r => r.ReleaseID == id);
             ReleaseRating releaseRating = await context.ReleaseRating.FirstOrDefaultAsync(r => r.Release.ReleaseID == id && r.UserID == user.Id);
             ReleaseReview releaseReview = await context.ReleaseReviews.FirstOrDefaultAsync(r => r.Release.ReleaseID == id && r.UserID == user.Id);
-            if(release != null)
+            if(release != null && reviewText != null)
             {
                 if (releaseReview == null)
                 {
