@@ -17,7 +17,7 @@
 
         <a asp-action="Users"
            asp-route-searchTerm="@Context.Request.Query["searchTerm"]"
-           asp-route-pageNumber="@(Model.PageIndex + 1)"
+           asp-route-pageNumber="@(Model.PageIndex - 1)"
            class="btn btn-default @prevDisabled">
             Previous
         </a>
