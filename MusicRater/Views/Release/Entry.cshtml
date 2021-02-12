@@ -39,7 +39,10 @@
                     <strong>Community Rating: </strong>
                     <span><strong id="releaseRating">@Model.Release.AverageRating</strong> / 10 from <strong>@Model.Release.NumberOfRatings</strong> ratings</span>
                 </div>
-
+                <div>
+                    <strong>User Reviews: </strong>
+                    <span>@Model.Release.NumberOfReviews</span>
+                </div>
                 @if (User.Identity.IsAuthenticated)
                 {
                     int numberOfGenres = 4;
@@ -93,6 +96,7 @@
                 @if (Model.UserReview != null)
                 {
                     <form method="post" action="/Review/Delete/@Model.UserReview.ReleaseReviewID">
+                        <input type="hidden" name="releaseID" id="releaseID" value="@Model.Release.ReleaseID"/>
                         <button class="btn btn-danger" type="submit" onclick="return confirm('Are you sure?')">
                             Delete Your Review
                         </button>
