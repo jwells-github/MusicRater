@@ -5,7 +5,7 @@
     var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
     var nextDisabled = !Model.HasNextPage ? "disabled" : "";
     <div class="reviewList">
-        @foreach (ReleaseReview releaseReview in @Model)
+        @foreach (ReleaseReview releaseReview in Model)
         {
             <div>
                 <div class="meta">
@@ -31,7 +31,7 @@
     </div>
     <a asp-action="Artist"
        asp-route-searchTerm="@Context.Request.Query["searchTerm"]"
-       asp-route-pageNumber="@(Model.PageIndex + 1)"
+       asp-route-pageNumber="@(Model.PageIndex - 1)"
        class="btn btn-default @prevDisabled">
         Previous
     </a>
