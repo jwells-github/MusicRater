@@ -1,0 +1,97 @@
+﻿@model TopReleasesViewModel 
+@{
+    Layout = "_Layout";
+    int minimumYear = 1855;
+    int maximumYear = DateTime.Now.Year + 1;
+}
+
+<form method="get">
+    <div class="form-group">
+        <label for="searchYear">Year:</label>
+        <select name="searchYear" id="searchYear">
+            <option value="0">All</option>
+            @for (var i = maximumYear; i >= minimumYear; i--)
+            {
+                if (Model.SearchYear != null)
+                {
+                    if (i > 0 && i == Model.SearchYear)
+                    {
+                        <option selected="selected" value="@i">@i</option>
+                        continue;
+                    }
+                }
+                <option value="@i">@i</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="searchGenre">Genre:</label>
+        <input list="genres" name="searchGenre" id="searchGenre" value="@Model.SearchGenre" />
+        <datalist id="genres">
+            @foreach (Genre g in Model.GenreList)
+            {
+                <option value="@g.Name"></option>
+            }
+        </datalist>
+    </div>
+    <button class="btn btn-primary">Search</button>
+</form>
+@if (Model.PaginatedList.Count > 0)
+{
+    var prevDisabled = !Model.PaginatedList.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.PaginatedList.HasNextPage ? "disabled" : "";
+
+    <div class="topAlbumList">
+        @foreach (Release release in Model.PaginatedList)
+        {
+            <div class="topAlbum">
+                <div class="releaseImage" style="@release.GetBackgroundCSS()">
+                    <a asp-controller="Release" asp-action="Entry" asp-route-id="@release.ReleaseID"></a>
+                </div>
+                <div class="meta">
+                    <h1><a asp-controller="Release" asp-action="Entry" asp-route-id="@release.ReleaseID">@release.Title</a></h1>
+                    <h2><a asp-controller="Artist" asp-action="Profile" asp-route-id="@release.ArtistID">@release.Artist.Name</a></h2>
+                    <div>
+                        <partial name="_DateSpanPartial" model="new int[] { release.ReleaseDay, release.ReleaseMonth, release.ReleaseYear }">
+                    </div>
+                    <div class="metaGenres">
+                        @foreach (ReleaseGenre releaseGenre in release.ReleaseGenres.Skip(0).Take(5))
+                        {
+                            <a>@releaseGenre.Genre.Name</a>
+                        }
+                    </div>
+                    <div class="metaRatings">
+                        <div>
+                            <strong>Rating</strong>
+                            <span>@release.AverageRating /10</span>
+                        </div>
+                        <div>
+                            <strong>Ratings</strong>
+                            <span>@release.NumberOfRatings</span>
+                        </div>
+                        <div>
+                            <strong>Reviews</strong>
+                            <span>@release.NumberOfReviews</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <a asp-action="Index"
+       asp-route-searchTerm="@Context.Request.Query["searchTerm"]"
+       asp-route-pageNumber="@(Model.PaginatedList.PageIndex - 1)"
+       asp-route-searchYear="@(Model.SearchYear)"
+       asp-route-searchGenre="@(Model.SearchGenre)"
+       class="btn btn-default @prevDisabled">
+        Previous
+    </a>
+    <a asp-action="Index"
+       asp-route-searchTerm="@Context.Request.Query["searchTerm"]"
+       asp-route-pageNumber="@(Model.PaginatedList.PageIndex + 1)"
+       asp-route-searchYear="@(Model.SearchYear)"
+       asp-route-searchGenre="@(Model.SearchGenre)"
+       class="btn btn-default @nextDisabled">
+        Next
+    </a>
+}

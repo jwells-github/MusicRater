@@ -122,6 +122,10 @@ pre{
 .entryMeta {
     display: flex;
     flex-direction: column;
+    font-size:1.5rem;
+}
+.entryMeta div{
+    margin-bottom:4px;
 }
 
 @media screen and (min-width: 768px) {
@@ -304,4 +308,43 @@ border: 1px solid black;
 }
 .releaseTableRow>td{
     padding-bottom:14px;
+}
+.topAlbum{
+    display:flex;
+    padding-top:8px;
+    padding-bottom:8px;
+}
+.topAlbum .releaseImage{
+    min-width:130px;
+    height: 130px;
+    align-self:center;
+}
+.topAlbum h1{
+    font-size:1.3rem;
+}
+.topAlbum h2{
+    font-size: 1.1rem;
+}
+.topAlbum .meta {
+    margin-left: 8px;
+    width: 80%;
+    align-self:center;
+}
+.topAlbum .metaGenres{
+    width:95%;
+}
+.topAlbum .metaRatings{
+    display:flex;
+    flex-direction: row;
+    text-align:center;
+}
+.topAlbum .metaRatings div{
+    display:flex;
+    flex-direction: column;
+    margin-right:8px;
+}
+.topAlbum .metaRatings strong{
+    border-bottom: 1px dotted;
+    font-weight: 500;
+    margin-bottom: 1px;
 }
