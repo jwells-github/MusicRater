@@ -92,7 +92,8 @@ namespace MusicRater.Controllers
         [Authorize(Roles = "Administrator")]
         public async Task <IActionResult> Edit(long id)
         {
-            return View("ReleaseEditor", new ReleaseViewModel { Release = await context.Releases.Include(r => r.Artist).FirstOrDefaultAsync(r => r.ReleaseID == id)});
+            Release release = await context.Releases.Include(r => r.Artist).FirstOrDefaultAsync(r => r.ReleaseID == id);
+            return View("ReleaseEditor", new ReleaseViewModel {Release=release, Artist=release.Artist } );
         }
 
         [Authorize(Roles = "Administrator")]
