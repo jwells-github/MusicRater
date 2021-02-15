@@ -47,7 +47,7 @@ namespace MusicRater.Controllers
                            where rg.GenreID == searchGenre
                            select r;
             }
-            int resultNumber = 2;
+            int resultNumber = 100;
 
             TopReleasesViewModel topReleasesViewModel = new TopReleasesViewModel
             {
