@@ -33,7 +33,7 @@
     @foreach (MusicRaterUser user in Model.Users)
     {
         <div>
-            <a asp-action="Index" asp-controller="User" asp-route-id="@user.UserName">@user.UserName</a>
+            <a asp-action="Profile" asp-controller="User" asp-route-id="@user.UserName">@user.UserName</a>
         </div>
     }
 }
