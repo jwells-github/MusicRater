@@ -1,6 +1,6 @@
 ﻿@model UserProfileViewModel
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = Model.User.UserName;
 }
 
 <h1>@Model.User.UserName</h1>
@@ -9,7 +9,7 @@
 
 @if (Model.IsProfileOwner)
 {
-    <a href="#">Edit Profile</a>
+    <a asp-action="EditProfile">Edit Profile</a>
 }
 <div>
     @foreach (ReleaseRating rating in Model.RecentRatings)

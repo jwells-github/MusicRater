@@ -1,0 +1,61 @@
+﻿@model UserProfile
+@{
+    ViewData["Title"] = Model.User.UserName;
+    Layout = "_Layout";
+    int minimumYear = 1900;
+    int maximumYear = DateTime.Now.Year;
+}
+
+<form method="post">
+    <div class="form-group">
+        <label>User</label>
+        <input class="form-control" value="@Model.User.UserName" disabled />
+    </div>
+    <div class="form-group">
+        <label asp-for="FirstName"></label>
+        <input class="form-control" asp-for="FirstName" />
+    </div>
+    <div class="form-group">
+        <label asp-for="LastName"></label>
+        <input class="form-control" asp-for="LastName" />
+    </div>
+    <div class="form-group">
+        <label asp-for="BirthDay"></label>
+        <select asp-for="BirthDay">
+            <option value="0"></option>
+            @for (var i = 1; i <= 31; i++)
+            {
+                <option value="@i">@i</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="BirthMonth"></label>
+        <select asp-for="BirthMonth" asp-items="MonthSelectList.GetMonthList()">
+            <option value="0"></option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="BirthYear"></label>
+        <select asp-for="BirthYear">
+            <option value="0"></option>
+            @for (var i = maximumYear; i >= minimumYear; i--)
+            {
+                <option value="@i">@i</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="Gender"></label>
+        <input class="form-control" asp-for="Gender" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Country"></label>
+        <select class="form-control" asp-for="Country" asp-items="@(Html.GetEnumSelectList<Country>())"></select>
+    </div>
+    <div class="form-group">
+        <label asp-for="Biography">About yourself</label>
+        <textarea class="form-control" asp-for="Biography"></textarea>
+    </div>
+    <button class="btn btn-primary" type="submit">Save</button>
+</form>

@@ -72,5 +72,38 @@ namespace MusicRater.Controllers
             return View(userProfileViewModel);
         }
 
+        public async Task<IActionResult> EditProfile()
+        {
+            MusicRaterUser user = await _userManager.GetUserAsync(User);
+            UserProfile userProfile = await context.UserProfiles.Include(u=>u.User).FirstOrDefaultAsync(u=> u.UserID == user.Id);
+            if (userProfile == null)
+            {
+                userProfile = new UserProfile { UserID = user.Id, User = user };
+                context.UserProfiles.Add(userProfile);
+                context.SaveChanges();
+            }
+            return View(userProfile);
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditProfile([FromForm] UserProfile profile)
+        {
+            var abc = HttpContext.Request.Form;
+            MusicRaterUser user = await _userManager.GetUserAsync(User);
+            UserProfile userProfile = await context.UserProfiles.Include(u => u.User).FirstOrDefaultAsync(u => u.UserID == user.Id);
+            if (ModelState.IsValid)
+            {
+                userProfile.FirstName = profile.FirstName;
+                userProfile.LastName = profile.LastName;
+                userProfile.Gender = profile.Gender;
+                userProfile.BirthDay = profile.BirthDay;
+                userProfile.BirthMonth = profile.BirthMonth;
+                userProfile.BirthYear = profile.BirthYear;
+                userProfile.Country = profile.Country;
+                userProfile.Biography = profile.Biography;
+                await context.SaveChangesAsync();
+                return RedirectToAction(nameof(Profile), new { id = user.UserName });
+            }
+            return View(userProfile);
+        }
     }
 }
