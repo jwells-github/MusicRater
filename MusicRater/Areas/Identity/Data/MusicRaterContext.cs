@@ -71,5 +71,6 @@ namespace MusicRater.Data
         public DbSet<ReleaseGenre> ReleaseGenres{ get; set; }
         public DbSet<ReleaseReview> ReleaseReviews { get; set; }
         public DbSet<ReleaseComment> ReleaseComments { get; set; }
+        public DbSet<UserProfile> UserProfiles { get; set; }
     }
 }

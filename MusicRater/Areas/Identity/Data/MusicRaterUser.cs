@@ -20,7 +20,11 @@ namespace MusicRater.Areas.Identity.Data
         }
         [PersonalData]
         public ICollection<ReleaseRating> ReleaseRatings { get; set; }
+        [PersonalData]
         public ICollection<ReleaseReview> ReleaseReviews { get; set; }
+        [PersonalData]
         public ICollection<ReleaseComment> Comments { get; set; }
+        [PersonalData]
+        public UserProfile UserProfile { get; set; }
     }
 }
