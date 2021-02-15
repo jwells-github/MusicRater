@@ -1,14 +1,26 @@
-﻿@model MusicRaterUser
+﻿@model UserProfileViewModel
 @{
     ViewData["Title"] = "Home Page";
 }
 
-<h1>@Model.UserName</h1>
+<h1>@Model.User.UserName</h1>
+<h2>Number of Ratings: <a href="#">@Model.User.ReleaseRatings.Count()</a></h2>
+<h2>Number of Reviews: <a href="#">@Model.User.ReleaseReviews.Count()</a></h2>
 
+@if (Model.IsProfileOwner)
+{
+    <a href="#">Edit Profile</a>
+}
 <div>
-    @foreach (ReleaseRating rating in Model.ReleaseRatings)
+    @foreach (ReleaseRating rating in Model.RecentRatings)
     {
         <h2>Rating of @rating.Release.Title by @rating.Release.Artist.Name</h2>
         <p>@rating.Rating / 10</p>
+    }
+</div>
+<div>
+    @foreach (ReleaseReview review in Model.RecentReviews)
+    {
+        <p>@review.ReviewText</p>
     }
 </div>
