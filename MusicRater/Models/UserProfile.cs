@@ -22,5 +22,23 @@ namespace MusicRater.Models
         public int BirthYear { get; set; }
         public Country Country { get; set; }
         public string Biography { get; set; }
+
+        public int Age()
+        {
+            if(BirthYear <= 0)
+            {
+                return -1;
+            }
+            DateTime today = DateTime.Today;
+            int age = today.Year - this.BirthYear;
+            if(BirthMonth > 0)
+            {
+                if (BirthMonth > today.Month || (today.Month == BirthMonth && BirthDay > today.Day))
+                {
+                    age--;
+                }
+            }
+            return age;
+        }
     }
 }
