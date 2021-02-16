@@ -348,3 +348,63 @@ border: 1px solid black;
     font-weight: 500;
     margin-bottom: 1px;
 }
+
+.profileDetails{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    font-size:1.1rem;
+    border-bottom:2px solid black;
+    padding-bottom: 4px;
+    margin-bottom:12px;
+}
+.profileDetails span:first-child{
+    font-weight:500;
+}
+.userBiography {
+    border-bottom: 2px solid black;
+    padding-bottom: 4px;
+    margin-bottom: 12px;
+    font-size:1.2rem;
+}
+.userRating,
+.reviewDetails {
+    display: flex;
+    flex-direction: row;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+.userRating .releaseImage,
+.reviewDetails .releaseImage {
+    min-width: 80px;
+    height: 80px;
+    margin: 0 5px 5px 0
+}
+.userRating .releaseDetails,
+.reviewDetails .releaseDetails {
+    display: flex;
+    flex-direction: column;
+}
+.userRating .rating{
+    font-size:1rem;
+}
+.userMore a{
+    width: 100%;
+    margin-bottom: 8px;
+}
+.userReview{
+    border-bottom:1px solid grey;
+    margin-bottom: 8px;
+}
+.userReview p{
+    margin-bottom: 2px;
+}
+.UserNumberOfContent{
+   font-size:1.2rem;
+   margin-bottom:8px;
+   display:block;
+}
+.UserNumberOfContent a{
+    font-size:1.25rem;
+    font-weight:500;
+}

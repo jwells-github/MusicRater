@@ -1,26 +1,117 @@
 ﻿@model UserProfileViewModel
 @{
     ViewData["Title"] = Model.User.UserName;
+    int userAge = Model.UserProfile.Age();
 }
 
-<h1>@Model.User.UserName</h1>
-<h2>Number of Ratings: <a href="#">@Model.User.ReleaseRatings.Count()</a></h2>
-<h2>Number of Reviews: <a href="#">@Model.User.ReleaseReviews.Count()</a></h2>
 
-@if (Model.IsProfileOwner)
-{
-    <a asp-action="EditProfile">Edit Profile</a>
-}
-<div>
-    @foreach (ReleaseRating rating in Model.RecentRatings)
+<div class="profileDetails">
+    <h1>@Model.User.UserName</h1>
+    @if (Model.UserProfile.FirstName.Length > 0 && Model.UserProfile.LastName.Length > 0)
     {
-        <h2>Rating of @rating.Release.Title by @rating.Release.Artist.Name</h2>
-        <p>@rating.Rating / 10</p>
+        <div>
+            <span>Name:</span>
+            <span>@Model.UserProfile.FirstName @Model.UserProfile.LastName</span>
+        </div>
+    }
+    @if (userAge >= 0)
+    {
+        <div>
+            <span>Age:</span>
+            <span>@userAge.ToString() @(userAge != 1 ? "Years" : "Year") Old</span>
+        </div>
+    }
+    @if (Model.UserProfile.Gender.Length > 0)
+    {
+        <div>
+            <span>Gender:</span>
+            <span>@Model.UserProfile.Gender</span>
+        </div>
+    }
+    @if (Model.UserProfile.Country != 0)
+    {
+        <div>
+            <span>Country:</span>
+            <span>@Model.UserProfile.Country.GetDisplayName()</span>
+        </div>
+    }
+    @if (Model.IsProfileOwner)
+    {
+        <div>
+            <a asp-action="EditProfile">Edit Profile</a>
+        </div>
     }
 </div>
-<div>
-    @foreach (ReleaseReview review in Model.RecentReviews)
-    {
-        <p>@review.ReviewText</p>
-    }
+@if(Model.UserProfile.Biography.Length > 0)
+{
+<div class="userBiography">
+    <h2>About</h2>
+    <p>
+        @Model.UserProfile.Biography
+    </p>
+</div>
+}
+<div class="userRatings">
+    <h2>Ratings</h2>
+    <span class="UserNumberOfContent">Number of Ratings: <a asp-action="Ratings" asp-route-id="@Model.User.UserName">@Model.User.ReleaseRatings.Count()</a></span>
+    <div>
+        @foreach (ReleaseRating rating in Model.RecentRatings)
+        {
+            <div class="userRating">
+                <div>
+                    <div style="@rating.Release.GetBackgroundCSS()" class="releaseImage">
+                        <a asp-action="Entry" asp-controller="Release" asp-route-id="@rating.Release.ReleaseID"></a>
+                    </div>
+                </div>
+                <div>
+                    <div class="releaseDetails">
+                        <a asp-action="Profile" asp-controller="Artist" asp-route-id="@rating.Release.ArtistID">@rating.Release.Artist.Name</a>
+                        <a asp-action="Entry" asp-controller="Release" asp-route-id="@rating.Release.ReleaseID">@rating.Release.Title</a>
+                        @if (rating.Release.ReleaseYear > 0)
+                        {
+                            <span>(@rating.Release.ReleaseYear)</span>
+                        }
+                        <span class="rating">Rated <strong>@rating.Rating/10</strong></span>
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="userMore">
+            <a class="btn btn-primary" asp-action="Ratings" asp-route-id="@Model.User.UserName">View more ratings</a>
+        </div>
+    </div>
+</div>
+<div class="userReviews">
+    <h2>Reviews</h2>
+    <span class="UserNumberOfContent">Number of Reviews: <a asp-action="Reviews" asp-route-id="@Model.User.UserName">@Model.User.ReleaseReviews.Count()</a></span>
+    <div>
+        @foreach (ReleaseReview review in Model.RecentReviews)
+        {
+        <div class="userReview">
+            <div class="reviewDetails">
+                <div>
+                    <div style="@review.Release.GetBackgroundCSS()" class="releaseImage">
+                        <a asp-action="Entry" asp-controller="Release" asp-route-id="@review.Release.ReleaseID"></a>
+                    </div>
+                </div>
+                <div>
+                    <div class="releaseDetails">
+                        <a asp-action="Profile" asp-controller="Artist" asp-route-id="@review.Release.ArtistID">@review.Release.Artist.Name</a>
+                        <a asp-action="Entry" asp-controller="Release" asp-route-id="@review.Release.ReleaseID">@review.Release.Title</a>
+                        @if (review.Release.ReleaseYear > 0)
+                        {
+                            <span>(@review.Release.ReleaseYear)</span>
+                        }
+                        <span class="rating">Rated <strong>@review.ReleaseRating/10</strong></span>
+                    </div>
+                </div>
+            </div>
+            <h3>@review.Title</h3>
+            <p>@review.ReviewText</p>
+        </div>
+        }
+        <div class="userMore">
+            <a class="btn btn-primary" asp-action="Reviews" asp-route-id="@Model.User.UserName">View more reviews</a>
+        </div>
+    </div>
 </div>

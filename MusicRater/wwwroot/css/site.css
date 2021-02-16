@@ -27,7 +27,7 @@ a.navbar-brand {
 a {
   color: #0366d6;
 }
-p{
+p, h1,h2,h3,h4{
     overflow-wrap:break-word;
 }
 
