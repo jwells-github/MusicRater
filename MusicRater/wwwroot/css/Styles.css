@@ -18,9 +18,12 @@
     flex-wrap: wrap;
 }
 .release{
-    padding: 0 8px 8px;
     width: 50%;
     max-width: 170px;
+}
+.release,
+.monthlyTopReviews .userReview {
+    padding: 0 8px 8px;
 }
 @media screen and (min-width: 480px) {
     .release {
@@ -32,10 +35,21 @@
         width: 25%;
     }
 }
+.monthlyTopReviews{
+    width:100%;
+}
+.review {
+    width: 100%;
+}
 .releaseImage{
     background-color: red;
-    height: 140px;
+    height: 150px;
     border:1px solid grey;
+}
+@media screen and (max-width: 340px) {
+    .releaseImage {
+        height: 120px;
+    }
 }
 .releaseImage a {
     display:block;
@@ -45,7 +59,6 @@
     display:block;
     text-decoration: none;
     color: black;
-    font-size: 12px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -60,11 +73,6 @@
 }
 .ratingBar div{
     height: 100%;
-}
-.reviewDetails {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
 }
 pre{
     white-space: pre-wrap;
@@ -374,12 +382,62 @@ border: 1px solid black;
     font-size: 0.85rem;
     font-weight: 500;
 }
+@media screen and (min-width: 480px) {
+    .userRating,
+    .reviewDetails {
+        font-size: 1rem;
+    }
+    .userRating .rating {
+        font-size: 1.2rem;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .userRating,
+    .reviewDetails {
+        font-size: 1.1rem;
+    }
+    .userRating .rating {
+        font-size: 1.2rem;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .userRating,
+    .reviewDetails {
+        font-size: 1.1rem;
+    }
+    .userRating .rating {
+        font-size: 1.2rem;
+    }
+}
+.reviewDetails a{
+    color:black;
+}
 .userRating .releaseImage,
 .reviewDetails .releaseImage {
-    min-width: 80px;
-    height: 80px;
+    width: 100px;
+    height: 100px;
     margin: 0 5px 5px 0
 }
+@media screen and (min-width: 480px) {
+    .userRating .releaseImage,
+    .reviewDetails .releaseImage {
+        width: 120px;
+        height: 120px;
+        margin: 0 5px 5px 0
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .userRating .releaseImage,
+    .reviewDetails .releaseImage {
+        width: 140px;
+        height: 140px;
+        margin: 0 5px 5px 0
+    }
+}
+
 .userRating .releaseDetails,
 .reviewDetails .releaseDetails {
     display: flex;
@@ -393,6 +451,7 @@ border: 1px solid black;
     margin-bottom: 8px;
 }
 .userReview{
+    width:100%;
     border-bottom:1px solid grey;
     margin-bottom: 8px;
 }
