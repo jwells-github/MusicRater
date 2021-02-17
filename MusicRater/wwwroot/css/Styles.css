@@ -467,3 +467,13 @@ border: 1px solid black;
     font-size:1.25rem;
     font-weight:500;
 }
+.searchHeader{
+    font-size:1.4rem;
+    border-bottom:1px solid grey;
+    display:flex;
+    flex-direction: row;
+    justify-content:space-evenly
+}
+.searchResult a {
+    font-size: 1.2rem
+}
