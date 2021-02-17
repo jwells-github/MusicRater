@@ -37,33 +37,33 @@
             </div>
         }
     </div>
+    <h2>Monthly Top Reviews</h2>
     <div class="container listofthings">
-        <div>
-            <h2>Monthly Top Reviews</h2>
+        <div class="monthlyTopReviews">
             <div class="listofthings">
                 @foreach (ReleaseReview review in Model.MonthlyTopReviews)
                 {
-                    <div class="review">
-                        <div>
-                            <div class="release">
-                                <div class="releaseImage" style="@review.Release.GetBackgroundCSS()">
-                                    <a asp-controller="Release" asp-action="Entry" asp-route-id="@review.Release.ReleaseID"></a>
+                    <div class="userReview">
+                        <div class="reviewDetails">
+                            <div>
+                                <div style="@review.Release.GetBackgroundCSS()" class="releaseImage">
+                                    <a asp-action="Entry" asp-controller="Release" asp-route-id="@review.Release.ReleaseID"></a>
                                 </div>
                             </div>
-
-                            <div class="reviewDetails">
+                            <div>
                                 <div class="releaseDetails">
-                                    <a asp-controller="Artist" asp-action="Profile" asp-route-id="@review.Release.ArtistID">@review.Release.Artist.Name</a>
-                                    <a asp-controller="Release" asp-action="Entry" asp-route-id="@review.Release.ReleaseID">@review.Release.Title</a>
+                                    <a asp-action="Profile" asp-controller="Artist" asp-route-id="@review.Release.ArtistID">@review.Release.Artist.Name</a>
+                                    <a asp-action="Entry" asp-controller="Release" asp-route-id="@review.Release.ReleaseID">@review.Release.Title</a>
+                                    @if (review.Release.ReleaseYear > 0)
+                                    {
+                                        <span>(@review.Release.ReleaseYear)</span>
+                                    }
+                                    <span class="rating">Rated <strong>@review.ReleaseRating/10</strong></span>
                                 </div>
-                                <a>@review.User.UserName</a>
                             </div>
                         </div>
-                        <div>
-                            <span>@review.Title</span>
-                            <span>@review.ReviewDate</span>
-                            <pre>@review.ReviewText</pre>
-                        </div>
+                        <h3>@review.Title</h3>
+                        <p>@review.ReviewText</p>
                     </div>
                 }
             </div>
