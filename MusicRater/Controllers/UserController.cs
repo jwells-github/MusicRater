@@ -72,6 +72,26 @@ namespace MusicRater.Controllers
             return View(userProfileViewModel);
         }
 
+        public async Task<IActionResult> Ratings(string id, int? pageNumber)
+        {
+            MusicRaterUser user = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == id);
+            var ratings = context.ReleaseRating.Where(r => r.UserID == user.Id)
+                    .Include(rating => rating.Release)
+                    .ThenInclude(release => release.Artist);
+            int resultNumber = 100;
+            return View(await PaginatedList<ReleaseRating>.CreateAsync(ratings.OrderBy(r=>r.RatingDate), pageNumber ?? 1, resultNumber));
+        }
+        public async Task<IActionResult> Reviews(string id, int? pageNumber)
+        {
+            MusicRaterUser user = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == id);
+            var reviews = context.ReleaseReviews.Where(r => r.UserID == user.Id)
+                    .Include(r => r.Release)
+                    .ThenInclude(r => r.Artist);
+            int resultNumber = 100;
+            return View(await PaginatedList<ReleaseReview>.CreateAsync(reviews.OrderBy(r => r.ReviewDate), pageNumber ?? 1, resultNumber));
+            
+        }
+
         public async Task<IActionResult> EditProfile()
         {
             MusicRaterUser user = await _userManager.GetUserAsync(User);
