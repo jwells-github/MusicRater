@@ -9,13 +9,13 @@ namespace MusicRater.Models
 {
     public class ReleaseRating
     {
-        public long ReleaseRatingID { get; set; }
+        public long Id { get; set; }
         [Range(1,10)]
         public int Rating { get; set; }
         public DateTime RatingDate { get; set; }
-        public string UserID { get; set; }
+        public string UserId { get; set; }
         public MusicRaterUser User { get; set; }
-        public long ReleaseID { get; set; }
+        public long ReleaseId { get; set; }
         public Release Release { get; set; }
     }
 }

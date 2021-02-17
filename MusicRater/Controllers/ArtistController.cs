@@ -50,7 +50,7 @@ namespace MusicRater.Controllers
                 artist.FormattedDeathDate = FormattedDateTime.GetFormattedDate(artist.DeathDay, artist.DeathMonth, artist.DeathYear);
                 context.Artists.Add(artist);
                 await context.SaveChangesAsync();
-                return RedirectToAction(nameof(Profile), new { id = artist.ArtistID });
+                return RedirectToAction(nameof(Profile), new { id = artist.Id });
             }
             return View("ArtistEditor", artist);
         }
@@ -58,10 +58,10 @@ namespace MusicRater.Controllers
         [AllowAnonymous]
         public async Task <IActionResult> Profile(long id)
         {
-            var releases = await context.Releases.Where(r => r.ArtistID == id).ToListAsync();
+            var releases = await context.Releases.Where(r => r.ArtistId == id).ToListAsync();
             ArtistProfileViewModel artistViewModel = new ArtistProfileViewModel
             {
-                Artist = await context.Artists.FirstOrDefaultAsync(a => a.ArtistID == id),
+                Artist = await context.Artists.FirstOrDefaultAsync(a => a.Id == id),
                 Albums = releases.Where(r => r.Type == ReleaseType.Album).ToList(),
                 Compilations = releases.Where(r => r.Type == ReleaseType.Compilation).ToList(),
                 Eps = releases.Where(r => r.Type == ReleaseType.Ep).ToList(),
@@ -82,7 +82,7 @@ namespace MusicRater.Controllers
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(long id)
         {
-            Artist artist = await context.Artists.FirstOrDefaultAsync(a => a.ArtistID == id);
+            Artist artist = await context.Artists.FirstOrDefaultAsync(a => a.Id == id);
             return View("ArtistEditor", artist);
         }
 
@@ -90,7 +90,7 @@ namespace MusicRater.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(long id, [FromForm] Artist artist) 
         {
-            Artist oldArtist = await context.Artists.FirstOrDefaultAsync(a => a.ArtistID == id);
+            Artist oldArtist = await context.Artists.FirstOrDefaultAsync(a => a.Id == id);
             if (ModelState.IsValid)
             {
                 oldArtist.Name = artist.Name;
@@ -105,7 +105,7 @@ namespace MusicRater.Controllers
                 oldArtist.DeathYear = artist.DeathYear;
                 oldArtist.FormattedDeathDate = FormattedDateTime.GetFormattedDate(artist.DeathDay, artist.DeathMonth, artist.DeathYear);
                 await context.SaveChangesAsync();
-                return RedirectToAction(nameof(Profile), new { id = oldArtist.ArtistID });
+                return RedirectToAction(nameof(Profile), new { id = oldArtist.Id });
             }
             return View("ArtistEditor", artist);
         }
@@ -113,7 +113,7 @@ namespace MusicRater.Controllers
         [Authorize(Roles = "Administrator")]
         public async Task <IActionResult> Delete(long id)
         {
-            Artist artist = await context.Artists.Include(a => a.Releases).FirstOrDefaultAsync(a => a.ArtistID == id);
+            Artist artist = await context.Artists.Include(a => a.Releases).FirstOrDefaultAsync(a => a.Id == id);
             foreach (Release release in artist.Releases)
             {
                 context.RemoveRange(release.UserReleaseRatings);

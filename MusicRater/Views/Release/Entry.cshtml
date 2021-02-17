@@ -23,7 +23,7 @@
         </div>
         <div class="entryReleaseType">
             <span>@Model.Release.Type by </span>
-            <a asp-controller="Artist" asp-action="Profile" asp-route-id="@Model.Release.Artist.ArtistID"
+            <a asp-controller="Artist" asp-action="Profile" asp-route-id="@Model.Release.Artist.Id"
                class="entryArtist">@Model.Release.Artist.Name</a>
         </div>
         <div class="entryInformation">
@@ -53,11 +53,11 @@
                             <a>@releaseGenre.Genre.Name</a>
                         }
                     </div>
-                    <a asp-action="Genres" asp-route-id="@Model.Release.ReleaseID">Suggest a Genre</a>
+                    <a asp-action="Genres" asp-route-id="@Model.Release.Id">Suggest a Genre</a>
                     <div class="entryVoting">
                         <h3>@(releaseRated ? "You rated this release " + @defaultSelectOption + " / 10" : "You have not rated this release")</h3>
                         <div class="form-group">
-                            <form method="post" action="/Release/Rate/@Model.Release.ReleaseID">
+                            <form method="post" action="/Release/Rate/@Model.Release.Id">
                                 <select id="rating" name="rating">
                                     <option value="0">None</option>
                                     @for (int i = maximumRating; i >= minimumRating; i--)
@@ -87,7 +87,7 @@
             @if (User.Identity.IsAuthenticated)
             {
             <div class="form-group">
-                <form class="reviewForm" method="post" action="/Review/Submit/@Model.Release.ReleaseID">
+                <form class="reviewForm" method="post" action="/Review/Submit/@Model.Release.Id">
                     <input name="reviewTitle" id="reviewTitle" placeholder="Review Title"
                            value="@(@Model.UserReview != null ? Model.UserReview.Title : "")" />
                     <textarea name="reviewText" id="reviewText" placeholder="Review Text">@(@Model.UserReview != null ? Model.UserReview.ReviewText : "")</textarea>
@@ -95,8 +95,8 @@
                 </form>
                 @if (Model.UserReview != null)
                 {
-                    <form method="post" action="/Review/Delete/@Model.UserReview.ReleaseReviewID">
-                        <input type="hidden" name="releaseID" id="releaseID" value="@Model.Release.ReleaseID"/>
+                    <form method="post" action="/Review/Delete/@Model.UserReview.Id">
+                        <input type="hidden" name="releaseID" id="releaseID" value="@Model.Release.Id"/>
                         <button class="btn btn-danger" type="submit" onclick="return confirm('Are you sure?')">
                             Delete Your Review
                         </button>
@@ -106,7 +106,7 @@
                 @if (Model.IsAdmin)
                 {
                     <div class="form-group">
-                        <form method="post" action="/Release/Delete/@Model.Release.ReleaseID">
+                        <form method="post" action="/Release/Delete/@Model.Release.Id">
                             <button class="btn btn-danger" type="submit" onclick="return confirm('Are you sure?')">Delete Release</button>
                         </form>
                     </div>
@@ -130,9 +130,9 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                             <div>
-                                @if (releaseReview.UserID != Model.User.Id)
+                                @if (releaseReview.UserId != Model.User.Id)
                                 {
-                                    <form method="post" action="/Review/Vote/@releaseReview.ReleaseReviewID">
+                                    <form method="post" action="/Review/Vote/@releaseReview.Id">
                                         <button class="btn btn-primary" type="submit">
                                             @(releaseReview.UserVotes.Contains(ViewBag.User) ? "Remove Vote" : "Vote")
                                         </button>
@@ -140,9 +140,9 @@
                                 }
                             </div>
                             <div>
-                                @if (Model.IsAdmin || releaseReview.UserID == Model.User.Id)
+                                @if (Model.IsAdmin || releaseReview.UserId == Model.User.Id)
                                 {
-                                    <form method="post" action="/Review/Delete/@releaseReview.ReleaseReviewID">
+                                    <form method="post" action="/Review/Delete/@releaseReview.Id">
                                         <button class="btn btn-danger" type="submit" onclick="return confirm('Are you sure?')" >
                                             Delete Review
                                         </button>
@@ -167,7 +167,7 @@
                         </div>
                     }
                 </div>
-                <form method="post" action="/Comment/Release/@Model.Release.ReleaseID">
+                <form method="post" action="/Comment/Release/@Model.Release.Id">
                     <textarea name="Text" id="Text" placeholder=""></textarea>
                     <button class="btn btn-primary" type="submit">Comment</button>
                 </form>

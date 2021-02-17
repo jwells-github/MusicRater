@@ -25,12 +25,12 @@ namespace MusicRater.Data
                 {
                     typeBuilder.HasMany(user => user.ReleaseRatings)
                     .WithOne(rating => rating.User)
-                    .HasForeignKey(rating => rating.UserID)
+                    .HasForeignKey(rating => rating.UserId)
                     .IsRequired();
 
                     typeBuilder.HasMany(user => user.ReleaseReviews)
                     .WithOne(review => review.User)
-                    .HasForeignKey(review => review.UserID)
+                    .HasForeignKey(review => review.UserId)
                     .IsRequired();
                 });
             builder.Entity<ReleaseReview>(
@@ -38,7 +38,7 @@ namespace MusicRater.Data
                 {
                     typeBuilder.HasOne(review => review.User)
                     .WithMany(user => user.ReleaseReviews)
-                    .HasForeignKey(rating => rating.UserID)
+                    .HasForeignKey(rating => rating.UserId)
                     .IsRequired();
                 });
             builder.Entity<ReleaseRating>(
@@ -46,20 +46,20 @@ namespace MusicRater.Data
                 {
                     typeBuilder.HasOne(rating => rating.User)
                     .WithMany(user => user.ReleaseRatings)
-                    .HasForeignKey(rating => rating.UserID)
+                    .HasForeignKey(rating => rating.UserId)
                     .IsRequired();
                 });
 
             builder.Entity<ReleaseGenre>()
-                .HasKey(rg => new { rg.GenreID, rg.ReleaseID });
+                .HasKey(rg => new { rg.GenreId, rg.ReleaseId });
             builder.Entity<ReleaseGenre>()
                 .HasOne(rg => rg.Genre)
                 .WithMany(g => g.ReleaseGenres)
-                .HasForeignKey(rg => rg.GenreID);
+                .HasForeignKey(rg => rg.GenreId);
             builder.Entity<ReleaseGenre>()
                 .HasOne(rg => rg.Release)
                 .WithMany(r => r.ReleaseGenres)
-                .HasForeignKey(rg => rg.ReleaseID);
+                .HasForeignKey(rg => rg.ReleaseId);
             builder.Entity<IdentityRole>().HasData(
                 new IdentityRole { Name = "Administrator", NormalizedName = "Administrator".ToUpper() },
                 new IdentityRole { Name = "Moderator", NormalizedName = "Moderator".ToUpper() });

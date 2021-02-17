@@ -46,11 +46,11 @@
         {
             <div class="topAlbum">
                 <div class="releaseImage" style="@release.GetBackgroundCSS()">
-                    <a asp-controller="Release" asp-action="Entry" asp-route-id="@release.ReleaseID"></a>
+                    <a asp-controller="Release" asp-action="Entry" asp-route-id="@release.Id"></a>
                 </div>
                 <div class="meta">
-                    <h1><a asp-controller="Release" asp-action="Entry" asp-route-id="@release.ReleaseID">@release.Title</a></h1>
-                    <h2><a asp-controller="Artist" asp-action="Profile" asp-route-id="@release.ArtistID">@release.Artist.Name</a></h2>
+                    <h1><a asp-controller="Release" asp-action="Entry" asp-route-id="@release.Id">@release.Title</a></h1>
+                    <h2><a asp-controller="Artist" asp-action="Profile" asp-route-id="@release.ArtistId">@release.Artist.Name</a></h2>
                     <div>
                         <partial name="_DateSpanPartial" model="new int[] { release.ReleaseDay, release.ReleaseMonth, release.ReleaseYear }">
                     </div>

@@ -11,7 +11,7 @@
         @foreach (Release release in Model)
         {
             <div>
-                <a asp-action="Entry" asp-controller="Release" asp-route-id="@release.ReleaseID">@release.Title</a>
+                <a asp-action="Entry" asp-controller="Release" asp-route-id="@release.Id">@release.Title</a>
             </div>
         }
 

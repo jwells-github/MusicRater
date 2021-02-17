@@ -12,7 +12,7 @@ namespace MusicRater.Models
         {
             this.Releases = new HashSet<Release>();
         }
-        public long ArtistID { get; set; }
+        public long Id { get; set; }
         [Required]
         public string Name { get; set; }
         public bool IsSoloArtist { get; set; }
@@ -30,5 +30,6 @@ namespace MusicRater.Models
         public int DeathYear { get; set; }
         public DateTime FormattedDeathDate { get; set; }
         public ICollection<Release> Releases { get; set; }
+        public ArtistEditRequest ArtistEditRequest { get; set; }
     }
 }

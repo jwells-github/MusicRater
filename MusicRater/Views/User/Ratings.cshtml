@@ -9,13 +9,13 @@
         <div class="userRating">
             <div>
                 <div style="@rating.Release.GetBackgroundCSS()" class="releaseImage">
-                    <a asp-action="Entry" asp-controller="Release" asp-route-id="@rating.Release.ReleaseID"></a>
+                    <a asp-action="Entry" asp-controller="Release" asp-route-id="@rating.Release.Id"></a>
                 </div>
             </div>
             <div>
                 <div class="releaseDetails">
-                    <a asp-action="Profile" asp-controller="Artist" asp-route-id="@rating.Release.ArtistID">@rating.Release.Artist.Name</a>
-                    <a asp-action="Entry" asp-controller="Release" asp-route-id="@rating.Release.ReleaseID">@rating.Release.Title</a>
+                    <a asp-action="Profile" asp-controller="Artist" asp-route-id="@rating.Release.ArtistId">@rating.Release.Artist.Name</a>
+                    <a asp-action="Entry" asp-controller="Release" asp-route-id="@rating.Release.Id">@rating.Release.Title</a>
                     @if (rating.Release.ReleaseYear > 0)
                     {
                         <span>(@rating.Release.ReleaseYear)</span>

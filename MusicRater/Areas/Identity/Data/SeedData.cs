@@ -85,7 +85,7 @@ namespace MusicRater.Models
                             ReleaseYear = 1999,
                             FormattedDate = FormattedDateTime.GetFormattedDate(15, 6, 1999),
                             Type = ReleaseType.Album,
-                            ArtistID = 1
+                            ArtistId = 1
                         },
                         new Release
                         {
@@ -95,7 +95,7 @@ namespace MusicRater.Models
                             ReleaseYear = 2000,
                             FormattedDate = FormattedDateTime.GetFormattedDate(20, 6, 2000),
                             Type = ReleaseType.Album,
-                            ArtistID = 1
+                            ArtistId = 1
                         },
                         new Release
                         {
@@ -105,7 +105,7 @@ namespace MusicRater.Models
                             ReleaseYear = 2001,
                             FormattedDate = FormattedDateTime.GetFormattedDate(3, 7, 2001),
                             Type = ReleaseType.Album,
-                            ArtistID = 1
+                            ArtistId = 1
                         },
                         new Release
                         {
@@ -115,7 +115,7 @@ namespace MusicRater.Models
                             ReleaseYear = 2003,
                             FormattedDate = FormattedDateTime.GetFormattedDate(1, 4, 2003),
                             Type = ReleaseType.Album,
-                            ArtistID = 1
+                            ArtistId = 1
                         },
                         new Release
                         {
@@ -125,7 +125,7 @@ namespace MusicRater.Models
                             ReleaseYear = 2005,
                             FormattedDate = FormattedDateTime.GetFormattedDate(7, 6, 2005),
                             Type = ReleaseType.Album,
-                            ArtistID = 1
+                            ArtistId = 1
                         },
                         new Release
                         {
@@ -135,7 +135,7 @@ namespace MusicRater.Models
                             ReleaseYear = 2007,
                             FormattedDate = FormattedDateTime.GetFormattedDate(19, 6, 2007),
                             Type = ReleaseType.Album,
-                            ArtistID = 1
+                            ArtistId = 1
                         },
                         // Artist = Neutral Milk Hotel
                         new Release
@@ -146,7 +146,7 @@ namespace MusicRater.Models
                             ReleaseYear = 1996,
                             FormattedDate = FormattedDateTime.GetFormattedDate(26, 3, 1996),
                             Type = ReleaseType.Album,
-                            ArtistID = 2
+                            ArtistId = 2
                         },
                         new Release
                         {
@@ -156,7 +156,7 @@ namespace MusicRater.Models
                             ReleaseYear = 1998,
                             FormattedDate = FormattedDateTime.GetFormattedDate(10, 2, 1998),
                             Type = ReleaseType.Album,
-                            ArtistID = 2
+                            ArtistId = 2
                         },
                         // Artist = Protomartyr
                         new Release
@@ -167,7 +167,7 @@ namespace MusicRater.Models
                             ReleaseYear = 2012,
                             FormattedDate = FormattedDateTime.GetFormattedDate(8,10,2012),
                             Type = ReleaseType.Album,
-                            ArtistID = 3
+                            ArtistId = 3
                         },
                         new Release
                         {
@@ -177,7 +177,7 @@ namespace MusicRater.Models
                             ReleaseYear = 2014,
                             FormattedDate = FormattedDateTime.GetFormattedDate(8, 4, 2014),
                             Type = ReleaseType.Album,
-                            ArtistID = 3
+                            ArtistId = 3
                         },
                         new Release
                         {
@@ -187,7 +187,7 @@ namespace MusicRater.Models
                             ReleaseYear = 2015,
                             FormattedDate = FormattedDateTime.GetFormattedDate(9, 10, 2015),
                             Type = ReleaseType.Album,
-                            ArtistID = 3
+                            ArtistId = 3
                         },
                         new Release
                         {
@@ -197,7 +197,7 @@ namespace MusicRater.Models
                             ReleaseYear = 2017,
                             FormattedDate = FormattedDateTime.GetFormattedDate(29, 9, 2017),
                             Type = ReleaseType.Album,
-                            ArtistID = 3
+                            ArtistId = 3
                         },
                         new Release
                         {
@@ -207,7 +207,7 @@ namespace MusicRater.Models
                             ReleaseYear = 2020,
                             FormattedDate = FormattedDateTime.GetFormattedDate(17, 7, 2020),
                             Type = ReleaseType.Album,
-                            ArtistID = 3
+                            ArtistId = 3
                         },
                         new Release
                         {
@@ -216,7 +216,7 @@ namespace MusicRater.Models
                             ReleaseYear = 2015,
                             FormattedDate = FormattedDateTime.GetFormattedDate(0, 4, 2015),
                             Type = ReleaseType.Live,
-                            ArtistID = 3
+                            ArtistId = 3
                         },
                         new Release
                         {
@@ -225,7 +225,7 @@ namespace MusicRater.Models
                             ReleaseYear = 2020,
                             FormattedDate = FormattedDateTime.GetFormattedDate(0, 12, 2020),
                             Type = ReleaseType.Live,
-                            ArtistID = 3
+                            ArtistId = 3
                         },
                         new Release
                         {
@@ -233,7 +233,7 @@ namespace MusicRater.Models
                             ReleaseYear = 2012,
                             FormattedDate = FormattedDateTime.GetFormattedDate(0, 0, 2012),
                             Type = ReleaseType.Ep,
-                            ArtistID = 3
+                            ArtistId = 3
                         },
                         new Release
                         {
@@ -243,7 +243,7 @@ namespace MusicRater.Models
                             ReleaseYear = 2012,
                             FormattedDate = FormattedDateTime.GetFormattedDate(3, 9, 2012),
                             Type = ReleaseType.Ep,
-                            ArtistID = 3
+                            ArtistId = 3
                         },
                         new Release
                         {
@@ -253,7 +253,7 @@ namespace MusicRater.Models
                             ReleaseYear = 2018,
                             FormattedDate = FormattedDateTime.GetFormattedDate(15, 6, 2018),
                             Type = ReleaseType.Ep,
-                            ArtistID = 3
+                            ArtistId = 3
                         },
                         new Release
                         {
@@ -261,7 +261,7 @@ namespace MusicRater.Models
                             ReleaseYear = 2014,
                             FormattedDate = FormattedDateTime.GetFormattedDate(0, 0, 2014),
                             Type = ReleaseType.Single,
-                            ArtistID = 3
+                            ArtistId = 3
                         },
                         // Artist = Alex Cameron
                         new Release
@@ -270,7 +270,7 @@ namespace MusicRater.Models
                             ReleaseYear = 2013,
                             FormattedDate = FormattedDateTime.GetFormattedDate(0, 0, 2013),
                             Type = ReleaseType.Album,
-                            ArtistID = 4
+                            ArtistId = 4
                         },
                         new Release
                         {
@@ -280,7 +280,7 @@ namespace MusicRater.Models
                             ReleaseYear = 2017,
                             FormattedDate = FormattedDateTime.GetFormattedDate(8, 9, 2017),
                             Type = ReleaseType.Album,
-                            ArtistID = 4
+                            ArtistId = 4
                         },
                         new Release
                         {
@@ -290,7 +290,7 @@ namespace MusicRater.Models
                             ReleaseYear = 2019,
                             FormattedDate = FormattedDateTime.GetFormattedDate(13, 9, 2019),
                             Type = ReleaseType.Album,
-                            ArtistID = 4
+                            ArtistId = 4
                         }
                     );
                 }
@@ -307,8 +307,8 @@ namespace MusicRater.Models
                                 "my favourite fruits in order to increase the length of " +
                                 "this review. 1. Pears 2. Apples 3.Bananas",
                             ReviewDate = now,
-                            UserID = user.Id,
-                            ReleaseID = 1
+                            UserId = user.Id,
+                            ReleaseId = 1
                         },
                         new ReleaseReview
                         {
@@ -346,8 +346,8 @@ namespace MusicRater.Models
                             "special I wish I was special But I'm a creep I'm a weirdo What the" +
                             " hell am I doing here? I don't belong here I don't belong here",
                             ReviewDate = now,
-                            UserID = user.Id,
-                            ReleaseID = 2
+                            UserId = user.Id,
+                            ReleaseId = 2
                         }
                      );
                 }

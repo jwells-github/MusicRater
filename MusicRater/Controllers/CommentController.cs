@@ -35,7 +35,7 @@ namespace MusicRater.Controllers
             if (ModelState.IsValid)
             {
                 MusicRaterUser user = await _userManager.GetUserAsync(User);
-                Release release = await context.Releases.FirstOrDefaultAsync(r => r.ReleaseID == id);
+                Release release = await context.Releases.FirstOrDefaultAsync(r => r.Id == id);
                 if(release != null && comment.Text != null)
                 {
                     comment.User = user;
@@ -47,7 +47,5 @@ namespace MusicRater.Controllers
             }
             return RedirectToAction("Entry", "Release", new { id});
         }
-
-
     }
 }

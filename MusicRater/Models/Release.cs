@@ -19,7 +19,7 @@ namespace MusicRater.Models
             this.RGBAlbumCoverRed = random.Next(256);
             this.RGBAlbumCoverGreen = random.Next(256);
         }
-        public long ReleaseID { get; set; }
+        public long Id { get; set; }
         [Required]
         public string Title { get; set; }
         [Range(0,31)]
@@ -29,7 +29,7 @@ namespace MusicRater.Models
         public int ReleaseYear { get; set; }
         public DateTime FormattedDate { get; set; }
         public  ReleaseType Type { get; set; }
-        public long ArtistID { get; set; }
+        public long ArtistId { get; set; }
         public Artist Artist { get; set; }
         public double AverageRating { get; set; }
         public int NumberOfRatings { get; set; }

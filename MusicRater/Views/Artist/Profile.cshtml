@@ -19,12 +19,12 @@
     </div>
     <a asp-controller="Release"
        asp-action="New"
-       asp-route-artistID="@Artist.ArtistID">Add a release</a>
+       asp-route-artistID="@Artist.Id">Add a release</a>
 
     @if (Model.IsAdmin)
     {
         <div class="form-group">
-            <form method="post" action="/Artist/Delete/@Artist.ArtistID">
+            <form method="post" action="/Artist/Delete/@Artist.Id">
                 <button class="btn btn-danger" type="submit">Delete Artist</button>
             </form>
         </div>

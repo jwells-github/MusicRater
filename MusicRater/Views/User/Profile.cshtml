@@ -60,13 +60,13 @@
             <div class="userRating">
                 <div>
                     <div style="@rating.Release.GetBackgroundCSS()" class="releaseImage">
-                        <a asp-action="Entry" asp-controller="Release" asp-route-id="@rating.Release.ReleaseID"></a>
+                        <a asp-action="Entry" asp-controller="Release" asp-route-id="@rating.Release.Id"></a>
                     </div>
                 </div>
                 <div>
                     <div class="releaseDetails">
-                        <a asp-action="Profile" asp-controller="Artist" asp-route-id="@rating.Release.ArtistID">@rating.Release.Artist.Name</a>
-                        <a asp-action="Entry" asp-controller="Release" asp-route-id="@rating.Release.ReleaseID">@rating.Release.Title</a>
+                        <a asp-action="Profile" asp-controller="Artist" asp-route-id="@rating.Release.ArtistId">@rating.Release.Artist.Name</a>
+                        <a asp-action="Entry" asp-controller="Release" asp-route-id="@rating.Release.Id">@rating.Release.Title</a>
                         @if (rating.Release.ReleaseYear > 0)
                         {
                             <span>(@rating.Release.ReleaseYear)</span>
@@ -91,13 +91,13 @@
             <div class="reviewDetails">
                 <div>
                     <div style="@review.Release.GetBackgroundCSS()" class="releaseImage">
-                        <a asp-action="Entry" asp-controller="Release" asp-route-id="@review.Release.ReleaseID"></a>
+                        <a asp-action="Entry" asp-controller="Release" asp-route-id="@review.Release.Id"></a>
                     </div>
                 </div>
                 <div>
                     <div class="releaseDetails">
-                        <a asp-action="Profile" asp-controller="Artist" asp-route-id="@review.Release.ArtistID">@review.Release.Artist.Name</a>
-                        <a asp-action="Entry" asp-controller="Release" asp-route-id="@review.Release.ReleaseID">@review.Release.Title</a>
+                        <a asp-action="Profile" asp-controller="Artist" asp-route-id="@review.Release.ArtistId">@review.Release.Artist.Name</a>
+                        <a asp-action="Entry" asp-controller="Release" asp-route-id="@review.Release.Id">@review.Release.Title</a>
                         @if (review.Release.ReleaseYear > 0)
                         {
                             <span>(@review.Release.ReleaseYear)</span>

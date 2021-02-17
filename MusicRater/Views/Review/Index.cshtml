@@ -11,8 +11,8 @@
                 <div class="meta">
                     <div class="releaseImage" style="@releaseReview.Release.GetBackgroundCSS()"></div>
                     <div>
-                        <h1><a asp-controller="Release" asp-action="Entry" asp-route-id="@releaseReview.ReleaseID">@releaseReview.Release.Title</a></h1>
-                        <h2>@releaseReview.Release.Type by <a asp-controller="Artist" asp-action="Profile" asp-route-id="@releaseReview.Release.ArtistID">@releaseReview.Release.Artist.Name</a></h2>
+                        <h1><a asp-controller="Release" asp-action="Entry" asp-route-id="@releaseReview.ReleaseId">@releaseReview.Release.Title</a></h1>
+                        <h2>@releaseReview.Release.Type by <a asp-controller="Artist" asp-action="Profile" asp-route-id="@releaseReview.Release.ArtistId">@releaseReview.Release.Artist.Name</a></h2>
                         <h3>Released @releaseReview.Release.FormattedDate.ToString("d")</h3>
                     </div>
                 </div>

@@ -44,7 +44,7 @@ namespace MusicRater.Controllers
             if(searchGenre != null && searchGenre.Length > 0) {
                 releases = from r in releases
                            from rg in r.ReleaseGenres
-                           where rg.GenreID == searchGenre
+                           where rg.GenreId == searchGenre
                            select r;
             }
             int resultNumber = 100;

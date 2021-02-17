@@ -47,7 +47,7 @@ namespace MusicRater.Controllers
         {
             int resultnumber = 25;
             return View("Index", await PaginatedList<ReleaseReview>.CreateAsync(context.ReleaseReviews
-                .Where(r => r.ReleaseID == id)
+                .Where(r => r.ReleaseId == id)
                 .Include(r => r.Release)
                 .ThenInclude(r => r.Artist)
                 .Include(r => r.User)
@@ -58,9 +58,9 @@ namespace MusicRater.Controllers
         public async Task<IActionResult> Submit(long id, [FromForm] string reviewTitle, [FromForm] string reviewText)
         {
             MusicRaterUser user = await _userManager.GetUserAsync(User);
-            Release release = await context.Releases.FirstOrDefaultAsync(r => r.ReleaseID == id);
-            ReleaseRating releaseRating = await context.ReleaseRating.FirstOrDefaultAsync(r => r.Release.ReleaseID == id && r.UserID == user.Id);
-            ReleaseReview releaseReview = await context.ReleaseReviews.FirstOrDefaultAsync(r => r.Release.ReleaseID == id && r.UserID == user.Id);
+            Release release = await context.Releases.FirstOrDefaultAsync(r => r.Id == id);
+            ReleaseRating releaseRating = await context.ReleaseRating.FirstOrDefaultAsync(r => r.Release.Id == id && r.UserId == user.Id);
+            ReleaseReview releaseReview = await context.ReleaseReviews.FirstOrDefaultAsync(r => r.Release.Id == id && r.UserId == user.Id);
             if(release != null && reviewText != null)
             {
                 if (releaseReview == null)
@@ -71,7 +71,7 @@ namespace MusicRater.Controllers
                         ReviewText = reviewText,
                         User = user,
                         Release = release,
-                        ReleaseID = release.ReleaseID,
+                        ReleaseId = release.Id,
                         ReviewDate = DateTime.Now
                     };
                     context.ReleaseReviews.Add(releaseReview);
@@ -95,7 +95,7 @@ namespace MusicRater.Controllers
         public async Task<IActionResult> Vote(long id)
         {
             MusicRaterUser user = await _userManager.GetUserAsync(User);
-            ReleaseReview releaseReview = await context.ReleaseReviews.FirstOrDefaultAsync(r => r.ReleaseReviewID == id);
+            ReleaseReview releaseReview = await context.ReleaseReviews.FirstOrDefaultAsync(r => r.Id == id);
             if(releaseReview != null)
             {
                 if (releaseReview.UserVotes.Contains(user))
@@ -108,21 +108,21 @@ namespace MusicRater.Controllers
                 }
                 await context.SaveChangesAsync();
             }
-            return RedirectToAction("Entry", "Release", new { id = releaseReview.ReleaseID });
+            return RedirectToAction("Entry", "Release", new { id = releaseReview.Id });
         }
 
         [HttpPost]
         public async Task<IActionResult> Delete(long id, [FromForm] long releaseID)
         {
             MusicRaterUser user = await _userManager.GetUserAsync(User);
-            Release release = await context.Releases.FirstOrDefaultAsync(r => r.ReleaseID == releaseID);
-            ReleaseReview releaseReview = await context.ReleaseReviews.FirstOrDefaultAsync(r => r.ReleaseReviewID == id);
-            if(releaseReview.UserID == user.Id || await _userManager.IsInRoleAsync(user, "Administrator")){
+            Release release = await context.Releases.FirstOrDefaultAsync(r => r.Id == releaseID);
+            ReleaseReview releaseReview = await context.ReleaseReviews.FirstOrDefaultAsync(r => r.Id == id);
+            if(releaseReview.UserId == user.Id || await _userManager.IsInRoleAsync(user, "Administrator")){
                 context.Remove(releaseReview);
                 release.NumberOfReviews--;
                 await context.SaveChangesAsync();
             }
-            return RedirectToAction("Entry", "Release", new { id = releaseReview.ReleaseID });
+            return RedirectToAction("Entry", "Release", new { id = releaseReview.ReleaseId });
         }
     }
 

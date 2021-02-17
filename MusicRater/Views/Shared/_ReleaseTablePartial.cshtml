@@ -20,12 +20,12 @@
             <tr class="releaseTableRow">
                 <td class="tableIcon">
                     <div  style="@release.GetBackgroundCSS()">
-                        <a asp-controller="Release" asp-action="Entry" asp-route-id="@release.ReleaseID"></a>
+                        <a asp-controller="Release" asp-action="Entry" asp-route-id="@release.Id"></a>
                     </div>
                 </td>
                 <td class="tableName">
                     <div>
-                        <a asp-controller="Release" asp-action="Entry" asp-route-id="@release.ReleaseID">@release.Title</a>
+                        <a asp-controller="Release" asp-action="Entry" asp-route-id="@release.Id">@release.Title</a>
                         <span>@release.FormattedDate.ToString("yyyy")</span>
                     </div>
                     
