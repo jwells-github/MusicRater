@@ -42,6 +42,17 @@ namespace MusicRater.Controllers
                 .Include(r => r.User)
                 .OrderByDescending(r => r.ReviewDate), pageNumber ?? 1, resultNumber));
         }
+        [AllowAnonymous]
+        public async Task<IActionResult> Release(int id,int? pageNumber)
+        {
+            int resultnumber = 25;
+            return View("Index", await PaginatedList<ReleaseReview>.CreateAsync(context.ReleaseReviews
+                .Where(r => r.ReleaseID == id)
+                .Include(r => r.Release)
+                .ThenInclude(r => r.Artist)
+                .Include(r => r.User)
+                .OrderByDescending(r => r.ReviewDate), pageNumber ?? 1, resultnumber));
+        }
 
         [HttpPost]
         public async Task<IActionResult> Submit(long id, [FromForm] string reviewTitle, [FromForm] string reviewText)
