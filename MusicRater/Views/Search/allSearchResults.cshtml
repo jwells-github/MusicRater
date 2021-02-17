@@ -2,38 +2,38 @@
 
 <partial name="_SearchHeaderPartial">
 
-@if (Model.Artists.Count > 0)
-{
-    <h2>Artists</h2>
-
-    @foreach (Artist artist in Model.Artists)
+    @if (Model.Artists.Count > 0)
     {
-        <div>
-            <a asp-action="Profile" asp-controller="Artist" asp-route-id="@artist.ArtistID">@artist.Name</a>
-        </div>
+        <h2>Artists</h2>
+
+        @foreach (Artist artist in Model.Artists)
+        {
+            <div class="searchResult">
+                <a asp-action="Profile" asp-controller="Artist" asp-route-id="@artist.ArtistID">@artist.Name</a>
+            </div>
+        }
     }
-}
 
-@if (Model.Releases.Count > 0)
-{
-    <h2>Releases</h2>
-
-    @foreach (Release release in Model.Releases)
+    @if (Model.Releases.Count > 0)
     {
-        <div>
-            <a asp-action="Entry" asp-controller="Release" asp-route-id="@release.ReleaseID">@release.Title</a>
-        </div>
+        <h2>Releases</h2>
+
+        @foreach (Release release in Model.Releases)
+        {
+            <div class="searchResult">
+                <a asp-action="Entry" asp-controller="Release" asp-route-id="@release.ReleaseID">@release.Title</a>
+            </div>
+        }
     }
-}
 
-@if (Model.Users.Count > 0)
-{
-    <h2>Users</h2>
-
-    @foreach (MusicRaterUser user in Model.Users)
+    @if (Model.Users.Count > 0)
     {
-        <div>
-            <a asp-action="Profile" asp-controller="User" asp-route-id="@user.UserName">@user.UserName</a>
-        </div>
+        <h2>Users</h2>
+
+        @foreach (MusicRaterUser user in Model.Users)
+        {
+            <div class="searchResult">
+                <a asp-action="Profile" asp-controller="User" asp-route-id="@user.UserName">@user.UserName</a>
+            </div>
+        }
     }
-}
