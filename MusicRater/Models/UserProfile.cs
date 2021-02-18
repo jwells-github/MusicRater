@@ -9,6 +9,14 @@ namespace MusicRater.Models
 {
     public class UserProfile
     {
+
+        public UserProfile()
+        {
+            this.FirstName = "";
+            this.LastName = "";
+            this.Gender = "";
+            this.Biography = "";
+        }
         public long Id { get; set; }
         public string UserId { get; set; }
         public MusicRaterUser User { get; set; }
