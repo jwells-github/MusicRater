@@ -143,7 +143,8 @@
                                 @if (Model.IsAdmin || releaseReview.UserId == Model.User.Id)
                                 {
                                     <form method="post" action="/Review/Delete/@releaseReview.Id">
-                                        <button class="btn btn-danger" type="submit" onclick="return confirm('Are you sure?')" >
+                                        <input type="hidden" name="releaseID" id="releaseID" value="@Model.Release.Id" />
+                                        <button class="btn btn-danger" type="submit" onclick="return confirm('Are you sure?')">
                                             Delete Review
                                         </button>
                                     </form>
