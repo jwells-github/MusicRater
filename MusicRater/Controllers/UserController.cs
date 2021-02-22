@@ -72,12 +72,25 @@ namespace MusicRater.Controllers
             return View(userProfileViewModel);
         }
 
+        public async Task<IActionResult> Notifications(int? pageNumber)
+        {
+            MusicRaterUser user = await _userManager.GetUserAsync(User);
+            var notifications = context.UserNotifications
+                .Where(un => un.RecipientUserId == user.Id)
+                .Include(un => un.SendingUser);
+            int resultNumber = 100;
+            user.UnreadNotificationCount = 0;
+            await context.SaveChangesAsync();
+            return View(await PaginatedList<UserNotification>.CreateAsync(notifications.OrderBy(r => r.Date), pageNumber ?? 1, resultNumber));
+        }
+
         public async Task<IActionResult> Ratings(string id, int? pageNumber)
         {
             MusicRaterUser user = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == id);
-            var ratings = context.ReleaseRating.Where(r => r.UserId == user.Id)
-                    .Include(rating => rating.Release)
-                    .ThenInclude(release => release.Artist);
+            var ratings = context.ReleaseRating
+                .Where(r => r.UserId == user.Id)
+                .Include(rating => rating.Release)
+                .ThenInclude(release => release.Artist);
             int resultNumber = 100;
             return View(await PaginatedList<ReleaseRating>.CreateAsync(ratings.OrderBy(r=>r.RatingDate), pageNumber ?? 1, resultNumber));
         }
@@ -107,7 +120,6 @@ namespace MusicRater.Controllers
         [HttpPost]
         public async Task<IActionResult> EditProfile([FromForm] UserProfile profile)
         {
-            var abc = HttpContext.Request.Form;
             MusicRaterUser user = await _userManager.GetUserAsync(User);
             UserProfile userProfile = await context.UserProfiles.Include(u => u.User).FirstOrDefaultAsync(u => u.UserId == user.Id);
             if (ModelState.IsValid)
