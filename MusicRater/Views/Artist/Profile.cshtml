@@ -7,19 +7,26 @@
 <div class="ArtistProfile">
     <h1>@Artist.Name</h1>
     <div>
-        <span><strong>Country of Origin:</strong> @Artist.OriginCountry</span>
+        <span><strong>Country of Origin:</strong> @Artist.OriginCountry.GetDisplayName()</span>
     </div>
     <div>
-        <span><strong>@(Artist.IsSoloArtist ? "Birth" : "Formed") Date</strong></span>
+        <span><strong>@(Artist.IsSoloArtist ? "Birth" : "Formed") Date:</strong></span>
         <partial name="_DateSpanPartial" model="new int[] { Artist.BirthDay, Artist.BirthMonth, Artist.BirthYear }" />
     </div>
     <div>
-        <span><strong>@(Artist.IsSoloArtist ? "Death" : "Disbanded") Date</strong></span>
+        <span><strong>@(Artist.IsSoloArtist ? "Death" : "Disbanded") Date:</strong></span>
         <partial name="_DateSpanPartial" model="new int[] { Artist.DeathDay, Artist.DeathMonth, Artist.DeathYear }" />
     </div>
-    <a asp-controller="Release"
-       asp-action="New"
-       asp-route-artistID="@Artist.Id">Add a release</a>
+    <div>
+        <a asp-controller="Release"
+           asp-action="New"
+           asp-route-artistID="@Artist.Id">Add a release</a>
+    </div>
+    <div>
+        <a asp-controller="Artist"
+           asp-action="EditRequest"
+           asp-route-id="@Artist.Id">Request an edit to this profile</a>
+    </div>
 
     @if (Model.IsAdmin)
     {
