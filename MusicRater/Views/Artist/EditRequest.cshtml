@@ -1,0 +1,180 @@
+﻿@model ArtistEditRequest
+@{
+    int minimumYear = 1855;
+    int maximumYear = DateTime.Now.Year + 1;
+}
+<div>
+    <h1>Artist Edit Request for <a asp-controller="Artist" asp-action="Profile" asp-route-id="@Model.ArtistId">@Model.Artist.Name</a> submitted by <a asp-controller="User" asp-action="Profile" asp-route-id="@Model.SubmittingUser.UserName">@Model.SubmittingUser.UserName</a></h1>
+    <h2>Submitted @Model.SubmittedDate.ToString("d")</h2>
+</div>
+<div>
+    <table class="EditRequestTable">
+        <tr>
+            <th>Field</th>
+            <th>Current</th>
+            <th>Proposed</th>
+        </tr>
+        <tr class="@(Model.Name == Model.Artist.Name ? "" : "highlightRow")">
+            <td>Name</td>
+            <td>@Model.Artist.Name</td>
+            <td>@Model.Name</td>
+        </tr>
+        <tr class="@(Model.IsSoloArtist == Model.Artist.IsSoloArtist ? "" : "highlightRow")">
+            <td>Solo Artist</td>
+            <td>@(Model.Artist.IsSoloArtist == true ? "Yes" : "No")</td>
+            <td>@(Model.IsSoloArtist == true ? "Yes" : "No")</td>
+        </tr>
+        <tr class="@(Model.OriginCountry.GetDisplayName() == Model.Artist.OriginCountry.GetDisplayName() ? "" : "highlightRow")">
+            <td>Country</td>
+            <td>@Model.Artist.OriginCountry.GetDisplayName()</td>
+            <td>@Model.OriginCountry.GetDisplayName()</td>
+        </tr>
+        <tr class="@(Model.BirthDay == Model.Artist.BirthDay ? "" : "highlightRow")">
+            <td>Birth Day</td>
+            <td>@Model.Artist.BirthDay</td>
+            <td>@Model.BirthDay</td>
+        </tr>
+        <tr class="@(Model.BirthMonth == Model.Artist.BirthMonth ? "" : "highlightRow")">
+            <td>Birth Month</td>
+            <td>@Model.Artist.BirthMonth</td>
+            <td>@Model.BirthMonth</td>
+        </tr>
+        <tr class="@(Model.BirthYear == Model.Artist.BirthYear ? "" : "highlightRow")">
+            <td>Birth Year</td>
+            <td>@Model.Artist.BirthYear</td>
+            <td>@Model.BirthYear</td>
+        </tr>
+        <tr class="@(Model.DeathDay == Model.Artist.DeathDay ? "" : "highlightRow")">
+            <td>Death Day</td>
+            <td>@Model.Artist.DeathDay</td>
+            <td>@Model.DeathDay</td>
+        </tr>
+        <tr class="@(Model.DeathMonth == Model.Artist.DeathMonth ? "" : "highlightRow")">
+            <td>Death Month</td>
+            <td>@Model.Artist.DeathMonth</td>
+            <td>@Model.DeathMonth</td>
+        </tr>
+        <tr class="@(Model.DeathYear == Model.Artist.DeathYear ? "" : "highlightRow")">
+            <td>Death Year</td>
+            <td>@Model.Artist.DeathYear</td>
+            <td>@Model.DeathYear</td>
+        </tr>
+    </table>
+</div>
+<div>
+    @if (ViewBag.IsOwner || ViewBag.IsAdmin)
+    {
+        <h2>Amend your edit request</h2>
+        <form method="post" action="/Artist/EditRequest/@Model.ArtistId">
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input class="form-control" asp-for="Name" />
+            </div>
+            <div class="form-group">
+                <label asp-for="OriginCountry"></label>
+                <select class="form-control" asp-for="OriginCountry" asp-items="@(Html.GetEnumSelectList<Country>())"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="IsSoloArtist">This profile is for a Single Performer (Not a Band)</label>
+                <input type="checkbox" asp-for="IsSoloArtist" />
+            </div>
+            <div class="form-group">
+                <label asp-for="BirthDay"></label>
+                <select asp-for="BirthDay">
+                    <option value="0"></option>
+                    @for (var i = 1; i <= 31; i++)
+                    {
+                        <option value="@i">@i</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="BirthMonth"></label>
+                <select asp-for="BirthMonth" asp-items="MonthSelectList.GetMonthList()">
+                    <option value="0"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="BirthYear"></label>
+                <select asp-for="BirthYear">
+                    <option value="0"></option>
+                    @for (var i = maximumYear; i >= minimumYear; i--)
+                    {
+                        <option value="@i">@i</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="DeathDay"></label>
+                <select asp-for="DeathDay">
+                    <option value="0"></option>
+                    @for (var i = 1; i <= 31; i++)
+                    {
+                        <option value="@i">@i</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="DeathMonth"></label>
+                <select asp-for="DeathMonth" asp-items="MonthSelectList.GetMonthList()">
+                    <option value="0"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="DeathYear"></label>
+                <select asp-for="DeathYear">
+                    <option value="0"></option>
+                    @for (var i = maximumYear; i >= minimumYear; i--)
+                    {
+                        <option value="@i">@i</option>
+                    }
+                </select>
+            </div>
+
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </form>
+    }
+</div>
+<div>
+    @if (ViewBag.IsAdmin)
+    {
+        <div class="form-group">
+            <form method="post" action="/Artist/ApproveEdit/@Model.ArtistId">
+                <button class="btn btn-primary"
+                        type="submit"
+                        onclick="return confirm('Are you sure you want to approve this edit?')">
+                    Approve Edit
+                </button>
+            </form>
+        </div>
+        <div class="form-group">
+            <form method="post" action="/Artist/DenyEdit/@Model.ArtistId">
+                <button class="btn btn-danger"
+                        type="submit"
+                        onclick="return confirm('Are you sure you want to deny this edit?')">
+                    Deny Edit
+                </button>
+            </form>
+        </div>
+    }
+</div>
+<div class="entryComments">
+    <h2>User Comments</h2>
+    <div class="commentList">
+        @foreach (ArtistEditComment comment in Model.Comments)
+        {
+            <div class="releaseComment">
+                <div class="releaseCommentMeta">
+                    <span><a asp-controller="User" asp-action="Profile" asp-route-id="@comment.User.UserName">@comment.User.UserName</a></span>
+                    <span>@comment.PostedDate.ToString("d")</span>
+                </div>
+                <p>@comment.Text</p>
+            </div>
+        }
+    </div>
+    <form method="post" action="/Comment/ArtistEditRequest/@Model.Id">
+        <textarea required="required" name="Text" id="Text" placeholder=""></textarea>
+        <button class="btn btn-primary" type="submit">Comment</button>
+    </form>
+</div>
+
