@@ -160,7 +160,7 @@ namespace MusicRater.Controllers
             editRequest.SubmittingUser.UserNotifications.Add(new UserNotification
             {
 
-                Title = $"Your edit request for <a href='/Artist/EditRequest/{editRequest.ArtistId}'>{editRequest.Name}</a> has been approved!",
+                Title = $"Your edit request for <a href='/Artist/Profile/{editRequest.ArtistId}'>{editRequest.Name}</a> has been approved!",
                 SiteMessage = "",
                 Date = DateTime.Now,
                 RecipientUserId = editRequest.SubmittingUserId,
@@ -175,7 +175,7 @@ namespace MusicRater.Controllers
 
         [Authorize(Roles = "Administrator")]
         [HttpPost]
-        public async Task<IActionResult> DenyEdit(long id)
+        public async Task<IActionResult> DenyEdit(long id, [FromForm] string denyMessage)
         {
             ArtistEditRequest editRequest = await context.ArtistEditRequests
                 .Include(er => er.SubmittingUser)
@@ -185,8 +185,8 @@ namespace MusicRater.Controllers
             editRequest.SubmittingUser.UserNotifications.Add(new UserNotification
             {
 
-                Title = $"Your edit request for <a href='/Artist/EditRequest/{editRequest.ArtistId}'>{editRequest.Name}</a> has been denied",
-                SiteMessage = "",
+                Title = $"Your edit request for <a href='/Artist/Profile/{editRequest.ArtistId}'>{editRequest.Name}</a> has been denied",
+                SiteMessage = denyMessage != null ? denyMessage: "",
                 Date = DateTime.Now,
                 RecipientUserId = editRequest.SubmittingUserId,
                 SendingUser = user
