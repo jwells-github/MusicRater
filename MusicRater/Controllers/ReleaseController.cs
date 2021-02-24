@@ -37,7 +37,8 @@ namespace MusicRater.Controllers
 
         public async Task <IActionResult> New(long artistID)
         {
-            return View("ReleaseEditor", new ReleaseViewModel { Artist = await context.Artists.FirstOrDefaultAsync(a => a.Id == artistID) }); 
+            Artist artist = await context.Artists.FirstOrDefaultAsync(a => a.Id == artistID);
+            return View("ReleaseEditor", new Release { Artist = artist}); 
         }
 
         [HttpPost]
@@ -53,7 +54,7 @@ namespace MusicRater.Controllers
                 await context.SaveChangesAsync();
                 return RedirectToAction(nameof(Entry), new { id = release.Id });
             }
-            return View("ReleaseEditor", new ReleaseViewModel { Release = release });
+            return View("ReleaseEditor", release);
         }
 
         [AllowAnonymous]
@@ -89,6 +90,127 @@ namespace MusicRater.Controllers
             return View(releaseView);
         }
 
+        public async Task<IActionResult> EditRequest(long id)
+        {
+            ReleaseEditRequest editRequest = await context.ReleaseEditRequests
+                .Include(er => er.Release)
+                .Include(er => er.SubmittingUser)
+                .Include(er => er.Comments)
+                .ThenInclude(c => c.User)
+                .FirstOrDefaultAsync(er => er.ReleaseId == id);
+            if(editRequest == null)
+            {
+                Release release = await context.Releases
+                    .Include(r=>r.Artist).FirstOrDefaultAsync(r => r.Id == id);
+                return View("ReleaseEditor", release);
+            }
+            else
+            {
+                MusicRaterUser user = await _userManager.GetUserAsync(User);
+                ViewBag.IsOwner = user.Id == editRequest.SubmittingUserId;
+                ViewBag.IsAdmin = await _userManager.IsInRoleAsync(user, "Administrator");
+                return View(editRequest);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditRequest(long id, [FromForm] ReleaseEditRequest releaseEditRequest)
+        {
+            ReleaseEditRequest editRequest = await context.ReleaseEditRequests.FirstOrDefaultAsync(er => er.ReleaseId == id);
+            Release release = await context.Releases.FirstOrDefaultAsync(r => r.Id == id);
+
+            if (ModelState.IsValid && CheckReleaseEditRequest(release, releaseEditRequest)){
+                if(editRequest == null)
+                {
+                    releaseEditRequest.ReleaseId = id;
+                    releaseEditRequest.SubmittedDate = DateTime.Now;
+                    releaseEditRequest.SubmittingUser = await _userManager.GetUserAsync(User);
+                    context.ReleaseEditRequests.Add(releaseEditRequest);
+                    await context.SaveChangesAsync();
+                }
+                else
+                {
+                    MusicRaterUser user = await _userManager.GetUserAsync(User);
+                    if (editRequest.SubmittingUserId == user.Id || await _userManager.IsInRoleAsync(user, "Administrator"))
+                    {
+                        editRequest.Title = releaseEditRequest.Title;
+                        editRequest.ReleaseDay = releaseEditRequest.ReleaseDay;
+                        editRequest.ReleaseMonth = releaseEditRequest.ReleaseMonth;
+                        editRequest.ReleaseYear = releaseEditRequest.ReleaseYear;
+                        editRequest.Type = releaseEditRequest.Type;
+                        await context.SaveChangesAsync();
+                    }
+                }
+            }
+            return RedirectToAction(nameof(EditRequest), id);
+        }
+
+        [Authorize(Roles = "Administrator")]
+        [HttpPost]
+        public async Task<IActionResult> ApproveEdit(long id)
+        {
+            ReleaseEditRequest editRequest = await context.ReleaseEditRequests
+                .Include(er => er.SubmittingUser)
+                .FirstOrDefaultAsync(er => er.ReleaseId == id);
+            Release release = await context.Releases.FirstOrDefaultAsync(r => r.Id == id);
+            release.Title = editRequest.Title;
+            release.ReleaseDay = editRequest.ReleaseDay;
+            release.ReleaseMonth = editRequest.ReleaseMonth;
+            release.ReleaseYear = editRequest.ReleaseYear;
+            release.Type = editRequest.Type;
+
+            MusicRaterUser user = await _userManager.GetUserAsync(User);
+            editRequest.SubmittingUser.UserNotifications.Add(new UserNotification
+            {
+
+                Title = $"Your edit request for <a href='/Release/Entry/{editRequest.ReleaseId}'>{editRequest.Title}</a> has been approved!",
+                SiteMessage = "",
+                Date = DateTime.Now,
+                RecipientUserId = editRequest.SubmittingUserId,
+                SendingUser = user
+            });
+            editRequest.SubmittingUser.UnreadNotificationCount++;
+            context.RemoveRange(editRequest.Comments);
+            context.Remove(editRequest);
+            await context.SaveChangesAsync();
+            return RedirectToAction(nameof(Entry), new { id });
+        }
+
+        [Authorize(Roles = "Administrator")]
+        [HttpPost]
+        public async Task<IActionResult> DenyEdit(long id, [FromForm] string denyMessage)
+        {
+            ReleaseEditRequest editRequest = await context.ReleaseEditRequests
+                .Include(er => er.SubmittingUser)
+                .FirstOrDefaultAsync(er => er.ReleaseId == id);
+            MusicRaterUser user = await _userManager.GetUserAsync(User);
+            editRequest.SubmittingUser.UserNotifications.Add(new UserNotification
+            {
+
+                Title = $"Your edit request for <a href = '/Release/Entry/{editRequest.ReleaseId}' >{ editRequest.Title}</ a > has been denied",
+                SiteMessage = denyMessage != null ? denyMessage : "",
+                Date = DateTime.Now,
+                RecipientUserId = editRequest.SubmittingUserId,
+                SendingUser = user
+            });
+            editRequest.SubmittingUser.UnreadNotificationCount++;
+            context.RemoveRange(editRequest.Comments);
+            context.Remove(editRequest);
+            await context.SaveChangesAsync();
+            return RedirectToAction(nameof(Entry), new { id });
+        }
+        private bool CheckReleaseEditRequest(Release release, ReleaseEditRequest editRequest)
+        {
+            if (release.Title == editRequest.Title
+                && release.ReleaseDay == editRequest.ReleaseDay
+                && release.ReleaseMonth == editRequest.ReleaseMonth
+                && release.ReleaseYear == editRequest.ReleaseYear
+                && release.Type == editRequest.Type)
+            {
+                return false;
+            }
+            return true;
+        }
         [Authorize(Roles = "Administrator")]
         public async Task <IActionResult> Edit(long id)
         {

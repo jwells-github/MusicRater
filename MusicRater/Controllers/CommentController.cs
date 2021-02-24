@@ -58,7 +58,6 @@ namespace MusicRater.Controllers
             if (ModelState.IsValid)
             {
                 MusicRaterUser user = await _userManager.GetUserAsync(User);
-                
                 if(editRequest != null && comment.Text != null)
                 {
                     comment.User = user;
@@ -72,7 +71,7 @@ namespace MusicRater.Controllers
 
                             Title = $"<a href='/User/Profile/{user.UserName}'>{user.UserName}</a> " +
                                 $"posted a comment on your edit request for the profile of " +
-                                $"<a href='/Artist/Profile/{editRequest.ArtistId}'>{editRequest.Name}</a>",
+                                $"<a href='/Artist/EditRequest/{editRequest.ArtistId}'>{editRequest.Name}</a>",
                             SiteMessage = "",
                             Date = DateTime.Now,
                             RecipientUserId = editRequest.SubmittingUserId,
@@ -84,6 +83,42 @@ namespace MusicRater.Controllers
                 }
             }
             return RedirectToAction("EditRequest", "Artist", new { id = editRequest.ArtistId });
+        }
+        [HttpPost]
+        public async Task<IActionResult> CommentEditRequest(long id, [FromForm] ReleaseEditComment comment)
+        {
+            ReleaseEditRequest editRequest = await context.ReleaseEditRequests
+                .Include(er => er.Release)
+                .Include(er => er.SubmittingUser)
+                .FirstOrDefaultAsync(er => er.Id == id);
+            if (ModelState.IsValid)
+            {
+                MusicRaterUser user = await _userManager.GetUserAsync(User);
+                if(editRequest != null && comment.Text != null)
+                {
+                    comment.User = user;
+                    comment.ReleaseEditRequest = editRequest;
+                    comment.PostedDate = DateTime.Now;
+                    context.ReleaseEditComments.Add(comment);   
+                    if(user.Id != editRequest.SubmittingUserId)
+                    {
+                        editRequest.SubmittingUser.UserNotifications.Add(new UserNotification
+                        {
+
+                            Title = $"<a href='/User/Profile/{user.UserName}'>{user.UserName}</a> " +
+                                $"posted a comment on your edit request for " +
+                                $"<a href='/Release/EditRequest/{editRequest.ReleaseId}'>{editRequest.Title}</a>",
+                            SiteMessage = "",
+                            Date = DateTime.Now,
+                            RecipientUserId = editRequest.SubmittingUserId,
+                            SendingUser = user
+                        });
+                        editRequest.SubmittingUser.UnreadNotificationCount++;
+                    }
+                    await context.SaveChangesAsync();
+                }
+            }
+            return RedirectToAction("EditRequest", "Release", new { id = editRequest.ReleaseId });
         }
     }
 }

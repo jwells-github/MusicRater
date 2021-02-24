@@ -81,13 +81,15 @@ namespace MusicRater.Data
         }
         public DbSet<Artist> Artists { get; set; }
         public DbSet<ArtistEditRequest> ArtistEditRequests { get; set; }
-        public DbSet<Release> Releases { get; set; }
-        public DbSet<ReleaseRating> ReleaseRating { get; set; }
+        public DbSet<ArtistEditComment> ArtistEditComments { get; set; }
         public DbSet<Genre> Genres { get; set; }
+        public DbSet<Release> Releases { get; set; }
+        public DbSet<ReleaseEditRequest> ReleaseEditRequests { get; set; }
+        public DbSet<ReleaseEditComment> ReleaseEditComments { get; set; }
+        public DbSet<ReleaseRating> ReleaseRating { get; set; }
         public DbSet<ReleaseGenre> ReleaseGenres{ get; set; }
         public DbSet<ReleaseReview> ReleaseReviews { get; set; }
         public DbSet<ReleaseComment> ReleaseComments { get; set; }
-        public DbSet<ArtistEditComment> ArtistEditComments { get; set; }
         public DbSet<UserProfile> UserProfiles { get; set; }
         public DbSet<UserNotification> UserNotifications { get; set; }
     }
