@@ -1,0 +1,21 @@
+﻿@model ReleaseReview
+<div>
+    <div class="meta">
+        <div class="releaseImage" style="@Model.Release.GetBackgroundCSS()"></div>
+        <div>
+            <h1><a asp-controller="Release" asp-action="Entry" asp-route-id="@Model.ReleaseId">@Model.Release.Title</a></h1>
+            <h2>@Model.Release.Type by <a asp-controller="Artist" asp-action="Profile" asp-route-id="@Model.Release.ArtistId">@Model.Release.Artist.Name</a></h2>
+            <h3>Released @Model.Release.FormattedDate.ToString("d")</h3>
+        </div>
+    </div>
+    <div class="releaseReviewMeta">
+        <span><a asp-controller="User" asp-action="Profile" asp-route-id="@Model.User.UserName">@Model.User.UserName</a></span>
+        <span>@Model.ReviewDate.ToString("d")</span>
+        <span>@Model.UserVotes.Count Votes</span>
+        <span>Rating: @(Model.ReleaseRating > 0 ? Model.ReleaseRating.ToString() + "/10" : "n/a")</span>
+    </div>
+    <div>
+        <h3>@Model.Title</h3>
+        <p>@Model.ReviewText</p>
+    </div>
+</div>
