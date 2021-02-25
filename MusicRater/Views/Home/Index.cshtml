@@ -40,31 +40,10 @@
     <h2>Monthly Top Reviews</h2>
     <div class="container listofthings">
         <div class="monthlyTopReviews">
-            <div class="listofthings">
-                @foreach (ReleaseReview review in Model.MonthlyTopReviews)
+            <div class="reviewList">
+                @foreach (ReleaseReview releaseReview in Model.MonthlyTopReviews)
                 {
-                    <div class="userReview">
-                        <div class="reviewDetails">
-                            <div>
-                                <div style="@review.Release.GetBackgroundCSS()" class="releaseImage">
-                                    <a asp-action="Entry" asp-controller="Release" asp-route-id="@review.Release.Id"></a>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="releaseDetails">
-                                    <a asp-action="Profile" asp-controller="Artist" asp-route-id="@review.Release.ArtistId">@review.Release.Artist.Name</a>
-                                    <a asp-action="Entry" asp-controller="Release" asp-route-id="@review.Release.Id">@review.Release.Title</a>
-                                    @if (review.Release.ReleaseYear > 0)
-                                    {
-                                        <span>(@review.Release.ReleaseYear)</span>
-                                    }
-                                    <span class="rating">Rated <strong>@review.ReleaseRating/10</strong></span>
-                                </div>
-                            </div>
-                        </div>
-                        <h3>@review.Title</h3>
-                        <p>@review.ReviewText</p>
-                    </div>
+                    <partial name="_ReviewPartial" model="releaseReview" />
                 }
             </div>
 
