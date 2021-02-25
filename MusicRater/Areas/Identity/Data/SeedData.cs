@@ -69,6 +69,16 @@ namespace MusicRater.Models
                             BirthMonth = 9,
                             BirthYear = 1990,
                             FormattedBirthDate = FormattedDateTime.GetFormattedDate(11, 9, 1990)
+                        },
+                        new Artist
+                        {
+                            Name = "Fiona Apple",
+                            IsSoloArtist = true,
+                            OriginCountry = Country.US,
+                            BirthDay = 13,
+                            BirthMonth = 9,
+                            BirthYear = 1977,
+                            FormattedBirthDate = FormattedDateTime.GetFormattedDate(13, 9, 1977)
                         }
                     );
                 }
@@ -291,6 +301,73 @@ namespace MusicRater.Models
                             FormattedDate = FormattedDateTime.GetFormattedDate(13, 9, 2019),
                             Type = ReleaseType.Album,
                             ArtistId = 4
+                        },
+                        // Artist = Fiona Apple
+                        new Release
+                        {
+                            Title = "Tidal",
+                            ReleaseDay = 23,
+                            ReleaseMonth = 7,
+                            ReleaseYear = 1996,
+                            FormattedDate = FormattedDateTime.GetFormattedDate(23, 7, 1996),
+                            Type = ReleaseType.Album,
+                            ArtistId = 5
+                        },
+                        new Release
+                        {
+                            Title = "When the Pawn Hits the Conflicts He Thinks Like a King What He Knows Throws the Blows When He Goes to the Fight and He'll Win the Whole Thing 'fore He Enters the Ring There's No Body to Batter When Your Mind Is Your Might So When You Go Solo, You Hold Your Own Hand and Remember That Depth Is the Greatest of Heights and If You Know Where You Stand, Then You Know Where to Land and If You Fall It Won't Matter, Cuz You'll Know That You're Right",
+                            ReleaseDay = 9,
+                            ReleaseMonth = 11,
+                            ReleaseYear = 1999,
+                            FormattedDate = FormattedDateTime.GetFormattedDate(9, 11, 1999),
+                            Type = ReleaseType.Album,
+                            ArtistId = 5
+                        },
+                        new Release
+                        {
+                            Title = "Extraordinary Machine",
+                            ReleaseDay = 4,
+                            ReleaseMonth = 10,
+                            ReleaseYear = 2005,
+                            FormattedDate = FormattedDateTime.GetFormattedDate(4, 10, 2005),
+                            Type = ReleaseType.Album,
+                            ArtistId = 5
+                        },
+                        new Release
+                        {
+                            Title = "The Idler Wheel Is Wiser Than the Driver of the Screw and Whipping Cords Will Serve You More Than Ropes Will Ever Do",
+                            ReleaseDay = 19,
+                            ReleaseMonth = 6,
+                            ReleaseYear = 2012,
+                            FormattedDate = FormattedDateTime.GetFormattedDate(19, 6, 2012),
+                            Type = ReleaseType.Album,
+                            ArtistId = 5
+                        },
+                        new Release
+                        {
+                            Title = "Fetch the Bolt Cutters",
+                            ReleaseDay = 17,
+                            ReleaseMonth = 4,
+                            ReleaseYear = 2020,
+                            FormattedDate = FormattedDateTime.GetFormattedDate(17, 4, 2020),
+                            Type = ReleaseType.Album,
+                            ArtistId = 5
+                        },
+                        new Release
+                        {
+                            Title = "Original Album Classics",
+                            ReleaseYear = 2010,
+                            FormattedDate = FormattedDateTime.GetFormattedDate(0, 0, 2010),
+                            Type = ReleaseType.Compilation,
+                            ArtistId = 5
+                        },
+                        new Release
+                        {
+                            Title = "Paper Bag",
+                            ReleaseYear = 2000,
+                            FormattedDate = FormattedDateTime.GetFormattedDate(0, 0, 2000),
+                            Type = ReleaseType.Single,
+                            ArtistId = 5
                         }
                     );
                 }
