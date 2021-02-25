@@ -1,0 +1,16 @@
+﻿@model IEnumerable<ReleaseEditRequest>
+
+@foreach (ReleaseEditRequest editRequest in Model)
+{
+    <a asp-controller="Release" asp-action="EditRequest"
+       asp-route-id="@editRequest.ReleaseId">@editRequest.Release.Title</a>
+       <span> by @editRequest.Release.Artist.Name</span>
+    <br />
+    <span>
+        Submitted by <a asp-controller="User" asp-action="Profile"
+                        asp-route-id="@editRequest.SubmittingUser.UserName">@editRequest.SubmittingUser.UserName</a>
+    </span>
+    <br />
+    <span>@editRequest.SubmittedDate.ToString("d")</span>
+
+}

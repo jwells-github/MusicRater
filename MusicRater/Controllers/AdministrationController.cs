@@ -13,14 +13,20 @@ using MusicRater.Areas.Identity.Data;
 using MusicRater.Data;
 using MusicRater.Models;
 
+
 namespace MusicRater.Controllers
 {
+
     public class AdministrationController : Controller
     {
         private  IConfiguration _config;
+        private MusicRaterContext context;
         private UserManager<MusicRaterUser> _userManager;
-        public AdministrationController(UserManager<MusicRaterUser> userManager, IConfiguration config)
+        public AdministrationController(UserManager<MusicRaterUser> userManager,
+            MusicRaterContext data,
+            IConfiguration config)
         {
+            context = data;
             _config = config;
             _userManager = userManager;
         }
@@ -48,7 +54,24 @@ namespace MusicRater.Controllers
             }
 
             return View();
+        }
 
+        [Authorize(Roles = "Administrator")]
+        public IActionResult ArtistEditRequests()
+        {
+            return View(context.ArtistEditRequests
+                .Include(er=>er.Artist)
+                .Include(er=>er.SubmittingUser)
+                .OrderBy(er=>er.SubmittedDate));
+        }
+        [Authorize(Roles = "Administrator")]
+        public IActionResult ReleaseEditRequests()
+        {
+            return View(context.ReleaseEditRequests
+                .Include(er=>er.Release)
+                    .ThenInclude(r=>r.Artist)
+                .Include(er => er.SubmittingUser)
+                .OrderBy(er => er.SubmittedDate));
         }
     }
 }
