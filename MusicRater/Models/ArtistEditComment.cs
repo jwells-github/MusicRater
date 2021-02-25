@@ -10,7 +10,7 @@ namespace MusicRater.Models
     {
         public long Id { get; set; }
         public string Text { get; set; }
-        public long ArtistEditId { get; set; }
+        public long ArtistEditRequestId { get; set; }
         public ArtistEditRequest ArtistEditRequest { get; set; }
         public string UserId { get; set; }
         public MusicRaterUser User { get; set; }
