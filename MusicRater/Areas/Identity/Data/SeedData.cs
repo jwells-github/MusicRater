@@ -79,6 +79,14 @@ namespace MusicRater.Models
                             BirthMonth = 9,
                             BirthYear = 1977,
                             FormattedBirthDate = FormattedDateTime.GetFormattedDate(13, 9, 1977)
+                        },
+                        new Artist
+                        {
+                            Name = "Black Dresses",
+                            IsSoloArtist = false,
+                            OriginCountry = Country.US,
+                            BirthYear = 2017,
+                            FormattedBirthDate = FormattedDateTime.GetFormattedDate(0, 0, 2017)
                         }
                     );
                 }
@@ -368,6 +376,57 @@ namespace MusicRater.Models
                             FormattedDate = FormattedDateTime.GetFormattedDate(0, 0, 2000),
                             Type = ReleaseType.Single,
                             ArtistId = 5
+                        },
+                        // Artist = Black Dresses
+                        new Release
+                        {
+                            Title = "Fetch the Bolt Cutters",
+                            ReleaseDay = 13,
+                            ReleaseMonth = 4,
+                            ReleaseYear = 2018,
+                            FormattedDate = FormattedDateTime.GetFormattedDate(13, 4, 2018),
+                            Type = ReleaseType.Album,
+                            ArtistId = 6
+                        },
+                        new Release
+                        {
+                            Title = "Thank You",
+                            ReleaseDay = 5,
+                            ReleaseMonth = 2,
+                            ReleaseYear = 2019,
+                            FormattedDate = FormattedDateTime.GetFormattedDate(5, 2, 2019),
+                            Type = ReleaseType.Album,
+                            ArtistId = 6
+                        },
+                        new Release
+                        {
+                            Title = "Love and Affection for Stupid Little Bitches",
+                            ReleaseDay = 1,
+                            ReleaseMonth = 8,
+                            ReleaseYear = 2019,
+                            FormattedDate = FormattedDateTime.GetFormattedDate(1, 8, 2019),
+                            Type = ReleaseType.Album,
+                            ArtistId = 6
+                        },
+                        new Release
+                        {
+                            Title = "Peaceful as Hell",
+                            ReleaseDay = 13,
+                            ReleaseMonth = 4,
+                            ReleaseYear = 2020,
+                            FormattedDate = FormattedDateTime.GetFormattedDate(13, 4, 2020),
+                            Type = ReleaseType.Album,
+                            ArtistId = 6
+                        },
+                        new Release
+                        {
+                            Title = "Forever in Your Heart",
+                            ReleaseDay = 14,
+                            ReleaseMonth = 2,
+                            ReleaseYear = 2021,
+                            FormattedDate = FormattedDateTime.GetFormattedDate(14, 2, 2021),
+                            Type = ReleaseType.Album,
+                            ArtistId = 6
                         }
                     );
                 }
