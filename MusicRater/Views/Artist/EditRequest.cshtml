@@ -6,6 +6,10 @@
 <div>
     <h1>Artist Edit Request for <a asp-controller="Artist" asp-action="Profile" asp-route-id="@Model.ArtistId">@Model.Artist.Name</a> submitted by <a asp-controller="User" asp-action="Profile" asp-route-id="@Model.SubmittingUser.UserName">@Model.SubmittingUser.UserName</a></h1>
     <h2>Submitted @Model.SubmittedDate.ToString("d")</h2>
+    @if (ViewBag.IsOWner)
+    {
+        <h3>Your edit request is in the queue to be reviewed by an Administrator</h3>
+    }
 </div>
 <div>
     <table class="EditRequestTable">
