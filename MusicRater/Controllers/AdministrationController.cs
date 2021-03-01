@@ -22,13 +22,16 @@ namespace MusicRater.Controllers
         private  IConfiguration _config;
         private MusicRaterContext context;
         private UserManager<MusicRaterUser> _userManager;
+        private SignInManager<MusicRaterUser> _signInManager;
         public AdministrationController(UserManager<MusicRaterUser> userManager,
             MusicRaterContext data,
-            IConfiguration config)
+            IConfiguration config,
+            SignInManager<MusicRaterUser> signInManager)
         {
             context = data;
             _config = config;
             _userManager = userManager;
+            _signInManager = signInManager;
         }
         
         [Authorize(Roles = "Administrator")]
@@ -50,6 +53,7 @@ namespace MusicRater.Controllers
             {
                 MusicRaterUser user = await _userManager.GetUserAsync(User);
                 await _userManager.AddToRoleAsync(user, "Administrator");
+                await _signInManager.RefreshSignInAsync(user);
                 return RedirectToAction(nameof(Index));
             }
 
