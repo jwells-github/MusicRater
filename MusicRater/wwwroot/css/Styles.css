@@ -3,6 +3,7 @@
 }
 #navContainer {
     align-items: baseline;
+    max-width:100%;
 }
 
 .searchBar {
@@ -81,6 +82,7 @@ pre{
     border-bottom: 3px solid black;
     padding: 0 5px 5px 0;   
     overflow-wrap: break-word;
+    font-size:1.5rem;
 }
 .entryReleaseType {
     font-size: 1.2rem;
@@ -276,10 +278,9 @@ border: 1px solid black;
     border-bottom: 1px solid black;
 }
 .releaseTable {
+    font-size: 0.8rem;
     width: 100%;
-}
-.releaseTable {
-    font-size:0.8rem;
+    table-layout:fixed
 }
 @media screen and (min-width: 425px) {
     .releaseTable {
@@ -296,7 +297,13 @@ border: 1px solid black;
     display:flex;
     flex-direction: column;
 }
-.tableReviewNo, tableRatingNo, .tableRatingAvg{
+.tableName div a{
+    text-overflow:ellipsis;
+    white-space: nowrap;
+    display:block;
+    overflow:hidden;
+}
+.tableReviewNo, .tableRatingNo, .tableRatingAvg{
     width:15%;
 }
 .tableIcon div {
@@ -476,4 +483,15 @@ border: 1px solid black;
 }
 .searchResult a {
     font-size: 1.2rem
+}
+.EditRequestTable th {
+    background-color: #fbc531;
+    color: #f8f9fa;
+}
+.EditRequestTable{
+    font-size: 1.2rem;
+    width:100%;
+}
+.highlightRow {
+    background-color: rgba(170, 238, 252, 0.72);
 }
