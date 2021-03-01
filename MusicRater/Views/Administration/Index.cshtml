@@ -1,3 +1,67 @@
-﻿<h1>
-    You are an Administrator
-</h1>
+﻿@model AdministrationViewModel
+
+<h1>You are an Administrator</h1>
+
+<div>
+    <div>
+        <h2>Artist Edit Requests (@Model.ArtistRequestCount)</h2>
+        @if (Model.ArtistRequestCount > 0)
+        {
+            <div>
+                @foreach (ArtistEditRequest editRequest in Model.RecentArtistRequests)
+                {
+                    <div>
+                        <div>
+                            <a asp-controller="Artist" asp-action="EditRequest"
+                               asp-route-id="@editRequest.ArtistId">@editRequest.Artist.Name</a>
+                            <span>submitted by</span>
+                            <a asp-controller="User" asp-action="Profile"
+                               asp-route-id="@editRequest.SubmittingUser.UserName">@editRequest.SubmittingUser.UserName</a>
+                        </div>
+                        <div>
+                            <span>@editRequest.SubmittedDate</span>
+                        </div>
+                    </div>
+                }
+                <div>
+                    <a asp-action="ArtistEditRequests">View full artist edit request queue</a>
+                </div>
+            </div>
+        }
+        else
+        {
+            <span>There are no outstanding edit requests</span>
+        }
+    </div>
+    <div>
+        <h2>Release Edit Requests (@Model.ReleaseRequestCount)</h2>
+        @if (Model.ReleaseRequestCount > 0)
+        {
+            <div>
+                @foreach (ReleaseEditRequest editRequest in Model.RecentReleaseRequests)
+                {
+                    <div>
+                        <div>
+                            <a asp-controller="Release" asp-action="EditRequest"
+                               asp-route-id="@editRequest.ReleaseId">@editRequest.Release.Title</a>
+                            <span>@editRequest.Release.Type.GetDisplayName() by <a asp-controller="Artist" asp-action="Profile" asp-route-id="@editRequest.Release.ArtistId">@editRequest.Release.Artist.Name</a></span>
+                            <span>submitted by</span>
+                            <a asp-controller="User" asp-action="Profile"
+                               asp-route-id="@editRequest.SubmittingUser.UserName">@editRequest.SubmittingUser.UserName</a>
+                        </div>
+                        <div>
+                            <span>@editRequest.SubmittedDate</span>
+                        </div>
+                    </div>
+                }
+                <div>
+                    <a asp-action="ReleaseEditRequests">View full release edit request queue</a>
+                </div>
+            </div>
+        }
+        else
+        {
+            <span>There are no outstanding edit requests</span>
+        }
+    </div>
+</div>
