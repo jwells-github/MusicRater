@@ -12,11 +12,10 @@ using Microsoft.Extensions.Logging;
 using MusicRater.Areas.Identity.Data;
 using MusicRater.Data;
 using MusicRater.Models;
-
+using MusicRater.Models.ViewModels;
 
 namespace MusicRater.Controllers
 {
-
     public class AdministrationController : Controller
     {
         private  IConfiguration _config;
@@ -35,9 +34,30 @@ namespace MusicRater.Controllers
         }
         
         [Authorize(Roles = "Administrator")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            int displayAmount = 5;
+            AdministrationViewModel viewModel = new AdministrationViewModel
+            {
+                RecentArtistRequests = await context.ArtistEditRequests
+                    .OrderByDescending(er => er.SubmittedDate)
+                    .Skip(0)
+                    .Take(displayAmount)
+                    .Include(er=>er.Artist)
+                    .Include(er=>er.SubmittingUser)
+                    .ToListAsync(),
+                RecentReleaseRequests = await context.ReleaseEditRequests
+                    .OrderByDescending(er => er.SubmittedDate)
+                    .Skip(0)
+                    .Take(displayAmount)
+                    .Include(er=>er.Release)
+                        .ThenInclude(r=>r.Artist)
+                    .Include(er=>er.SubmittingUser)
+                    .ToListAsync(),
+                ArtistRequestCount = context.ArtistEditRequests.Count(),
+                ReleaseRequestCount = context.ReleaseEditRequests.Count(),
+            };
+            return View(viewModel);
         }
 
         public IActionResult New()
@@ -56,7 +76,6 @@ namespace MusicRater.Controllers
                 await _signInManager.RefreshSignInAsync(user);
                 return RedirectToAction(nameof(Index));
             }
-
             return View();
         }
 
