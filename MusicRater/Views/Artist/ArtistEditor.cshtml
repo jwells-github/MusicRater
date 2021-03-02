@@ -6,7 +6,7 @@
     int maximumYear = DateTime.Now.Year + 1;
 }
 
-<form method="post">
+<form method="post" id="FormDateValidation">
     <div class="form-group">
         <label asp-for="Name"></label>
         <input class="form-control" asp-for="Name" />
@@ -19,50 +19,69 @@
         <label asp-for="IsSoloArtist">This profile is for a Single Performer (Not a Band)</label>
         <input type="checkbox" asp-for="IsSoloArtist" />
     </div>
-    <div class="form-group">
-        <label asp-for="BirthDay"></label>
-        <select asp-for="BirthDay">
-            <option value="0"></option>
-            @for (var i = 1; i <= 31; i++)
-                {<option value="@i">@i</option>}
-        </select>
+    <div>
+        <label>Birth / Formed Date</label>
     </div>
-    <div class="form-group">
-        <label asp-for="BirthMonth"></label>
-        <select asp-for="BirthMonth" asp-items="MonthSelectList.GetMonthList()">
-            <option value="0"></option>
-        </select>
+    <div class="listofthings">
+        <div class="form-group">
+            <select asp-for="BirthDay">
+                <option value="0"></option>
+                @for (var i = 1; i <= 31; i++)
+                {
+                    <option value="@i">@i</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <select asp-for="BirthMonth" asp-items="MonthSelectList.GetMonthList()">
+                <option value="0"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <select asp-for="BirthYear">
+                <option value="0"></option>
+                @for (var i = maximumYear; i >= minimumYear; i--)
+                {
+                    <option value="@i">@i</option>
+                }
+            </select>
+        </div>
     </div>
-    <div class="form-group">
-        <label asp-for="BirthYear"></label>
-        <select asp-for="BirthYear">
-            <option value="0"></option>
-            @for (var i = maximumYear; i >= minimumYear; i--)
-                {<option value="@i">@i</option>}
-        </select>
+    <div class="form-error">
+        <span id="BirthDate-Error"></span>
     </div>
-    <div class="form-group">
-        <label asp-for="DeathDay"></label>
-        <select asp-for="DeathDay">
-            <option value="0"></option>
-            @for (var i = 1; i <= 31; i++)
-            {<option value="@i">@i</option>}
-        </select>
+    <div>
+        <label>Death / Disbandment Date</label>
     </div>
-    <div class="form-group">
-        <label asp-for="DeathMonth"></label>
-        <select asp-for="DeathMonth" asp-items="MonthSelectList.GetMonthList()">
-            <option value="0"></option>
-        </select>
+    <div class="listofthings">
+        <div class="form-group">
+            <select asp-for="DeathDay">
+                <option value="0"></option>
+                @for (var i = 1; i <= 31; i++)
+                {
+                    <option value="@i">@i</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <select asp-for="DeathMonth" asp-items="MonthSelectList.GetMonthList()">
+                <option value="0"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <select asp-for="DeathYear">
+                <option value="0"></option>
+                @for (var i = maximumYear; i >= minimumYear; i--)
+                {
+                    <option value="@i">@i</option>
+                }
+            </select>
+        </div>
     </div>
-    <div class="form-group">
-        <label asp-for="DeathYear"></label>
-        <select asp-for="DeathYear">
-            <option value="0"></option>
-            @for (var i = maximumYear; i >= minimumYear; i--)
-            {<option value="@i">@i</option>}
-        </select>
+    <div class="form-error">
+        <span id="DeathDate-Error"></span>
     </div>
-
     <button class="btn btn-primary" type="submit">Submit</button>
 </form>
+
+<script src="~/js/ArtistDateValidation.js" asp-append-version="true"></script>
