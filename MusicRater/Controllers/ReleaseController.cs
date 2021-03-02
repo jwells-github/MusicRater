@@ -38,6 +38,10 @@ namespace MusicRater.Controllers
         public async Task <IActionResult> New(long artistID)
         {
             Artist artist = await context.Artists.FirstOrDefaultAsync(a => a.Id == artistID);
+            if(artist == null)
+            {
+                return View("NotFound", "artist");
+            }
             return View("ReleaseEditor", new Release { Artist = artist}); 
         }
 
@@ -47,6 +51,10 @@ namespace MusicRater.Controllers
             if (ModelState.IsValid)
             {
                 Artist artist = await context.Artists.FirstOrDefaultAsync(a => a.Id == artistID);
+                if (artist == null)
+                {
+                    return View("NotFound", "artist");
+                }
                 release.Artist = artist;
                 release.ArtistId = artist.Id;
                 release.FormattedDate = FormattedDateTime.GetFormattedDate(release.ReleaseDay, release.ReleaseMonth, release.ReleaseYear);
@@ -79,6 +87,10 @@ namespace MusicRater.Controllers
                 .Take(100)
                 .ToListAsync()
             };
+            if(releaseView.Release == null)
+            {
+                return View("NotFound", "release");
+            }
             if (User.Identity.IsAuthenticated)
             {
                 MusicRaterUser user = await _userManager.GetUserAsync(User);
@@ -102,6 +114,10 @@ namespace MusicRater.Controllers
             {
                 Release release = await context.Releases
                     .Include(r=>r.Artist).FirstOrDefaultAsync(r => r.Id == id);
+                if(release == null)
+                {
+                    return View("NotFound", "release");
+                }
                 return View("ReleaseEditor", release);
             }
             else
@@ -118,7 +134,10 @@ namespace MusicRater.Controllers
         {
             ReleaseEditRequest editRequest = await context.ReleaseEditRequests.FirstOrDefaultAsync(er => er.ReleaseId == id);
             Release release = await context.Releases.FirstOrDefaultAsync(r => r.Id == id);
-
+            if (release == null)
+            {
+                return View("NotFound", "release");
+            }
             if (ModelState.IsValid && CheckReleaseEditRequest(release, releaseEditRequest)){
                 if(editRequest == null)
                 {
@@ -215,6 +234,10 @@ namespace MusicRater.Controllers
         public async Task <IActionResult> Edit(long id)
         {
             Release release = await context.Releases.Include(r => r.Artist).FirstOrDefaultAsync(r => r.Id == id);
+            if (release == null)
+            {
+                return View("NotFound", "release");
+            }
             return View("ReleaseEditor", new ReleaseViewModel {Release=release, Artist=release.Artist } );
         }
 
@@ -223,6 +246,10 @@ namespace MusicRater.Controllers
         public async Task<IActionResult> Edit(long id, [FromForm] Release release)
         {
             Release oldRelease = await context.Releases.FirstOrDefaultAsync(r => r.Id == id);
+            if (oldRelease == null)
+            {
+                return View("NotFound", "release");
+            }
             if (ModelState.IsValid)
             {
                 oldRelease.Title = release.Title;
@@ -238,11 +265,16 @@ namespace MusicRater.Controllers
             return View("ReleaseEditor", new ReleaseViewModel { Release = release });
         }
 
+        [HttpPost]
         public async Task <IActionResult> Rate(long id, [FromForm] int rating)
         {
             MusicRaterUser user = await _userManager.GetUserAsync(User);
             ReleaseRating alreadyRated = await context.ReleaseRating.FirstOrDefaultAsync(r => r.Release.Id == id && r.UserId == user.Id);
             Release release = await context.Releases.FirstOrDefaultAsync(r => r.Id == id);
+            if (release == null)
+            {
+                return View("NotFound", "release");
+            }
             if (alreadyRated == null)
             {
                 if(rating == 0)
@@ -298,6 +330,10 @@ namespace MusicRater.Controllers
         public async Task <IActionResult> Delete(long id)
         {
             Release release = await context.Releases.FirstOrDefaultAsync(r => r.Id == id);
+            if (release == null)
+            {
+                return View("NotFound", "release");
+            }
             context.RemoveRange(context.ReleaseRating.Where(r => r.ReleaseId == id));
             context.Remove(release);
             await context.SaveChangesAsync();
@@ -314,6 +350,10 @@ namespace MusicRater.Controllers
                     .FirstOrDefaultAsync(r => r.Id == id),
                 User = await _userManager.GetUserAsync(User)
             };
+            if(releaseView.Release == null)
+            {
+                return View("NotFound", "release");
+            }
             ICollection<Genre> genreList = context.Genres.OrderBy(a => a.Name).ToList();
             ViewBag.GenreList = genreList;
             return View(releaseView);
@@ -327,6 +367,10 @@ namespace MusicRater.Controllers
                 .Include(r => r.ReleaseGenres)
                 .ThenInclude(rg => rg.GenreVotes)
                 .FirstOrDefaultAsync(r => r.Id == id);
+            if (release == null)
+            {
+                return View("NotFound", "release");
+            }
             Genre genre = await context.Genres.FirstOrDefaultAsync(g => g.Name == suggestedGenre);
             if(genre == null)
             {
