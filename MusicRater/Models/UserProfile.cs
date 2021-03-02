@@ -1,15 +1,11 @@
 ﻿using MusicRater.Areas.Identity.Data;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MusicRater.Models
 {
     public class UserProfile
     {
-
         public UserProfile()
         {
             this.FirstName = "";

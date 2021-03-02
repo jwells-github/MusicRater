@@ -1,8 +1,5 @@
 ﻿using MusicRater.Areas.Identity.Data;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MusicRater.Models
 {
@@ -19,8 +16,3 @@ namespace MusicRater.Models
        
     }
 }
-
-// Your edit request has been denid / approved
-// New comment on your profile
-// New friend request
-// message from user
