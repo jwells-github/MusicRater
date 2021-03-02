@@ -44,7 +44,7 @@ namespace MusicRater.Controllers
         [HttpPost]
         public async Task<IActionResult> New([FromForm] Artist artist)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && ValidBirthDate(artist) && ValidDeathDate(artist))
             {
                 artist.FormattedBirthDate = FormattedDateTime.GetFormattedDate(artist.BirthDay, artist.BirthMonth, artist.BirthYear);
                 artist.FormattedDeathDate = FormattedDateTime.GetFormattedDate(artist.DeathDay, artist.DeathMonth, artist.DeathYear);
@@ -81,7 +81,6 @@ namespace MusicRater.Controllers
     
         public async Task<IActionResult> EditRequest(long id)
         {
-
             ArtistEditRequest editRequest = await context.ArtistEditRequests
                 .Include(er => er.Artist)
                 .Include(er => er.SubmittingUser)
@@ -197,22 +196,7 @@ namespace MusicRater.Controllers
             await context.SaveChangesAsync();
             return RedirectToAction(nameof(Profile), new { id });
         }
-        private bool CheckArtistEditRequest(Artist artist, ArtistEditRequest editRequest)
-        {
-            if(artist.Name == editRequest.Name &&
-                artist.IsSoloArtist == editRequest.IsSoloArtist &&
-                artist.OriginCountry == editRequest.OriginCountry &&
-                artist.BirthDay == editRequest.BirthDay &&
-                artist.BirthMonth == editRequest.BirthMonth &&
-                artist.BirthYear == editRequest.BirthYear &&
-                artist.DeathDay == editRequest.DeathDay &&
-                artist.DeathMonth == editRequest.DeathMonth &&
-                artist.DeathYear == editRequest.DeathYear)
-            {
-                return false;
-            }
-            return true;
-        }
+
 
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(long id)
@@ -257,6 +241,39 @@ namespace MusicRater.Controllers
             context.Remove(artist);
             await context.SaveChangesAsync();
             return RedirectToAction("Index", "Artist");
+        }
+
+        private bool ValidBirthDate(Artist artist)
+        {
+            return FormattedDateTime.DateIsValid(artist.BirthDay, artist.BirthMonth, artist.BirthYear);
+        }
+        private bool ValidDeathDate(Artist artist)
+        {
+            return FormattedDateTime.DateIsValid(artist.DeathDay, artist.DeathMonth, artist.DeathYear);
+        }
+        private bool CheckArtistEditRequest(Artist artist, ArtistEditRequest editRequest)
+        {
+            if (artist.Name == editRequest.Name &&
+                artist.IsSoloArtist == editRequest.IsSoloArtist &&
+                artist.OriginCountry == editRequest.OriginCountry &&
+                artist.BirthDay == editRequest.BirthDay &&
+                artist.BirthMonth == editRequest.BirthMonth &&
+                artist.BirthYear == editRequest.BirthYear &&
+                artist.DeathDay == editRequest.DeathDay &&
+                artist.DeathMonth == editRequest.DeathMonth &&
+                artist.DeathYear == editRequest.DeathYear)
+            {
+                return false;
+            }
+            Artist dateHolder = new Artist { BirthDay = editRequest.BirthDay, 
+                BirthMonth = editRequest.BirthMonth, BirthYear = editRequest.BirthYear,
+                DeathDay = editRequest.DeathDay, DeathMonth = editRequest.DeathMonth, 
+                DeathYear = editRequest.DeathYear
+            };
+            if(!ValidBirthDate(dateHolder) || !ValidDeathDate(dateHolder)){ 
+                return false;
+            }
+            return true;
         }
     }
 }
