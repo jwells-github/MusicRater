@@ -8,7 +8,7 @@
 }
 
 
-<form method="post">
+<form method="post" id="FormDateValidation">
     <div class="form-group">
         <label>Artist Name</label>
         <input class="form-control" value="@Model.Artist.Name" disabled />
@@ -21,27 +21,36 @@
         <label asp-for="Title"></label>
         <input class="form-control" asp-for="Title" />
     </div>
-    <div class="form-group">
-        <label asp-for="ReleaseDay"></label>
-        <select asp-for="ReleaseDay">
-            <option value="0"></option>
-            @for(var i = 1; i <= 31; i++)
-                { <option value="@i">@i</option> }
-        </select>
+    <div class="listofthings">
+        <div class="form-group">
+            <label asp-for="ReleaseDay"></label>
+            <select asp-for="ReleaseDay">
+                <option value="0"></option>
+                @for (var i = 1; i <= 31; i++)
+                {
+                    <option value="@i">@i</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label asp-for="ReleaseMonth"></label>
+            <select asp-for="ReleaseMonth" asp-items="MonthSelectList.GetMonthList()">
+                <option value="0"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label asp-for="ReleaseYear"></label>
+            <select asp-for="ReleaseYear">
+                <option value="0"></option>
+                @for (var i = maximumYear; i >= minimumYear; i--)
+                {
+                    <option value="@i">@i</option>
+                }
+            </select>
+        </div>
     </div>
-    <div class="form-group">
-        <label asp-for="ReleaseMonth"></label>
-        <select asp-for="ReleaseMonth" asp-items="MonthSelectList.GetMonthList()">
-            <option value="0"></option>
-        </select>
-    </div>
-    <div class="form-group">
-        <label asp-for="ReleaseYear"></label>
-        <select asp-for="ReleaseYear">
-            <option value="0"></option>
-            @for (var i = maximumYear; i >= minimumYear; i--)
-                {<option value="@i">@i</option>}
-        </select>
+    <div class="form-error">
+        <span id="ReleaseDate-Error"></span>
     </div>
     <div class="form-group">
         <label asp-for="Type"></label>
@@ -50,3 +59,5 @@
 
     <button class="btn btn-primary" type="submit">Submit</button>
 </form>
+
+<script src="~/js/ReleaseDateValidation.js" asp-append-version="true"></script>
