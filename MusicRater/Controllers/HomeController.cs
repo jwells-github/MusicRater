@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,7 +10,6 @@ using MusicRater.Areas.Identity.Data;
 using Microsoft.EntityFrameworkCore;
 using MusicRater.Data;
 using Microsoft.AspNetCore.Authorization;
-
 using MusicRater.Models.ViewModels;
 
 namespace MusicRater.Controllers
@@ -52,7 +50,6 @@ namespace MusicRater.Controllers
 
         public IActionResult Privacy()
         {
-
             return View();
         }
 
