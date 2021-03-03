@@ -31,7 +31,6 @@ namespace MusicRater
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-           // _adminPassword = Configuration["AdminPassword"];
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddAuthorization(opts =>
@@ -70,6 +69,10 @@ namespace MusicRater
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute(
+                    name: "userProfile",
+                    pattern: "User/{action}/{username?}",
+                    defaults: new { controller = "User", action = "Profile" });
                 endpoints.MapControllerRoute(
                     name: "genre",
                     pattern: "Genre/{genreName?}",
