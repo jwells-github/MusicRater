@@ -76,8 +76,7 @@ namespace MusicRater.Data
 
                 });
             builder.Entity<IdentityRole>().HasData(
-                new IdentityRole { Name = "Administrator", NormalizedName = "Administrator".ToUpper() },
-                new IdentityRole { Name = "Moderator", NormalizedName = "Moderator".ToUpper() });
+                new IdentityRole { Name = "Administrator", NormalizedName = "Administrator".ToUpper() });
         }
         public DbSet<Artist> Artists { get; set; }
         public DbSet<ArtistEditRequest> ArtistEditRequests { get; set; }
