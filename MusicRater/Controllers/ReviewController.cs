@@ -41,6 +41,11 @@ namespace MusicRater.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Release(int id,int? pageNumber)
         {
+            Release release = await context.Releases.FirstOrDefaultAsync(r => r.Id == id);
+            if (release == null)
+            {
+                return View("NotFound", "release");
+            }
             int resultnumber = 25;
             return View("Index", await PaginatedList<ReleaseReview>.CreateAsync(context.ReleaseReviews
                 .Where(r => r.ReleaseId == id)
@@ -113,7 +118,11 @@ namespace MusicRater.Controllers
             MusicRaterUser user = await _userManager.GetUserAsync(User);
             Release release = await context.Releases.FirstOrDefaultAsync(r => r.Id == releaseID);
             ReleaseReview releaseReview = await context.ReleaseReviews.FirstOrDefaultAsync(r => r.Id == id);
-            if(releaseReview.UserId == user.Id || await _userManager.IsInRoleAsync(user, "Administrator")){
+            if (releaseReview == null)
+            {
+                return View("NotFound", "review");
+            }
+            if (releaseReview.UserId == user.Id || await _userManager.IsInRoleAsync(user, "Administrator")){
                 context.Remove(releaseReview);
                 release.NumberOfReviews--;
                 await context.SaveChangesAsync();
