@@ -87,6 +87,24 @@ namespace MusicRater.Models
                             OriginCountry = Country.US,
                             BirthYear = 2017,
                             FormattedBirthDate = FormattedDateTime.GetFormattedDate(0, 0, 2017)
+                        },
+                        new Artist
+                        {
+                            Name = "Black Country, New Road",
+                            IsSoloArtist = false,
+                            OriginCountry = Country.GB,
+                            BirthYear = 2018,
+                            FormattedBirthDate = FormattedDateTime.GetFormattedDate(0, 0, 2018)
+                        },
+                        new Artist
+                        {
+                            Name = "slowthai",
+                            IsSoloArtist = true,
+                            OriginCountry = Country.GB,
+                            BirthDay = 18,
+                            BirthMonth = 12,
+                            BirthYear = 1994,
+                            FormattedBirthDate = FormattedDateTime.GetFormattedDate(18, 12, 1994)
                         }
                     );
                 }
@@ -380,7 +398,7 @@ namespace MusicRater.Models
                         // Artist = Black Dresses
                         new Release
                         {
-                            Title = "Fetch the Bolt Cutters",
+                            Title = "Wasteisolation",
                             ReleaseDay = 13,
                             ReleaseMonth = 4,
                             ReleaseYear = 2018,
@@ -427,6 +445,36 @@ namespace MusicRater.Models
                             FormattedDate = FormattedDateTime.GetFormattedDate(14, 2, 2021),
                             Type = ReleaseType.Album,
                             ArtistId = 6
+                        },
+                        new Release
+                        {
+                            Title = "For the First Time",
+                            ReleaseDay = 5,
+                            ReleaseMonth = 2,
+                            ReleaseYear = 2021,
+                            FormattedDate = FormattedDateTime.GetFormattedDate(5, 2, 2021),
+                            Type = ReleaseType.Album,
+                            ArtistId = 7
+                        },
+                        new Release
+                        {
+                            Title = "Nothing Great About Britain",
+                            ReleaseDay = 17,
+                            ReleaseMonth = 5,
+                            ReleaseYear = 2019,
+                            FormattedDate = FormattedDateTime.GetFormattedDate(17, 5, 2019),
+                            Type = ReleaseType.Album,
+                            ArtistId = 8
+                        },
+                        new Release
+                        {
+                            Title = "Tyron",
+                            ReleaseDay = 12,
+                            ReleaseMonth = 2,
+                            ReleaseYear = 2021,
+                            FormattedDate = FormattedDateTime.GetFormattedDate(12, 2, 2021),
+                            Type = ReleaseType.Album,
+                            ArtistId = 8
                         }
                     );
                 }
@@ -483,7 +531,7 @@ namespace MusicRater.Models
                             " hell am I doing here? I don't belong here I don't belong here",
                             ReviewDate = now,
                             UserId = user.Id,
-                            ReleaseId = 2
+                            ReleaseId = 4
                         }
                      );
                 }
