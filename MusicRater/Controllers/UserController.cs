@@ -14,7 +14,6 @@ namespace MusicRater.Controllers
 {
     public class UserController : Controller
     {
-
         private readonly ILogger<UserController> _logger;
         private UserManager<MusicRaterUser> _userManager;
         private MusicRaterContext context;
@@ -31,11 +30,14 @@ namespace MusicRater.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Profile(string id)
         {
-            // TODO: User not found
             int displayRatings = 5;
             int displayReviews = 5;
             MusicRaterUser currentUser = await _userManager.GetUserAsync(User);
             MusicRaterUser user = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == id);
+            if(user == null)
+            {
+                return View("NotFound", "User");
+            }
             UserProfile userProfile = await context.UserProfiles.FirstOrDefaultAsync(u => u.UserId == user.Id);
             if(userProfile == null)
             {
@@ -64,7 +66,6 @@ namespace MusicRater.Controllers
                     .Include(r => r.Release)
                     .ThenInclude(r=> r.Artist)
                     .ToListAsync(),
-               
             };
             return View(userProfileViewModel);
         }
@@ -72,6 +73,10 @@ namespace MusicRater.Controllers
         public async Task<IActionResult> Notifications(int? pageNumber)
         {
             MusicRaterUser user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return View("NotFound", "User");
+            }
             var notifications = context.UserNotifications
                 .Where(un => un.RecipientUserId == user.Id)
                 .Include(un => un.SendingUser);
@@ -84,6 +89,10 @@ namespace MusicRater.Controllers
         public async Task<IActionResult> Ratings(string id, int? pageNumber)
         {
             MusicRaterUser user = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == id);
+            if (user == null)
+            {
+                return View("NotFound", "User");
+            }
             var ratings = context.ReleaseRating
                 .Where(r => r.UserId == user.Id)
                 .Include(rating => rating.Release)
@@ -94,17 +103,24 @@ namespace MusicRater.Controllers
         public async Task<IActionResult> Reviews(string id, int? pageNumber)
         {
             MusicRaterUser user = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == id);
+            if (user == null)
+            {
+                return View("NotFound", "User");
+            }
             var reviews = context.ReleaseReviews.Where(r => r.UserId == user.Id)
                     .Include(r => r.Release)
                     .ThenInclude(r => r.Artist);
             int resultNumber = 100;
             return View(await PaginatedList<ReleaseReview>.CreateAsync(reviews.OrderBy(r => r.ReviewDate), pageNumber ?? 1, resultNumber));
-            
         }
 
         public async Task<IActionResult> EditProfile()
         {
             MusicRaterUser user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return View("NotFound", "User");
+            }
             UserProfile userProfile = await context.UserProfiles.Include(u=>u.User).FirstOrDefaultAsync(u=> u.UserId == user.Id);
             if (userProfile == null)
             {
@@ -118,6 +134,10 @@ namespace MusicRater.Controllers
         public async Task<IActionResult> EditProfile([FromForm] UserProfile profile)
         {
             MusicRaterUser user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return View("NotFound", "User");
+            }
             UserProfile userProfile = await context.UserProfiles.Include(u => u.User).FirstOrDefaultAsync(u => u.UserId == user.Id);
             if (ModelState.IsValid)
             {
