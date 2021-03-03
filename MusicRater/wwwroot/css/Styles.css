@@ -5,7 +5,6 @@
     align-items: baseline;
     max-width:100%;
 }
-
 .searchBar {
     width: 100%;
     border: 0;
@@ -82,7 +81,7 @@ pre{
     border-bottom: 3px solid black;
     padding: 0 5px 5px 0;   
     overflow-wrap: break-word;
-    font-size:1.5rem;
+    font-size:1.7rem;
 }
 .entryReleaseType {
     font-size: 1.2rem;
@@ -494,4 +493,11 @@ border: 1px solid black;
 }
 .highlightRow {
     background-color: rgba(170, 238, 252, 0.72);
+}
+.form-error{
+    display: block;
+    min-height: 30px;
+    color: red;
+    font-weight: 500;
+    margin-top: -10px;
 }
