@@ -2,9 +2,10 @@
 
 <partial name="_SearchHeaderPartial">
 
+    <h2>Artists</h2>
+
     @if (Model.Artists.Count > 0)
     {
-        <h2>Artists</h2>
 
         @foreach (Artist artist in Model.Artists)
         {
@@ -13,11 +14,14 @@
             </div>
         }
     }
-
+    else
+    {
+        <p>No artists found</p>
+    }
+    <a asp-controller="Artist" asp-action="New">Add an Artist</a>
+    <h2>Releases</h2>
     @if (Model.Releases.Count > 0)
     {
-        <h2>Releases</h2>
-
         @foreach (Release release in Model.Releases)
         {
             <div class="searchResult">
@@ -25,15 +29,22 @@
             </div>
         }
     }
+    else
+    {
+        <p>No releases found</p>
+    }
 
+    <h2>Users</h2>
     @if (Model.Users.Count > 0)
     {
-        <h2>Users</h2>
-
         @foreach (MusicRaterUser user in Model.Users)
         {
             <div class="searchResult">
                 <a asp-action="Profile" asp-controller="User" asp-route-id="@user.UserName">@user.UserName</a>
             </div>
         }
+    }
+    else
+    {
+        <p>No users found</p>
     }
