@@ -55,10 +55,15 @@ namespace MusicRater.Controllers
         [AllowAnonymous]
         public async Task <IActionResult> Profile(long id)
         {
+            Artist artist = await context.Artists.FirstOrDefaultAsync(a => a.Id == id);
+            if(artist == null)
+            {
+                return View("NotFound", "artist");
+            }
             var releases = await context.Releases.Where(r => r.ArtistId == id).ToListAsync();
             ArtistProfileViewModel artistViewModel = new ArtistProfileViewModel
             {
-                Artist = await context.Artists.FirstOrDefaultAsync(a => a.Id == id),
+                Artist = artist,
                 Albums = releases.Where(r => r.Type == ReleaseType.Album).ToList(),
                 Compilations = releases.Where(r => r.Type == ReleaseType.Compilation).ToList(),
                 Eps = releases.Where(r => r.Type == ReleaseType.Ep).ToList(),
@@ -87,6 +92,10 @@ namespace MusicRater.Controllers
             if (editRequest == null)
             {
                 Artist artist = await context.Artists.FirstOrDefaultAsync(a => a.Id == id);
+                if (artist == null)
+                {
+                    return View("NotFound", "artist");
+                }
                 return View("ArtistEditor", artist);
             }
             else
@@ -103,7 +112,10 @@ namespace MusicRater.Controllers
         {
             ArtistEditRequest editRequest = await context.ArtistEditRequests.FirstOrDefaultAsync(er => er.ArtistId == id);
             Artist artist = await context.Artists.FirstOrDefaultAsync(a => a.Id == id);
-
+            if (artist == null)
+            {
+                return View("NotFound", "artist");
+            }
             if (ModelState.IsValid && CheckArtistEditRequest(artist, artistEditRequest)){
                 if (editRequest == null)
                 {
@@ -138,10 +150,14 @@ namespace MusicRater.Controllers
         [HttpPost]
         public async Task<IActionResult> ApproveEdit(long id)
         {
+            Artist artist = await context.Artists.FirstOrDefaultAsync(a => a.Id == id);
+            if (artist == null)
+            {
+                return View("NotFound", "artist");
+            }
             ArtistEditRequest editRequest = await context.ArtistEditRequests
                 .Include(er => er.SubmittingUser)
                 .FirstOrDefaultAsync(er => er.ArtistId == id);
-            Artist artist = await context.Artists.FirstOrDefaultAsync(a => a.Id == id);
             artist.Name = editRequest.Name;
             artist.IsSoloArtist = editRequest.IsSoloArtist;
             artist.OriginCountry = editRequest.OriginCountry;
@@ -173,10 +189,14 @@ namespace MusicRater.Controllers
         [HttpPost]
         public async Task<IActionResult> DenyEdit(long id, [FromForm] string denyMessage)
         {
+            Artist artist = await context.Artists.FirstOrDefaultAsync(a => a.Id == id);
+            if (artist == null)
+            {
+                return View("NotFound", "artist");
+            }
             ArtistEditRequest editRequest = await context.ArtistEditRequests
                 .Include(er => er.SubmittingUser)
                 .FirstOrDefaultAsync(er => er.ArtistId == id);
-
             MusicRaterUser user = await _userManager.GetUserAsync(User);
             editRequest.SubmittingUser.UserNotifications.Add(new UserNotification
             {
@@ -199,6 +219,10 @@ namespace MusicRater.Controllers
         public async Task<IActionResult> Edit(long id)
         {
             Artist artist = await context.Artists.FirstOrDefaultAsync(a => a.Id == id);
+            if (artist == null)
+            {
+                return View("NotFound", "artist");
+            }
             return View("ArtistEditor", artist);
         }
 
@@ -207,6 +231,10 @@ namespace MusicRater.Controllers
         public async Task<IActionResult> Edit(long id, [FromForm] Artist artist) 
         {
             Artist oldArtist = await context.Artists.FirstOrDefaultAsync(a => a.Id == id);
+            if (oldArtist == null)
+            {
+                return View("NotFound", "artist");
+            }
             if (ModelState.IsValid)
             {
                 oldArtist.Name = artist.Name;
@@ -230,6 +258,10 @@ namespace MusicRater.Controllers
         public async Task <IActionResult> Delete(long id)
         {
             Artist artist = await context.Artists.Include(a => a.Releases).FirstOrDefaultAsync(a => a.Id == id);
+            if (artist == null)
+            {
+                return View("NotFound", "artist");
+            }
             foreach (Release release in artist.Releases)
             {
                 context.RemoveRange(release.UserReleaseRatings);
