@@ -15,6 +15,7 @@ using MusicRater.Models.ViewModels;
 
 namespace MusicRater.Controllers
 {
+    [AllowAnonymous]
     public class TopReleasesController : Controller
     {
         private readonly ILogger<TopReleasesController> _logger;
