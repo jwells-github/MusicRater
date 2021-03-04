@@ -28,12 +28,12 @@ namespace MusicRater.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> Profile(string id)
+        public async Task<IActionResult> Profile(string username)
         {
             int displayRatings = 5;
             int displayReviews = 5;
             MusicRaterUser currentUser = await _userManager.GetUserAsync(User);
-            MusicRaterUser user = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == id);
+            MusicRaterUser user = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == username);
             if(user == null)
             {
                 return View("NotFound", "User");
@@ -86,9 +86,9 @@ namespace MusicRater.Controllers
             return View(await PaginatedList<UserNotification>.CreateAsync(notifications.OrderBy(r => r.Date), pageNumber ?? 1, resultNumber));
         }
 
-        public async Task<IActionResult> Ratings(string id, int? pageNumber)
+        public async Task<IActionResult> Ratings(string username, int? pageNumber)
         {
-            MusicRaterUser user = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == id);
+            MusicRaterUser user = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == username);
             if (user == null)
             {
                 return View("NotFound", "User");
@@ -100,9 +100,9 @@ namespace MusicRater.Controllers
             int resultNumber = 100;
             return View(await PaginatedList<ReleaseRating>.CreateAsync(ratings.OrderBy(r=>r.RatingDate), pageNumber ?? 1, resultNumber));
         }
-        public async Task<IActionResult> Reviews(string id, int? pageNumber)
+        public async Task<IActionResult> Reviews(string username, int? pageNumber)
         {
-            MusicRaterUser user = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == id);
+            MusicRaterUser user = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == username);
             if (user == null)
             {
                 return View("NotFound", "User");

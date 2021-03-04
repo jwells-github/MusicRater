@@ -120,7 +120,7 @@
                 {
                     <div class="releaseReview">
                         <div class="releaseReviewMeta">
-                            <span><a asp-controller="User" asp-action="Profile" asp-route-id="@releaseReview.User.UserName">@releaseReview.User.UserName</a></span>
+                            <span><a asp-controller="User" asp-action="Profile" asp-route-username="@releaseReview.User.UserName">@releaseReview.User.UserName</a></span>
                             <span>@releaseReview.ReviewDate.ToString("d")</span>
                             <span>@releaseReview.UserVotes.Count Votes</span>
                             <span>Rating: @(releaseReview.ReleaseRating > 0 ? @releaseReview.ReleaseRating.ToString() + "/10" : "n/a")</span>
@@ -161,7 +161,7 @@
                     {
                         <div class="releaseComment">
                             <div class="releaseCommentMeta">
-                                <span><a asp-controller="User" asp-action="Profile" asp-route-id="@comment.User.UserName">@comment.User.UserName</a></span>
+                                <span><a asp-controller="User" asp-action="Profile" asp-route-username="@comment.User.UserName">@comment.User.UserName</a></span>
                                 <span>@comment.PostedDate.ToString("d")</span>
                             </div>
                             <p>@comment.Text</p>

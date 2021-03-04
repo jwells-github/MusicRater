@@ -10,7 +10,7 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <li class="nav-item">
-        <a id="manage" class="nav-link text-light" asp-controller="User" asp-action="Profile" asp-route-id="@UserManager.GetUserName(User)" title="Manage">@UserManager.GetUserName(User)</a>
+        <a id="manage" class="nav-link text-light" asp-controller="User" asp-action="Profile" asp-route-username="@UserManager.GetUserName(User)" title="Manage">@UserManager.GetUserName(User)</a>
     </li>
     <lic class="nav-item">
         <a class="nav-link text-light" asp-controller="User" asp-action="Notifications">[@user.UnreadNotificationCount]</a>

@@ -6,7 +6,7 @@
        asp-route-id="@editRequest.ArtistId">@editRequest.Artist.Name</a>
     <br />
     <span>Submitted by <a asp-controller="User" asp-action="Profile"
-                          asp-route-id="@editRequest.SubmittingUser.UserName"
+                          asp-route-username="@editRequest.SubmittingUser.UserName"
                           >@editRequest.SubmittingUser.UserName</a></span>
     <br />
     <span>@editRequest.SubmittedDate.ToString("d")</span>

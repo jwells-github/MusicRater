@@ -16,7 +16,7 @@
                                asp-route-id="@editRequest.ArtistId">@editRequest.Artist.Name</a>
                             <span>submitted by</span>
                             <a asp-controller="User" asp-action="Profile"
-                               asp-route-id="@editRequest.SubmittingUser.UserName">@editRequest.SubmittingUser.UserName</a>
+                               asp-route-username="@editRequest.SubmittingUser.UserName">@editRequest.SubmittingUser.UserName</a>
                         </div>
                         <div>
                             <span>@editRequest.SubmittedDate</span>
@@ -47,7 +47,7 @@
                             <span>@editRequest.Release.Type.GetDisplayName() by <a asp-controller="Artist" asp-action="Profile" asp-route-id="@editRequest.Release.ArtistId">@editRequest.Release.Artist.Name</a></span>
                             <span>submitted by</span>
                             <a asp-controller="User" asp-action="Profile"
-                               asp-route-id="@editRequest.SubmittingUser.UserName">@editRequest.SubmittingUser.UserName</a>
+                               asp-route-username="@editRequest.SubmittingUser.UserName">@editRequest.SubmittingUser.UserName</a>
                         </div>
                         <div>
                             <span>@editRequest.SubmittedDate</span>
