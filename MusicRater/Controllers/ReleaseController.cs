@@ -96,7 +96,7 @@ namespace MusicRater.Controllers
                 releaseView.User = user;
                 releaseView.UserReview = await context.ReleaseReviews.FirstOrDefaultAsync(r => r.ReleaseId == id && r.UserId == user.Id);
                 releaseView.UserRating = await context.ReleaseRating.FirstOrDefaultAsync(r => r.ReleaseId == id && r.UserId == user.Id); ;
-                releaseView.IsAdmin = await _userManager.IsInRoleAsync(user, "Administrator");
+                releaseView.IsAdmin = await _userManager.IsInRoleAsync(user, UserRoleNames.Administrator);
             }
             return View(releaseView);
         }
@@ -123,7 +123,7 @@ namespace MusicRater.Controllers
             {
                 MusicRaterUser user = await _userManager.GetUserAsync(User);
                 ViewBag.IsOwner = user.Id == editRequest.SubmittingUserId;
-                ViewBag.IsAdmin = await _userManager.IsInRoleAsync(user, "Administrator");
+                ViewBag.IsAdmin = await _userManager.IsInRoleAsync(user, UserRoleNames.Administrator);
                 return View(editRequest);
             }
         }
@@ -149,7 +149,7 @@ namespace MusicRater.Controllers
                 else
                 {
                     MusicRaterUser user = await _userManager.GetUserAsync(User);
-                    if (editRequest.SubmittingUserId == user.Id || await _userManager.IsInRoleAsync(user, "Administrator"))
+                    if (editRequest.SubmittingUserId == user.Id || await _userManager.IsInRoleAsync(user, UserRoleNames.Administrator))
                     {
                         editRequest.Title = releaseEditRequest.Title;
                         editRequest.ReleaseDay = releaseEditRequest.ReleaseDay;
@@ -163,7 +163,7 @@ namespace MusicRater.Controllers
             return RedirectToAction(nameof(EditRequest), id);
         }
 
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = UserRoleNames.Administrator)]
         [HttpPost]
         public async Task<IActionResult> ApproveEdit(long id)
         {
@@ -194,7 +194,7 @@ namespace MusicRater.Controllers
             return RedirectToAction(nameof(Entry), new { id });
         }
 
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = UserRoleNames.Administrator)]
         [HttpPost]
         public async Task<IActionResult> DenyEdit(long id, [FromForm] string denyMessage)
         {
@@ -229,7 +229,7 @@ namespace MusicRater.Controllers
             }
             return true;
         }
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = UserRoleNames.Administrator)]
         public async Task <IActionResult> Edit(long id)
         {
             Release release = await context.Releases.Include(r => r.Artist).FirstOrDefaultAsync(r => r.Id == id);
@@ -240,7 +240,7 @@ namespace MusicRater.Controllers
             return View("ReleaseEditor", new ReleaseViewModel {Release=release, Artist=release.Artist } );
         }
 
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = UserRoleNames.Administrator)]
         [HttpPost]
         public async Task<IActionResult> Edit(long id, [FromForm] Release release)
         {
@@ -325,7 +325,7 @@ namespace MusicRater.Controllers
             return RedirectToAction(nameof(Entry), new { id });
         }
 
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = UserRoleNames.Administrator)]
         public async Task <IActionResult> Delete(long id)
         {
             Release release = await context.Releases.FirstOrDefaultAsync(r => r.Id == id);

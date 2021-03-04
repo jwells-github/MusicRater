@@ -122,7 +122,8 @@ namespace MusicRater.Controllers
             {
                 return View("NotFound", "review");
             }
-            if (releaseReview.UserId == user.Id || await _userManager.IsInRoleAsync(user, "Administrator")){
+            if (releaseReview.UserId == user.Id || await _userManager.IsInRoleAsync(user, UserRoleNames.
+                )){
                 context.Remove(releaseReview);
                 release.NumberOfReviews--;
                 await context.SaveChangesAsync();

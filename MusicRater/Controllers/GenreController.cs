@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using MusicRater.Models;
 using MusicRater.Data;
 using Microsoft.AspNetCore.Authorization;
+using MusicRater.Areas.Identity.Data;
 
 namespace MusicRater.Controllers
 {
@@ -31,12 +32,12 @@ namespace MusicRater.Controllers
             }
         }
 
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = UserRoleNames.Administrator)]
         public IActionResult New()
         {
             return View("GenreEditor", new Genre());
         }
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = UserRoleNames.Administrator)]
         public async Task<IActionResult> New([FromForm] Genre genre)
         {
             if (ModelState.IsValid)

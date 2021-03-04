@@ -76,7 +76,7 @@ namespace MusicRater.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 MusicRaterUser user = await _userManager.GetUserAsync(User);
-                artistViewModel.IsAdmin = await _userManager.IsInRoleAsync(user, "Administrator");
+                artistViewModel.IsAdmin = await _userManager.IsInRoleAsync(user, UserRoleNames.Administrator);
             }
                 return View(artistViewModel);
         }
@@ -102,7 +102,7 @@ namespace MusicRater.Controllers
             {
                 MusicRaterUser user = await _userManager.GetUserAsync(User);
                 ViewBag.IsOwner = user.Id == editRequest.SubmittingUserId;
-                ViewBag.IsAdmin = await _userManager.IsInRoleAsync(user, "Administrator");
+                ViewBag.IsAdmin = await _userManager.IsInRoleAsync(user, UserRoleNames.Administrator);
                 return View(editRequest);
             }
         }
@@ -128,7 +128,7 @@ namespace MusicRater.Controllers
                 else
                 {
                     MusicRaterUser user = await _userManager.GetUserAsync(User);
-                    if (editRequest.SubmittingUserId == user.Id || await _userManager.IsInRoleAsync(user, "Administrator"))
+                    if (editRequest.SubmittingUserId == user.Id || await _userManager.IsInRoleAsync(user, UserRoleNames.Administrator))
                     {
                         editRequest.Name = artistEditRequest.Name;
                         editRequest.IsSoloArtist = artistEditRequest.IsSoloArtist;
@@ -146,7 +146,7 @@ namespace MusicRater.Controllers
             return RedirectToAction(nameof(EditRequest), id);
         }
 
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = UserRoleNames.Administrator)]
         [HttpPost]
         public async Task<IActionResult> ApproveEdit(long id)
         {
@@ -185,7 +185,7 @@ namespace MusicRater.Controllers
             return RedirectToAction(nameof(Profile), new { id });
         }
 
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = UserRoleNames.Administrator)]
         [HttpPost]
         public async Task<IActionResult> DenyEdit(long id, [FromForm] string denyMessage)
         {
@@ -215,7 +215,7 @@ namespace MusicRater.Controllers
         }
 
 
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = UserRoleNames.Administrator)]
         public async Task<IActionResult> Edit(long id)
         {
             Artist artist = await context.Artists.FirstOrDefaultAsync(a => a.Id == id);
@@ -226,7 +226,7 @@ namespace MusicRater.Controllers
             return View("ArtistEditor", artist);
         }
 
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = UserRoleNames.Administrator)]
         [HttpPost]
         public async Task<IActionResult> Edit(long id, [FromForm] Artist artist) 
         {
@@ -254,7 +254,7 @@ namespace MusicRater.Controllers
             return View("ArtistEditor", artist);
         }
 
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = UserRoleNames.Administrator)]
         public async Task <IActionResult> Delete(long id)
         {
             Artist artist = await context.Artists.Include(a => a.Releases).FirstOrDefaultAsync(a => a.Id == id);

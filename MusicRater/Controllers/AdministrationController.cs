@@ -28,7 +28,7 @@ namespace MusicRater.Controllers
             _signInManager = signInManager;
         }
         
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = UserRoleNames.Administrator)]
         public async Task<IActionResult> Index()
         {
             int displayAmount = 5;
@@ -67,14 +67,14 @@ namespace MusicRater.Controllers
             if (password == adminPassword)
             {
                 MusicRaterUser user = await _userManager.GetUserAsync(User);
-                await _userManager.AddToRoleAsync(user, "Administrator");
+                await _userManager.AddToRoleAsync(user, UserRoleNames.Administrator);
                 await _signInManager.RefreshSignInAsync(user);
                 return RedirectToAction(nameof(Index));
             }
             return View();
         }
 
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = UserRoleNames.Administrator)]
         public IActionResult ArtistEditRequests()
         {
             return View(context.ArtistEditRequests
@@ -82,7 +82,7 @@ namespace MusicRater.Controllers
                 .Include(er=>er.SubmittingUser)
                 .OrderBy(er=>er.SubmittedDate));
         }
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = UserRoleNames.Administrator)]
         public IActionResult ReleaseEditRequests()
         {
             return View(context.ReleaseEditRequests
